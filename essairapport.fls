@@ -1,0 +1,20 @@
+PWD c:\Users\Elève\Desktop\Rapport de Stage
+INPUT C:\Users\Elève\AppData\Local\MiKTeX\miktex\data\le\pdftex\pdflatex.fmt
+INPUT c:\Users\Elève\Desktop\Rapport de Stage\essairapport.tex
+OUTPUT essairapport.log
+INPUT C:\Users\Elève\AppData\Local\Programs\MiKTeX\tex\latex\base\article.cls
+INPUT C:\Users\Elève\AppData\Local\Programs\MiKTeX\tex\latex\base\article.cls
+INPUT C:\Users\Elève\AppData\Local\Programs\MiKTeX\tex\latex\base\size10.clo
+INPUT C:\Users\Elève\AppData\Local\Programs\MiKTeX\tex\latex\base\size10.clo
+INPUT C:\Users\Elève\AppData\Local\Programs\MiKTeX\tex\latex\base\size10.clo
+INPUT C:\Users\Elève\AppData\Local\Programs\MiKTeX\tex\latex\l3backend\l3backend-pdftex.def
+INPUT C:\Users\Elève\AppData\Local\Programs\MiKTeX\tex\latex\l3backend\l3backend-pdftex.def
+INPUT .\essairapport.aux
+INPUT .\essairapport.aux
+INPUT essairapport.aux
+OUTPUT essairapport.aux
+OUTPUT essairapport.pdf
+INPUT C:\Users\Elève\AppData\Local\MiKTeX\fonts\map\pdftex\pdftex.map
+INPUT essairapport.aux
+INPUT C:\Users\Elève\AppData\Local\Programs\MiKTeX\fonts\type1\public\amsfonts\cm\cmr10.pfb
+INPUT C:\Users\Elève\AppData\Local\Programs\MiKTeX\fonts\type1\public\amsfonts\cm\cmr10.pfb
