@@ -1,7 +1,206 @@
-\documentclass{article}
+\documentclass[11pt,a4paper]{report}
 
+% ===================== PACKAGES =====================
+\usepackage[utf8]{inputenc}
+\usepackage[T1]{fontenc}
+\usepackage[french]{babel}
+\usepackage{amsmath,amssymb,amsthm}
+\usepackage{graphicx}
+\usepackage{geometry}
+\geometry{margin=2.5cm}
+\usepackage{hyperref}
+\hypersetup{colorlinks=true, linkcolor=black, citecolor=black, urlcolor=blue}
+\usepackage{booktabs}       % jolis tableaux
+\usepackage{caption}
+\usepackage{listings}       % pour les extraits de code
+\usepackage{xcolor}
+\usepackage{fancyhdr}
+\usepackage{titlesec}
+\usepackage[numbers,sort&compress]{natbib}
+
+% ===================== MISE EN PAGE =====================
+\pagestyle{fancy}
+\fancyhf{}
+\fancyhead[L]{\leftmark}
+\fancyfoot[C]{\thepage}
+
+% Style pour le code Python (lignes principales uniquement, cf. consignes)
+\lstset{
+    language=Python,
+    basicstyle=\ttfamily\small,
+    keywordstyle=\color{blue},
+    commentstyle=\color{gray},
+    stringstyle=\color{red},
+    numbers=left,
+    numberstyle=\tiny,
+    frame=single,
+    breaklines=true
+}
+
+% ===================== INFOS DOCUMENT =====================
+\title{
+    \Large Université de Strasbourg \\
+    \large Master Mathématiques et Applications -- Parcours Statistique \\
+    \vspace{1cm}
+    \Huge \textbf{Titre du rapport de stage} \\
+    \vspace{0.5cm}
+    \large Sous-titre si besoin
+}
+\author{Prénom NOM}
+\date{Année universitaire 2025--2026}
+
+% ===================== DEBUT DOCUMENT =====================
 \begin{document}
 
-Bonjour, ceci est mon premier document LaTeX.
+% ---------- Page de garde ----------
+\maketitle
+\thispagestyle{empty}
+
+% ---------- Remerciements ----------
+\chapter*{Remerciements}
+\thispagestyle{empty}
+% TODO : rédiger vos remerciements
+
+\newpage
+
+% ---------- Table des matières ----------
+\tableofcontents
+\thispagestyle{empty}
+
+\newpage
+
+% ===================== INTRODUCTION =====================
+\chapter*{Introduction}
+\addcontentsline{toc}{chapter}{Introduction}
+% TODO : contexte du laboratoire, problématique, but du stage, annonce du plan
+
+
+% ===================== PARTIE 1 =====================
+\chapter{Contexte et cadre du stage}
+
+\section{Présentation du sujet de recherche}
+% TODO
+
+\section{Planification du stage}
+% TODO : chronologie annotation -> réentraînement -> matrices
+
+\section{Principes du deep learning et du modèle d'identification utilisé}
+
+\subsection{Apprentissage supervisé et réseaux de neurones}
+% TODO : principe général, notion de fonction $\hat{f}_\theta$, fonction de perte
+
+\subsection{Le modèle de classification utilisé}
+% TODO : formaliser le problème
+
+Le modèle prend en entrée une image $X_i$ et produit un vecteur de probabilités
+\begin{equation}
+    \hat{p}(X_i) = (\hat{p}_1, \hat{p}_2, \dots, \hat{p}_K), \qquad \sum_{k=1}^{K} \hat{p}_k = 1,
+\end{equation}
+où $K$ est le nombre d'individus connus dans la base. L'identité prédite est
+\begin{equation}
+    \hat{Y}_i = \arg\max_{k \in \{1,\dots,K\}} \hat{p}_k.
+\end{equation}
+
+\subsection{Ré-entraînement (fine-tuning)}
+% TODO : pourquoi repartir du modèle existant plutôt que de zéro
+
+
+% ===================== PARTIE 2 =====================
+\chapter{Données et méthodologie d'annotation}
+
+\section{Description de la base de données}
+% TODO : structure des JSON, champs, volumétrie
+
+\section{Protocole d'annotation et de correction manuelle}
+% TODO
+
+\section{Statistiques descriptives}
+
+\subsection{Taux d'identification correcte}
+% TODO : taux top-1, top-5, avant/après ré-entraînement
+
+\subsection{Analyse des scores de confiance}
+% TODO : distribution des scores selon exactitude de la prédiction
+
+\section{Ré-entraînement du modèle : évaluation du gain}
+% TODO
+
+
+% ===================== PARTIE 3 =====================
+\chapter{Construction des matrices de proximité sociale}
+
+\section{Matrice estimée à partir des données annotées}
+% TODO : définition mathématique
+
+Soit $\hat{M}$ la matrice de proximité estimée, de taille $K \times K$, définie par
+\begin{equation}
+    \hat{M}_{ij} = \frac{\text{nombre de co-occurrences observées entre } i \text{ et } j}{\text{normalisation}}.
+\end{equation}
+
+\section{Matrice de référence}
+% TODO : origine des données réelles
+
+\section{Propriétés mathématiques des deux matrices}
+% TODO : symétrie, positivité, diagonale, normalisation
+
+
+% ===================== PARTIE 4 =====================
+\chapter{Comparaison statistique des deux matrices}
+
+\section{Problématique statistique}
+% TODO : non-indépendance des entrées d'une matrice
+
+\section{Présentation théorique de la méthode de comparaison}
+% TODO : ex. test de Mantel -- statistique de test, hypothèse nulle, permutations
+
+\section{Vérification des conditions d'application}
+% TODO
+
+\section{Résultats et interprétation}
+% TODO
+
+
+% ===================== PARTIE 5 =====================
+\chapter{Discussion et limites}
+
+\section{Synthèse croisée des résultats}
+% TODO
+
+\section{Limites de validité}
+% TODO
+
+\section{Apport personnel et autonomie}
+% TODO
+
+
+% ===================== CONCLUSION =====================
+\chapter*{Conclusion}
+\addcontentsline{toc}{chapter}{Conclusion}
+% TODO
+
+
+% ===================== BIBLIOGRAPHIE =====================
+\addcontentsline{toc}{chapter}{Bibliographie}
+\bibliographystyle{plainnat}
+\bibliography{biblio}
+
+
+% ===================== ANNEXES =====================
+\appendix
+\chapter{Annexes}
+
+\section{Extraits de code}
+% Exemple d'insertion de code (lignes principales uniquement, cf. consignes -- jamais le programme complet)
+\begin{lstlisting}
+# Exemple : calcul du taux d'identification correcte
+correct = sum(1 for a in annotations if a["corrected_id"] == a["predicted_id"])
+taux = correct / len(annotations)
+\end{lstlisting}
+
+\section{Captures d'écran de l'interface}
+% TODO
+
+\section{Tableaux complémentaires}
+% TODO
 
 \end{document}
