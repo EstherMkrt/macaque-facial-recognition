@@ -1,0 +1,30 @@
+\babel@toc {french}{}\relax 
+\contentsline {chapter}{Remerciements}{1}{chapter*.1}%
+\contentsline {chapter}{Introduction}{4}{chapter*.3}%
+\contentsline {section}{\numberline {0.1}Contexte scientifique et présentation du projet}{4}{section.0.1}%
+\contentsline {section}{\numberline {0.2}Contexte du stage et problématique}{4}{section.0.2}%
+\contentsline {section}{\numberline {0.3}Objectifs du stage}{4}{section.0.3}%
+\contentsline {section}{\numberline {0.4}Organisation du rapport}{4}{section.0.4}%
+\contentsline {chapter}{\numberline {1}Méthodes de détection automatique par deep learning}{5}{chapter.1}%
+\contentsline {section}{\numberline {1.1}Introduction au machine learning et au deep learning}{5}{section.1.1}%
+\contentsline {section}{\numberline {1.2}Principe de la détection d'objets et du modèle YOLO}{5}{section.1.2}%
+\contentsline {section}{\numberline {1.3}Évaluation des performances du modèle}{5}{section.1.3}%
+\contentsline {section}{\numberline {1.4}Utilisation de YOLO dans le cadre du projet}{5}{section.1.4}%
+\contentsline {chapter}{\numberline {2}Données et prétraitement}{6}{chapter.2}%
+\contentsline {section}{\numberline {2.1}Présentation et acquisition des données}{6}{section.2.1}%
+\contentsline {section}{\numberline {2.2}Organisation et préparation des données}{6}{section.2.2}%
+\contentsline {section}{\numberline {2.3}Nettoyage et annotation des images}{6}{section.2.3}%
+\contentsline {section}{\numberline {2.4}Correction et validation des détections}{6}{section.2.4}%
+\contentsline {chapter}{\numberline {3}Construction et analyse d'une mesure de proximité sociale}{7}{chapter.3}%
+\contentsline {section}{\numberline {3.1}Détection des individus et évaluation des résultats}{7}{section.3.1}%
+\contentsline {section}{\numberline {3.2}Calcul des distances et construction de la matrice de proximité}{7}{section.3.2}%
+\contentsline {section}{\numberline {3.3}Matrice de référence issue des observations de terrain}{7}{section.3.3}%
+\contentsline {section}{\numberline {3.4}Comparaison des matrices et analyse statistique}{7}{section.3.4}%
+\contentsline {chapter}{\numberline {4}Discussion et perspectives}{8}{chapter.4}%
+\contentsline {section}{\numberline {4.1}Discussion et interprétation des résultats}{8}{section.4.1}%
+\contentsline {section}{\numberline {4.2}Limites et conditions d'application des méthodes}{8}{section.4.2}%
+\contentsline {section}{\numberline {4.3}Perspectives d'amélioration}{8}{section.4.3}%
+\contentsline {chapter}{Conclusion générale}{9}{chapter*.4}%
+\contentsline {chapter}{Bibliographie}{10}{chapter*.5}%
+\contentsline {chapter}{\numberline {A}Annexe 1 : ...}{11}{appendix.A}%
+\contentsline {chapter}{\numberline {B}Annexe 2 : ...}{12}{appendix.B}%
