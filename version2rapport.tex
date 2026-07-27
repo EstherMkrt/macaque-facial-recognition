@@ -1,218 +1,706 @@
-\documentclass[12pt,a4paper]{report}
+\documentclass[11pt,a4paper]{report}
 
-% ------------------------------------------------
-% PACKAGES
-% ------------------------------------------------
-
+% ===================== PACKAGES =====================
 \usepackage[utf8]{inputenc}
 \usepackage[T1]{fontenc}
 \usepackage[french]{babel}
-
-\usepackage{amsmath}
-\usepackage{amssymb}
-
+\usepackage{amsmath,amssymb,amsthm}
 \usepackage{graphicx}
-\usepackage{float}
-
 \usepackage{geometry}
 \geometry{margin=2.5cm}
-
 \usepackage{hyperref}
+\hypersetup{colorlinks=true, linkcolor=black, citecolor=black, urlcolor=blue}
+\usepackage{booktabs}
+\usepackage{caption}
+\usepackage{listings}
+\usepackage{xcolor}
+\usepackage{fancyhdr}
+\usepackage[numbers,sort&compress]{natbib}
 
-\usepackage{setspace}
-\onehalfspacing
+% ===================== MISE EN PAGE =====================
+\pagestyle{fancy}
+\fancyhf{}
+\fancyhead[L]{\leftmark}
+\fancyfoot[C]{\thepage}
 
-% ------------------------------------------------
-% DEBUT DU DOCUMENT
-% ------------------------------------------------
+\lstset{
+    language=Python,
+    basicstyle=\ttfamily\small,
+    keywordstyle=\color{blue},
+    commentstyle=\color{gray},
+    stringstyle=\color{red},
+    numbers=left,
+    numberstyle=\tiny,
+    frame=single,
+    breaklines=true
+}
 
+% ===================== INFOS DOCUMENT =====================
+\title{
+    \Large Université de Strasbourg \\
+    \large Master Mathématiques et Applications -- Parcours Statistique \\
+    \vspace{1cm}
+    \Huge \textbf{Identification individuelle et analyse du réseau social \\ de macaques japonais par apprentissage profond} \\
+    \vspace{0.3cm}
+    \large Projet AI-SARU -- Population de Koshima
+}
+\author{Prénom NOM}
+\date{Année universitaire 2025--2026}
+
+% ===================== DEBUT DOCUMENT =====================
 \begin{document}
 
-% ------------------------------------------------
-% PAGE DE GARDE
-% ------------------------------------------------
-
-\begin{titlepage}
-
-\begin{center}
-
-{\Large Université de Strasbourg}
-
-\vspace{1cm}
-
-{\large Master 1 Statistique}
-
-\vspace{2cm}
-
-{\Huge \textbf{Titre du rapport de stage}}
-
-\vspace{1.5cm}
-
-{\Large Rapport de stage}
-
-\vspace{2cm}
-
-\textbf{Présenté par :}
-
-\vspace{0.5cm}
-
-{\Large Yester MRTCHYAN}
-
-\vspace{1.5cm}
-
-\textbf{Laboratoire :}
-
-Institut pluridisciplinaire Hubert Curien
-
-\vspace{1cm}
-
-\textbf{Encadrant :}
-
-Prénom NOM
-
-\vfill
-
-Année universitaire 2025--2026
-
-\end{center}
-
-\end{titlepage}
-
-
-% ------------------------------------------------
-% REMERCIEMENTS
-% ------------------------------------------------
+\maketitle
+\thispagestyle{empty}
 
 \chapter*{Remerciements}
-\addcontentsline{toc}{chapter}{Remerciements}
+\thispagestyle{empty}
+% TODO : rédiger vos remerciements
 
-Je tiens à remercier ...
-
-\vspace{1cm}
-
-Je remercie également ...
-
-\vspace{1cm}
-
-Enfin, je remercie ...
-
-% ------------------------------------------------
-% TABLE DES MATIERES
-% ------------------------------------------------
+\newpage
 
 \tableofcontents
+\thispagestyle{empty}
 
 \newpage
 
 
-% ------------------------------------------------
+% =====================================================================
 % INTRODUCTION
-% ------------------------------------------------
-
+% =====================================================================
 \chapter*{Introduction}
 \addcontentsline{toc}{chapter}{Introduction}
 
-\section{Contexte scientifique et présentation du projet}
+\section*{Contexte scientifique et présentation du projet}
+% TODO : présenter le laboratoire, ses thématiques de recherche, et le projet
+% AI-SARU (pipeline en 3 modules : détection des comportements, reconnaissance
+% des individus, mesure de proximité et réseau)
 
-\section{Contexte du stage et problématique}
+\section*{Contexte du stage et problématique}
+% TODO : histoire ayant mené à ce sujet ; problématique -- accompagner un
+% chercheur en éthologie dans la réussite de son modèle de deep learning (YOLO)
+% pour identifier individuellement des macaques et en déduire un réseau social
 
-\section{Objectifs du stage}
+\section*{Objectifs du stage}
+% TODO : objectifs opérationnels -- annotation/correction des données de
+% Koshima, ré-entraînement du modèle, construction et évaluation de la matrice
+% de proximité sociale
 
-\section{Organisation du rapport}
+\section*{Organisation du rapport}
+% TODO : brève annonce du plan (chapitres 1 à 5)
 
 
-% ------------------------------------------------
-% CHAPITRE 1
-% ------------------------------------------------
-
+% =====================================================================
+% CHAPITRE 1 — MÉTHODES DE DÉTECTION AUTOMATIQUE PAR DEEP LEARNING
+% =====================================================================
 \chapter{Méthodes de détection automatique par deep learning}
+\label{chap:methode}
 
 \section{Introduction au machine learning et au deep learning}
 
+\paragraph{Apprentissage supervisé.}
+
+On se place dans le cadre de l'apprentissage supervisé : on dispose d'un ensemble
+d'exemples $(X_i, Y_i)_{i=1}^{n}$, où $X_i$ est une image et $Y_i \in \{1,\dots,K\}$
+l'identité connue de l'individu photographié parmi les $K$ individus de la population
+étudiée. L'objectif est d'estimer une fonction $\hat{f}_\theta$, paramétrée par $\theta$,
+qui approche au mieux la relation entre $X$ et $Y$. Il s'agit d'un problème de
+\emph{classification}, la variable $Y$ étant catégorielle (à distinguer d'un problème
+de régression, où $Y$ serait continue).
+
+\paragraph{Modèle de classification et fonction de perte.}
+
+Pour une image $X_i$, le modèle produit un vecteur de probabilités
+\begin{equation}
+    \hat{p}(X_i) = (\hat{p}_1, \dots, \hat{p}_K), \qquad \sum_{k=1}^{K} \hat{p}_k = 1,
+\end{equation}
+et l'identité prédite est $\hat{Y}_i = \arg\max_k \hat{p}_k$.
+
+L'apprentissage consiste à ajuster $\theta$ en minimisant une fonction de perte,
+l'entropie croisée :
+\begin{equation}
+    \mathcal{L}(\theta) = -\frac{1}{n} \sum_{i=1}^{n} \log \hat{p}_{\theta, Y_i}(X_i).
+\end{equation}
+
+Ce choix n'est pas arbitraire : sous l'hypothèse d'observations indépendantes, la
+vraisemblance du modèle s'écrit
+\begin{equation}
+    \mathcal{V}(\theta) = \prod_{i=1}^{n} \hat{p}_{\theta, Y_i}(X_i),
+\end{equation}
+et minimiser $\mathcal{L}(\theta)$ revient exactement à maximiser la log-vraisemblance
+$\log \mathcal{V}(\theta)$, à un facteur $-1/n$ près. L'entraînement du réseau de
+neurones s'interprète donc comme une \textbf{estimation par maximum de vraisemblance}.
+
+\paragraph{L'opération de convolution.}
+
+La fonction $\hat{f}_\theta$ est ici réalisée par un \textbf{réseau de neurones
+convolutif} (CNN). L'opération de base de ce type de réseau est la
+\textbf{convolution discrète} : un petit filtre (ou noyau) $W \in \mathbb{R}^{k \times k}$,
+de paramètres appartenant à $\theta$, glisse sur l'image d'entrée $X$ et produit une
+carte de caractéristiques $F$ définie, pour chaque position $(i,j)$, par
+\begin{equation}
+    F(i,j) = \sum_{u=1}^{k} \sum_{v=1}^{k} W(u,v) \, X(i+u, j+v) \; + \; b,
+\end{equation}
+où $b$ est un biais. Ce résultat est ensuite transformé par une fonction d'activation
+non linéaire $\phi$ (typiquement la \emph{ReLU}, $\phi(x) = \max(0,x)$), donnant une
+carte activée $\phi(F)$. Un réseau convolutif empile ainsi plusieurs couches de ce
+type : les premières couches détectent des motifs simples (contours, textures), les
+couches plus profondes combinent ces motifs en des représentations de plus haut
+niveau (formes de visage, motifs propres à un individu). L'ensemble des poids $W$ et
+biais $b$ de toutes les couches constitue le vecteur de paramètres $\theta$ à
+estimer.
+
+\paragraph{Estimation des paramètres par descente de gradient.}
+
+L'estimation de $\hat{\theta} = \arg\min_\theta \mathcal{L}(\theta)$ ne peut pas se
+faire par une formule fermée, la fonction $\mathcal{L}$ étant hautement non convexe
+et de très grande dimension (typiquement plusieurs millions de paramètres). On
+procède donc par \textbf{descente de gradient} : partant d'une valeur initiale
+$\theta^{(0)}$, on met à jour itérativement les paramètres dans la direction opposée
+au gradient de la perte,
+\begin{equation}
+    \theta^{(t+1)} = \theta^{(t)} - \eta \, \nabla_\theta \mathcal{L}(\theta^{(t)}),
+\end{equation}
+où $\eta > 0$ est le taux d'apprentissage (\emph{learning rate}). En pratique, le
+gradient n'est pas calculé sur l'ensemble des $n$ exemples à chaque itération (ce
+qui serait trop coûteux), mais sur un sous-échantillon aléatoire (un \emph{batch}) :
+c'est la \textbf{descente de gradient stochastique} (SGD), ou l'une de ses variantes
+(Adam, RMSProp), utilisée en pratique par la quasi-totalité des réseaux de neurones,
+y compris YOLO. Le calcul du gradient $\nabla_\theta \mathcal{L}$, malgré la
+profondeur du réseau, est rendu possible par l'algorithme de
+\textbf{rétropropagation} (\emph{backpropagation}), qui applique la règle de
+dérivation en chaîne couche par couche, depuis la sortie du réseau jusqu'à ses
+premiers paramètres.
+
+Le \textbf{ré-entraînement} (\emph{fine-tuning}) réalisé pendant le stage consiste
+précisément à reprendre cette procédure d'optimisation, non pas depuis une
+initialisation aléatoire $\theta^{(0)}$, mais depuis les paramètres déjà appris sur
+la population de Shodoshima, en poursuivant la descente de gradient sur les
+nouvelles données annotées de Koshima. Cette approche exploite le fait que les
+premières couches du réseau (détection de motifs visuels génériques) restent
+largement valides d'une population à l'autre, seules les couches les plus profondes
+nécessitant un réajustement substantiel pour s'adapter aux nouveaux individus.
+
 \section{Principe de la détection d'objets et du modèle YOLO}
 
+Le modèle utilisé pour la reconnaissance faciale des macaques est un modèle
+\textbf{YOLO} (\emph{You Only Look Once}) \citep{redmon2016}. Contrairement à un
+simple classifieur qui recevrait en entrée une image déjà recadrée sur un visage,
+YOLO est un modèle de \textbf{détection d'objets} : à partir d'une image complète, il
+prédit simultanément, en une seule passe du réseau,
+\begin{itemize}
+    \item la \textbf{localisation} des objets présents (ici, les coordonnées des
+    boîtes englobantes autour des visages détectés) ;
+    \item la \textbf{classification} de chaque objet détecté, c'est-à-dire
+    l'identité de l'individu parmi les $K$ individus connus.
+\end{itemize}
+C'est ce mécanisme qui explique le fonctionnement observé dans l'interface
+d'annotation : pour chaque visage localisé, le modèle renvoie les identités
+candidates classées par score de confiance, ce score correspondant à la probabilité
+de classe $\hat{p}_k$ associée à la détection.
+
+\paragraph{Découpage en grille.}
+
+Le principe central de YOLO consiste à découper l'image d'entrée en une grille de
+$S \times S$ cellules. Chaque cellule est responsable de détecter un objet si le
+centre de cet objet tombe dans son emprise. L'ensemble de l'image est ainsi traité
+en une seule passe du réseau, contrairement aux approches plus anciennes qui
+balayaient l'image par fenêtres glissantes successives -- d'où le nom de la méthode.
+
+\paragraph{Mesure de qualité d'une détection : l'IoU.}
+
+Pour évaluer si une boîte englobante prédite correspond bien à un objet réel, on
+utilise l'\textbf{intersection sur union} (\emph{IoU}) entre la boîte prédite et la
+boîte de vérité terrain :
+\begin{equation}
+    \text{IoU} = \frac{\text{aire}(\text{boîte prédite} \cap \text{boîte réelle})}{\text{aire}(\text{boîte prédite} \cup \text{boîte réelle})} \in [0,1].
+\end{equation}
+Une IoU proche de $1$ indique une boîte prédite quasiment identique à la boîte
+réelle ; une IoU proche de $0$ indique une absence de recouvrement. Cette mesure sert
+à la fois à évaluer la qualité de la détection et, lors de l'entraînement, à
+déterminer quelle prédiction est associée à quel objet réel.
+
+Pour chaque boîte prédite, le réseau produit également un score de confiance
+$\hat{c} \in [0,1]$, qui approche le produit
+\begin{equation}
+    \hat{c} \approx \Pr(\text{objet présent dans la cellule}) \times \text{IoU}(\text{boîte prédite}, \text{boîte réelle}).
+\end{equation}
+Ainsi, une détection n'est retenue que si un objet est jugé présent \emph{et} que la
+boîte prédite recouvre bien l'objet réel.
+
+\paragraph{Filtrage des détections redondantes.}
+
+Plusieurs cellules voisines peuvent proposer des boîtes qui se recouvrent fortement
+pour un même objet. Un post-traitement, la \textbf{suppression non-maximale} (NMS),
+élimine les doublons : parmi les boîtes qui se recouvrent fortement (IoU élevé entre
+elles), seule celle au score de confiance le plus élevé est conservée. C'est ce qui
+garantit qu'un même visage n'est détecté qu'une seule fois dans l'image finale.
+
+\paragraph{Paramétrisation des boîtes par rapport aux ancres.}
+
+YOLO ne prédit pas directement les coordonnées d'une boîte, mais un ajustement par
+rapport à une boîte de référence prédéfinie (\emph{anchor box}), de largeur $p_w$ et
+hauteur $p_h$, associée à la cellule de centre $(c_x, c_y)$. Le réseau prédit quatre
+valeurs brutes $(t_x, t_y, t_w, t_h)$, transformées en coordonnées réelles par :
+\begin{equation}
+    b_x = \sigma(t_x) + c_x, \qquad b_y = \sigma(t_y) + c_y,
+\end{equation}
+\begin{equation}
+    b_w = p_w \, e^{t_w}, \qquad b_h = p_h \, e^{t_h},
+\end{equation}
+où $\sigma$ désigne la fonction sigmoïde, qui contraint le centre prédit à rester
+dans la cellule considérée, tandis que l'exponentielle garantit la positivité des
+largeur et hauteur prédites.
+
+\paragraph{Fonction de perte composite, en détail.}
+
+En notant $\mathbb{1}_{ij}^{\text{obj}}$ l'indicatrice valant $1$ si la cellule
+$(i,j)$ contient effectivement le centre d'un objet réel (et $0$ sinon), et
+$\mathbb{1}_{ij}^{\text{noobj}} = 1 - \mathbb{1}_{ij}^{\text{obj}}$, la perte totale
+se décompose en trois termes :
+\begin{equation}
+    \mathcal{L}_{\text{YOLO}}(\theta) = \mathcal{L}_{\text{loc}}(\theta) + \mathcal{L}_{\text{obj}}(\theta) + \mathcal{L}_{\text{cls}}(\theta),
+\end{equation}
+
+\begin{equation}
+    \mathcal{L}_{\text{loc}} = \lambda_{\text{coord}} \sum_{i,j} \mathbb{1}_{ij}^{\text{obj}} \Big[(b_x - \hat{b}_x)^2 + (b_y - \hat{b}_y)^2 + (\sqrt{b_w} - \sqrt{\hat{b}_w})^2 + (\sqrt{b_h} - \sqrt{\hat{b}_h})^2\Big],
+\end{equation}
+
+\begin{equation}
+    \mathcal{L}_{\text{obj}} = \sum_{i,j} \mathbb{1}_{ij}^{\text{obj}} (\hat{c}_{ij} - c_{ij})^2 \; + \; \lambda_{\text{noobj}} \sum_{i,j} \mathbb{1}_{ij}^{\text{noobj}} \, \hat{c}_{ij}^{\,2},
+\end{equation}
+
+\begin{equation}
+    \mathcal{L}_{\text{cls}} = \sum_{i,j} \mathbb{1}_{ij}^{\text{obj}} \sum_{k=1}^{K} -\log \hat{p}_{ij,k}.
+\end{equation}
+
+où $\mathcal{L}_{\text{loc}}$ pénalise l'erreur de régression sur les coordonnées de
+la boîte englobante, $\mathcal{L}_{\text{obj}}$ pénalise l'erreur sur le score de
+confiance $\hat{c}$ défini précédemment, et $\mathcal{L}_{\text{cls}}$ retrouve
+exactement le terme d'entropie croisée établi en 1.1, restreint ici aux cellules
+contenant réellement un objet.
+
+Le passage par la racine carrée sur la largeur et la hauteur dans
+$\mathcal{L}_{\text{loc}}$ est un choix technique : il pénalise proportionnellement
+moins une erreur donnée sur une grande boîte que sur une petite boîte (une erreur de
+10 pixels est plus grave, relativement, pour une petite boîte que pour une grande).
+Le poids $\lambda_{\text{noobj}} < 1$ réduit l'importance des cellules sans objet
+dans la perte, très majoritaires dans une image typique, pour éviter qu'elles ne
+dominent l'apprentissage face aux rares cellules contenant effectivement un visage.
+
+L'interprétation en termes de maximum de vraisemblance établie en 1.1 reste
+valable, mais concerne uniquement la composante $\mathcal{L}_{\text{cls}}$ de cette
+perte composite : c'est elle qui correspond à l'estimation de l'identité de
+l'individu, tandis que $\mathcal{L}_{\text{loc}}$ et $\mathcal{L}_{\text{obj}}$
+relèvent respectivement d'un problème de régression aux moindres carrés et d'un
+problème de détection binaire (présence/absence d'objet), non directement concernés
+par la classification des identités.
+
+\emph{Note : les versions plus récentes de YOLO (v3 et suivantes) utilisent des
+variantes plus sophistiquées, notamment pour $\mathcal{L}_{\text{loc}}$ (perte de
+type CIoU) ; la formulation ci-dessus correspond à la version originale, suffisante
+pour comprendre le principe général de la méthode.}
+
 \section{Évaluation des performances du modèle}
+\label{sec:eval-theorie}
+
+Cette section présente, sur le plan théorique, les outils statistiques permettant
+d'évaluer la qualité des prédictions d'un modèle de classification. Leur
+application aux données réelles du stage est présentée au
+chapitre~\ref{chap:proximite}, section~\ref{sec:eval-application}.
+
+\paragraph{Matrice de confusion.}
+
+Pour un problème de classification à $K$ classes, la \textbf{matrice de confusion}
+$C$ est une matrice $K \times K$ dont l'entrée $C_{kl}$ compte le nombre
+d'observations dont l'identité réelle est $k$ et l'identité prédite est $l$. La
+diagonale de $C$ regroupe les prédictions correctes ; les termes hors diagonale
+correspondent aux erreurs, et leur répartition renseigne sur les confusions
+systématiques entre certains individus.
+
+\paragraph{Métriques dérivées.}
+
+À partir de la matrice de confusion, on définit pour chaque individu $k$ :
+\begin{align}
+    \text{précision}_k &= \frac{C_{kk}}{\sum_{l} C_{lk}} \quad \text{(parmi les prédictions "$k$", combien sont correctes)},\\
+    \text{rappel}_k &= \frac{C_{kk}}{\sum_{l} C_{kl}} \quad \text{(parmi les individus réellement "$k$", combien sont bien retrouvés)},
+\end{align}
+ainsi que le taux d'exactitude global (\emph{accuracy}) :
+\begin{equation}
+    \text{exactitude} = \frac{\sum_k C_{kk}}{\sum_{k,l} C_{kl}}.
+\end{equation}
 
 \section{Utilisation de YOLO dans le cadre du projet}
 
+La problématique posée -- détecter des macaques dans une vidéo, puis en déduire une
+mesure de similarité/proximité entre individus -- requiert précisément les deux
+capacités offertes conjointement par YOLO : la \textbf{localisation} (indispensable
+pour extraire les coordonnées nécessaires au calcul ultérieur de la proximité
+spatiale, cf. chapitre~\ref{chap:proximite}) et la \textbf{classification} (nécessaire
+pour savoir quel individu est localisé à quel endroit). Le traitement en une seule
+passe du réseau permet par ailleurs un traitement de vidéos entières, comportant
+plusieurs dizaines de milliers de frames, à un coût de calcul raisonnable -- un
+critère déterminant compte tenu du volume de données vidéo disponible sur la
+population de Koshima (cf. chapitre~\ref{chap:donnees}). Le choix de ce modèle,
+opéré par l'encadrant du stage en amont de celui-ci sur la base de résultats déjà
+obtenus sur la population de Shodoshima, apparaît ainsi pleinement justifié au
+regard de la problématique.
 
-% ------------------------------------------------
-% CHAPITRE 2
-% ------------------------------------------------
 
+% =====================================================================
+% CHAPITRE 2 — DONNÉES ET PRÉTRAITEMENT
+% =====================================================================
 \chapter{Données et prétraitement}
+\label{chap:donnees}
 
 \section{Présentation et acquisition des données}
+% TODO : les vidéos ont été enregistrées sur le terrain (Koshima, Japon) par
+% l'encadrant du stage ; expliquer pourquoi ces vidéos sont la seule source
+% d'information permettant de mesurer la proximité sociale des individus, et
+% en quoi leur exploitation par YOLO est nécessaire pour produire des données
+% exploitables scientifiquement (cf. objectif AI-SARU, introduction)
 
 \section{Organisation et préparation des données}
 
+Les prédictions du modèle sont stockées au format JSON, selon une structure proche
+du format COCO, organisée en trois blocs :
+\begin{itemize}
+    \item \texttt{images} : une entrée par frame vidéo (identifiant, nom de fichier,
+    dimensions) ;
+    \item \texttt{annotations} : une entrée par détection, contenant les coordonnées
+    de la boîte englobante (\texttt{bbox}), l'identifiant de \emph{track}
+    (\texttt{track\_id}), le score de confiance de la meilleure prédiction
+    (\texttt{confidence}), l'identité retenue (\texttt{category\_id},
+    \texttt{category\_name}), ainsi que le détail des cinq identités les plus
+    probables et leurs scores respectifs (\texttt{extended\_classification},
+    top1 à top5) ;
+    \item \texttt{categories} : la liste des individus connus de la population
+    étudiée (43 individus recensés dans l'exemple ci-dessous).
+\end{itemize}
+
+Un fichier JSON de ce type est généré par vidéo traitée. À titre d'illustration, un
+fichier correspondant à une vidéo de la population de Koshima contient :
+\begin{itemize}
+    \item 68\,332 frames et 46\,647 détections (soit en moyenne 0,68 détection par
+    frame, la plupart des frames ne contenant pas ou un seul individu détecté) ;
+    \item 1\,270 \emph{tracks} distincts, de taille très variable (médiane : 11
+    frames, maximum : 1\,171 frames) ;
+    \item une confiance moyenne de la meilleure prédiction de 0,750
+    (écart-type : 0,092) ;
+    \item une forte hétérogénéité du nombre de détections par individu, allant de
+    26 (individu le moins représenté) à 2\,670 (individu le plus représenté) ;
+    \item une proportion notable de détections ambiguës : dans 29,6\% des cas,
+    l'écart de score entre la première et la deuxième identité proposée est
+    inférieur à 0,1, signe d'une identification incertaine du modèle.
+\end{itemize}
+
+\emph{Remarque méthodologique} : ce fichier ne contient pas de champ distinguant
+explicitement une identité \emph{corrigée manuellement} d'une identité simplement
+\emph{prédite par le modèle} -- \texttt{category\_name} correspond dans tous les cas
+observés à la première proposition (\emph{top1}) de \texttt{extended\_classification}.
+Une clarification reste nécessaire pour déterminer si les fichiers disponibles
+correspondent aux prédictions avant ou après le ré-entraînement du modèle sur les
+données corrigées de Koshima ; cette question est discutée en
+section~\ref{sec:limites}.
+
+Les vidéos sont par ailleurs numérisées en une séquence de frames à intervalle
+régulier (échantillonnage temporel), chaque frame étant redimensionnée à une
+résolution fixe avant d'être présentée en entrée du réseau.
+% TODO : compléter avec les paramètres exacts (fréquence d'échantillonnage,
+% résolution, normalisation des pixels) une fois confirmés
+
 \section{Nettoyage et annotation des images}
+% TODO :
+% - protocole d'annotation et de correction manuelle via l'interface
+% - critères de nettoyage (images floues, individus non identifiables même
+%   manuellement, détections dupliquées, frames sans détection exploitable)
 
 \section{Correction et validation des détections}
 
+Afin d'évaluer objectivement la qualité des identifications produites par le
+modèle, un échantillon d'images est relu manuellement : pour chaque image de
+l'échantillon, l'identité réelle de l'individu est reportée dans un tableau, en
+regard de l'identité prédite par le modèle. Ce tableau constitue la \textbf{vérité
+terrain} nécessaire au calcul des métriques d'évaluation présentées au
+chapitre~\ref{chap:methode}, section~\ref{sec:eval-theorie}, et appliquées au
+chapitre~\ref{chap:proximite}.
+% TODO : décrire concrètement la construction de ce tableau (nombre d'images
+% relues, méthode d'échantillonnage, répartition entre les deux annotateurs)
 
-% ------------------------------------------------
-% CHAPITRE 3
-% ------------------------------------------------
 
-\chapter{Construction et analyse d'une mesure de proximité sociale}
+% =====================================================================
+% CHAPITRE 3 — CONSTRUCTION DES MATRICES DE PROXIMITÉ SOCIALE
+% =====================================================================
+\chapter{Construction des matrices de proximité sociale}
+\label{chap:proximite}
 
 \section{Détection des individus et évaluation des résultats}
+\label{sec:eval-application}
 
-\section{Calcul des distances et construction de la matrice de proximité}
+\paragraph{Consolidation de l'identité par \emph{track.}}
 
-\section{Matrice de référence issue des observations de terrain}
+Les détections ne sont pas traitées indépendamment image par image : elles sont
+regroupées en \emph{tracks}, c'est-à-dire des séquences de détections correspondant à
+un même individu suivi sur plusieurs frames consécutives. Pour un track $t$, on cumule
+sur toutes ses frames les scores de confiance associés à chaque identité candidate $k$ :
+\begin{equation}
+    S_t(k) = \sum_{\text{frame } f \,\in\, t} \text{score}_f(k).
+\end{equation}
+L'identité retenue pour le track est celle qui maximise ce score cumulé, sous deux
+conditions de fiabilité :
+\begin{itemize}
+    \item un support relatif suffisant, $\dfrac{\max_k S_t(k)}{\sum_k S_t(k)} \geq \tau_{\text{support}}$
+    (seuil par défaut : $60\%$) ;
+    \item un nombre minimal de frames dans le track (par défaut : 3).
+\end{itemize}
+Cette consolidation par vote pondéré agrégé rend l'identification plus robuste qu'une
+décision frame par frame, chaque frame individuelle pouvant être bruitée.
 
-\section{Comparaison des matrices et analyse statistique}
+\paragraph{Résultats d'évaluation.}
+% TODO : appliquer les formules du chapitre 1 (matrice de confusion, précision,
+% rappel, exactitude) aux données du tableau de vérité terrain construit au
+% chapitre 2 ; présenter et critiquer les valeurs obtenues (bonnes ou mauvaises),
+% comparer si possible avant/après ré-entraînement
+
+\section{Extraction des coordonnées et calcul des distances}
+
+Pour deux individus $a$ et $b$ détectés dans une même frame, on note
+$(c_{x,a}, c_{y,a})$ et $(c_{x,b}, c_{y,b})$ les centres de leurs boîtes de détection
+respectives. La distance centre-centre s'écrit
+\begin{equation}
+    d_{ab} = \sqrt{(c_{x,a}-c_{x,b})^2 + (c_{y,a}-c_{y,b})^2}.
+\end{equation}
+
+Cette distance en pixels ne suffit pas à elle seule, car elle ne tient pas compte de la
+profondeur : un même écart en pixels peut correspondre à une grande distance réelle si
+les individus sont loin de la caméra, ou une faible distance s'ils en sont proches. La
+hauteur de la boîte de détection sert de proxy à l'échelle apparente de l'individu,
+corrigée d'un facteur $\alpha(\text{âge})$ (les individus jeunes, plus petits, sont
+sous-corrigés sinon) :
+\begin{equation}
+    h^{\text{corr}} = h \times \alpha(\text{âge}).
+\end{equation}
+La distance normalisée est alors
+\begin{equation}
+    d_{ab}^{\text{norm}} = \frac{d_{ab}}{\max(h_a^{\text{corr}}, h_b^{\text{corr}})}.
+\end{equation}
+
+Un ratio de taille des aires corrigées sert de garde-fou contre les incompatibilités de
+profondeur :
+\begin{equation}
+    r_{ab} = \frac{\max(\text{aire}_a^{\text{corr}}, \text{aire}_b^{\text{corr}})}{\min(\text{aire}_a^{\text{corr}}, \text{aire}_b^{\text{corr}})}.
+\end{equation}
+Si $r_{ab}$ dépasse un seuil $\tau_{\text{ratio}}$, la paire est jugée trop incertaine
+en profondeur et exclue.
+
+La paire $(a,b)$ est déclarée \textbf{proche} dans la frame si
+\begin{equation}
+    d_{ab}^{\text{norm}} \leq \tau_{\text{dist}} \quad \text{et} \quad r_{ab} \leq \tau_{\text{ratio}}.
+\end{equation}
+
+\section{Construction de la matrice de proximité sociale à partir des détections}
+
+\paragraph{Agrégation frame vers vidéo.}
+
+Pour chaque vidéo $v$ et chaque paire $(a,b)$ co-détectée, on calcule la proportion de
+frames où la paire est proche :
+\begin{equation}
+    \text{score}_v(a,b) = \frac{\text{nombre de frames "proches"}}{\text{nombre de frames co-détectées valides}}.
+\end{equation}
+
+\paragraph{Agrégation vidéo vers matrice globale.}
+
+Les frames d'une même vidéo ne constituent pas des observations indépendantes : deux
+individus filmés proches pendant 30 secondes ne fournissent pas autant d'information
+que 900 observations indépendantes de proximité, mais plutôt une unique situation
+répétée à haute fréquence d'échantillonnage. Pour limiter le poids disproportionné des
+vidéos longues, chaque vidéo se voit attribuer un poids plafonné :
+\begin{equation}
+    w_v = \min(\text{nombre de frames co-détectées valides}_v, \; w_{\max}),
+\end{equation}
+avec $w_{\max} = 900$ par défaut (soit 30 secondes à 30 images/seconde).
+
+La matrice de proximité globale $\hat{M}$ est alors une moyenne pondérée des scores
+vidéo :
+\begin{equation}
+    \hat{M}_{ab} = \frac{\displaystyle\sum_{v} w_v \cdot \text{score}_v(a,b)}{\displaystyle\sum_{v} w_v}.
+\end{equation}
+
+\paragraph{Propriétés de la matrice obtenue.}
+% TODO : symétrie, valeurs manquantes (paires jamais co-détectées), diagonale, échelle [0,1]
+
+\section{Construction de la matrice de référence à partir des observations de terrain}
+
+La matrice de référence $M^*$ est construite à partir d'observations de terrain
+réalisées directement par des chercheurs, sur la même période temporelle que les
+vidéos utilisées pour le ré-entraînement du modèle. Contrairement à la matrice
+estimée $\hat{M}$, qui repose uniquement sur la fréquence de proximité spatiale
+détectée automatiquement, $M^*$ agrège plusieurs dimensions du lien social observées
+sur le terrain : la fréquence de coprésence, les interactions de toilettage
+(\emph{grooming}), les relations de dominance, ainsi que les liens de parenté entre
+individus. $M^*_{ab}$ traduit ainsi une intensité globale de proximité sociale entre
+les individus $a$ et $b$, au sens large.
+
+Cette différence de nature entre les deux matrices doit être nuancée. La matrice
+estimée $\hat{M}$ ne mesure explicitement qu'une proximité spatiale ; elle ne
+distingue pas la nature du lien à l'origine de cette proximité. Cependant, les
+épisodes de grooming ou de jeu, qui impliquent par nature un contact ou une grande
+proximité physique entre les individus concernés, se traduisent directement par des
+scores de proximité élevés dans $\hat{M}$ : ces comportements sont donc captés
+\emph{indirectement} par la mesure spatiale, sans être reconnus ou différenciés en
+tant que tels. $\hat{M}$ ne peut en revanche pas distinguer une proximité spatiale
+« fortuite » (par exemple deux individus qui se nourrissent côte à côte sans
+interaction sociale particulière) d'une proximité liée à un comportement social
+significatif, ni capter des liens sociaux ne se traduisant pas par une coprésence
+spatiale fréquente (par exemple un lien de parenté entre deux individus qui se
+croisent rarement). La matrice de référence $M^*$, construite à partir
+d'observations de terrain intégrant explicitement la nature des interactions
+(grooming, dominance, parenté), permet cette distinction que $\hat{M}$ ne fait pas.
+Cette asymétrie doit être gardée à l'esprit dans l'interprétation de leur
+comparaison (cf. section~\ref{sec:limites}).
 
 
-% ------------------------------------------------
-% CHAPITRE 4
-% ------------------------------------------------
+% =====================================================================
+% CHAPITRE 4 — COMPARAISON STATISTIQUE DES MATRICES
+% =====================================================================
+\chapter{Comparaison statistique des matrices}
+\label{chap:comparaison}
 
+\section{Méthodologie de comparaison des matrices}
+
+Les entrées de la matrice $\hat{M}$ (et de la matrice de référence $M^*$) ne sont pas
+indépendantes entre elles : la ligne associée à un individu $a$ particulièrement
+sociable sera globalement élevée sur toute la ligne, car les valeurs $\hat{M}_{ab}$ et
+$\hat{M}_{ac}$ partagent la même dépendance à $a$. Un test de corrélation classique
+(Pearson), qui suppose l'indépendance des observations, ne peut donc pas être appliqué
+directement entre les entrées des deux matrices. Une méthode adaptée à cette
+structure de dépendance est nécessaire : le test de Mantel.
+
+\section{Présentation théorique du test de Mantel}
+
+Le \textbf{test de Mantel} \citep{mantel1967} est spécifiquement conçu pour comparer
+deux matrices de distance ou de proximité définies sur le même ensemble d'unités
+(ici, les $K$ individus).
+
+\paragraph{Statistique de test.}
+
+On considère la corrélation (par exemple de Pearson) entre les entrées des deux
+matrices, restreinte aux paires distinctes $(a,b)$, $a \neq b$ :
+\begin{equation}
+    Z_{\text{obs}} = \text{corr}\big(\{\hat{M}_{ab}\}_{a<b}, \; \{M^*_{ab}\}_{a<b}\big).
+\end{equation}
+
+\paragraph{Hypothèse nulle et test par permutation.}
+
+L'hypothèse nulle $H_0$ postule l'absence d'association entre les deux structures de
+proximité. Comme les entrées d'une même matrice ne sont pas indépendantes (une ligne
+entière dépend de la sociabilité globale d'un individu), la distribution théorique
+usuelle de la statistique de corrélation ne s'applique pas. On construit donc la
+distribution de $Z$ sous $H_0$ par \textbf{permutation} :
+\begin{enumerate}
+    \item on permute aléatoirement l'ordre des individus (lignes et colonnes
+    simultanément) dans l'une des deux matrices, par exemple $M^*$, donnant $M^*_\pi$
+    pour une permutation $\pi$ ;
+    \item on recalcule la statistique de corrélation $Z_\pi$ entre $\hat{M}$ et
+    $M^*_\pi$ ;
+    \item on répète l'opération un grand nombre de fois (typiquement $999$ ou
+    $9999$ permutations), donnant une distribution empirique $\{Z_\pi\}$ sous $H_0$.
+\end{enumerate}
+
+La p-valeur empirique est alors la proportion de permutations pour lesquelles
+$Z_\pi$ est au moins aussi extrême que $Z_{\text{obs}}$ :
+\begin{equation}
+    p = \frac{1 + \#\{\pi : |Z_\pi| \geq |Z_{\text{obs}}|\}}{1 + \text{nombre de permutations}}.
+\end{equation}
+
+\section{Application du test de Mantel et résultats}
+
+\paragraph{Vérification des conditions d'application.}
+
+\begin{itemize}
+    \item Les deux matrices doivent être définies sur le même ensemble d'individus,
+    avec le même ordre de lignes/colonnes avant permutation.
+    \item Le nombre de permutations doit être suffisant pour estimer précisément la
+    p-valeur (au minimum quelques centaines).
+    \item Les valeurs manquantes (paires jamais co-détectées dans $\hat{M}$) doivent
+    être traitées explicitement (exclusion de la paire dans les deux matrices, ou
+    imputation à justifier).
+    \item Le test de Mantel suppose que la structure de dépendance interne à chaque
+    matrice est correctement neutralisée par la permutation conjointe des
+    lignes/colonnes -- ce qui est le cas ici, la permutation appliquée à un individu
+    déplace simultanément toute sa ligne et sa colonne.
+\end{itemize}
+
+\paragraph{Résultats obtenus.}
+% TODO : coefficient de corrélation observé, p-valeur, nombre de permutations
+% utilisées, individus/paires exclus le cas échéant
+
+\section{Interprétation des résultats}
+% TODO : le résultat du test permet-il de conclure à une association entre les
+% deux matrices ? Discuter en tenant compte de la nuance établie au chapitre 3
+% (proximité spatiale vs. lien social composite)
+
+
+% =====================================================================
+% CHAPITRE 5 — DISCUSSION ET PERSPECTIVES
+% =====================================================================
 \chapter{Discussion et perspectives}
 
-\section{Discussion et interprétation des résultats}
+\section{Discussion des résultats}
+% TODO : synthèse croisée -- qualité de détection (chapitre 3.1) et fidélité de
+% la matrice de proximité (chapitre 4) ; propagation des erreurs d'identification
+% vers la matrice de proximité ; apport personnel et degré d'autonomie pendant
+% le stage
 
 \section{Limites et conditions d'application des méthodes}
+\label{sec:limites}
+% TODO :
+% - absence d'ensemble de test indépendant (train/validation seulement)
+% - non-indépendance temporelle des frames au sein d'une vidéo
+% - hypothèses du proxy de profondeur (ratio de taille des boîtes)
+% - taille de l'échantillon Koshima
+% - incertitude sur le statut avant/après ré-entraînement des fichiers disponibles
+% - échantillon de vérité terrain limité (chapitre 2)
 
 \section{Perspectives d'amélioration}
+% TODO : poursuite du ré-entraînement avec davantage de données, extension à
+% d'autres populations, amélioration du proxy de profondeur, automatisation de
+% la constitution de la vérité terrain, etc.
 
 
-% ------------------------------------------------
-% CONCLUSION
-% ------------------------------------------------
-
+% =====================================================================
+% CONCLUSION GÉNÉRALE
+% =====================================================================
 \chapter*{Conclusion générale}
 \addcontentsline{toc}{chapter}{Conclusion générale}
+% TODO : synthèse des principaux résultats, retour sur la problématique posée
+% en introduction
 
-% Rédiger ici la conclusion générale
 
-
-% ------------------------------------------------
-% BIBLIOGRAPHIE
-% ------------------------------------------------
-
-\chapter*{Bibliographie}
+% ===================== BIBLIOGRAPHIE =====================
 \addcontentsline{toc}{chapter}{Bibliographie}
+\bibliographystyle{plainnat}
+\bibliography{biblio}
 
-% Les références bibliographiques seront ajoutées ici.
 
-
-% ------------------------------------------------
-% ANNEXES
-% ------------------------------------------------
-
+% ===================== ANNEXES =====================
 \appendix
+\chapter{Annexes}
 
-\chapter{Annexe 1 : ...}
+\section{Extraits de code}
+% Rappel des consignes : lignes principales uniquement, jamais le programme complet
+\begin{lstlisting}
+def evaluate_pair_in_frame(a, b, dist_thresh_norm, size_ratio_thresh):
+    dist_norm = distance(a, b) / max(a["corrected_h"], b["corrected_h"])
+    size_ratio = max(a["aire"], b["aire"]) / min(a["aire"], b["aire"])
+    close = (dist_norm <= dist_thresh_norm) and (size_ratio <= size_ratio_thresh)
+    return close
+\end{lstlisting}
 
-% Contenu de l'annexe
+\section{Figures complémentaires}
+% TODO : heatmap de la matrice, visualisation du réseau social
 
-
-\chapter{Annexe 2 : ...}
-
-% Contenu de l'annexe
-
+\section{Tableaux complémentaires}
+% TODO : matrice de confusion complète (chapitre 3)
 
 \end{document}
