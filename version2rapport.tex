@@ -72,9 +72,34 @@
 \addcontentsline{toc}{chapter}{Introduction}
 
 \section*{Contexte scientifique et présentation du projet}
-% TODO : présenter le laboratoire, ses thématiques de recherche, et le projet
-% AI-SARU (pipeline en 3 modules : détection des comportements, reconnaissance
-% des individus, mesure de proximité et réseau)
+
+Le stage s'est déroulé à l'Institut Pluridisciplinaire Hubert Curien (IPHC), unité
+mixte de recherche du CNRS et de l'Université de Strasbourg (UMR 7178), au sein du
+Département d'Écologie, Physiologie et Éthologie (DEPE). Ce département étudie les
+stratégies adaptatives mises en \oe uvre par les espèces animales pour faire face aux
+contraintes de leur environnement, à travers des approches d'écologie comportementale
+et d'écophysiologie, tant fonctionnelles qu'évolutives.
+
+C'est dans ce cadre que s'inscrit le projet AI-SARU, dont l'objectif est de
+transformer des enregistrements vidéo bruts de populations de macaques japonais en
+données éthologiques directement exploitables scientifiquement, via une chaîne de
+traitement automatisée combinant détection des comportements, reconnaissance
+individuelle des animaux, et mesure de leur proximité sociale. L'automatisation de
+ces tâches, traditionnellement réalisées par observation humaine directe sur le
+terrain, répond à un besoin méthodologique bien identifié dans la littérature :
+Schofield \emph{et al.} \citep{schofield2019} ont notamment démontré, sur une
+population de chimpanzés sauvages suivie pendant 14 ans, qu'un pipeline entièrement
+automatisé de détection, suivi et reconnaissance faciale par apprentissage profond
+permet d'atteindre une précision d'identification supérieure à 92\%, tout en
+traitant des volumes de données (plusieurs millions de détections) hors de portée
+d'un traitement manuel. Leurs travaux illustrent également l'intérêt de regrouper
+les détections en \emph{tracks} avant de statuer sur l'identité d'un individu plutôt
+que de décider image par image, une approche directement reprise dans le pipeline
+AI-SARU (cf. chapitre~\ref{chap:proximite}).
+
+% TODO : compléter si besoin avec des précisions propres au projet AI-SARU
+% (historique du projet, collaboration avec les chercheurs de terrain au Japon,
+% populations de Shodoshima et Koshima)
 
 \section*{Contexte du stage et problématique}
 % TODO : histoire ayant mené à ce sujet ; problématique -- accompagner un
