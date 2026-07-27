@@ -114,262 +114,561 @@ AI-SARU (cf. chapitre~\ref{chap:proximite}).
 \section*{Organisation du rapport}
 % TODO : brève annonce du plan (chapitres 1 à 5)
 
+```latex
+% =====================================================================
+% CHAPITRE 1 — MÉTHODES DE DÉTECTION AUTOMATIQUE PAR APPRENTISSAGE PROFOND
+% =====================================================================
 
-% =====================================================================
-% CHAPITRE 1 — MÉTHODES DE DÉTECTION AUTOMATIQUE PAR DEEP LEARNING
-% =====================================================================
-\chapter{Méthodes de détection automatique par deep learning}
+\chapter{Méthodes de détection automatique par apprentissage profond}
 \label{chap:methode}
 
-\section{Introduction au machine learning et au deep learning}
+Ce chapitre présente les principaux outils mathématiques et statistiques
+nécessaires à la compréhension du modèle utilisé dans le cadre du projet.
+L'objectif n'est pas de décrire exhaustivement l'architecture de YOLO, mais
+d'expliquer les mécanismes qui permettent de localiser un visage dans une image,
+de lui attribuer une identité et d'évaluer la qualité des prédictions obtenues.
 
-\paragraph{Apprentissage supervisé.}
+% ---------------------------------------------------------------------
+\section{Introduction à l'apprentissage supervisé et à l'apprentissage profond}
+% ---------------------------------------------------------------------
 
-On se place dans le cadre de l'apprentissage supervisé : on dispose d'un ensemble
-d'exemples $(X_i, Y_i)_{i=1}^{n}$, où $X_i$ est une image et $Y_i \in \{1,\dots,K\}$
-l'identité connue de l'individu photographié parmi les $K$ individus de la population
-étudiée. L'objectif est d'estimer une fonction $\hat{f}_\theta$, paramétrée par $\theta$,
-qui approche au mieux la relation entre $X$ et $Y$. Il s'agit d'un problème de
-\emph{classification}, la variable $Y$ étant catégorielle (à distinguer d'un problème
-de régression, où $Y$ serait continue).
+\paragraph{Cadre de l'apprentissage supervisé.}
 
-\paragraph{Modèle de classification et fonction de perte.}
+On se place dans le cadre de l'apprentissage supervisé. On dispose d'un
+échantillon d'apprentissage
 
-Pour une image $X_i$, le modèle produit un vecteur de probabilités
 \begin{equation}
-    \hat{p}(X_i) = (\hat{p}_1, \dots, \hat{p}_K), \qquad \sum_{k=1}^{K} \hat{p}_k = 1,
-\end{equation}
-et l'identité prédite est $\hat{Y}_i = \arg\max_k \hat{p}_k$.
-
-L'apprentissage consiste à ajuster $\theta$ en minimisant une fonction de perte,
-l'entropie croisée :
-\begin{equation}
-    \mathcal{L}(\theta) = -\frac{1}{n} \sum_{i=1}^{n} \log \hat{p}_{\theta, Y_i}(X_i).
+    \mathcal{D}_n = \left\{(X_i,Y_i)\right\}_{i=1}^{n},
 \end{equation}
 
-Ce choix n'est pas arbitraire : sous l'hypothèse d'observations indépendantes, la
-vraisemblance du modèle s'écrit
+où $X_i$ désigne une image et où $Y_i \in \{1,\ldots,K\}$ représente
+l'identité connue de l'individu présent dans cette image, parmi les $K$
+individus de la population étudiée.
+
+L'objectif est de construire une fonction de prédiction
+$\widehat{f}_{\theta}$, dépendant d'un ensemble de paramètres $\theta$, telle que
+
 \begin{equation}
-    \mathcal{V}(\theta) = \prod_{i=1}^{n} \hat{p}_{\theta, Y_i}(X_i),
+    \widehat{Y}_i = \widehat{f}_{\theta}(X_i)
 \end{equation}
-et minimiser $\mathcal{L}(\theta)$ revient exactement à maximiser la log-vraisemblance
-$\log \mathcal{V}(\theta)$, à un facteur $-1/n$ près. L'entraînement du réseau de
-neurones s'interprète donc comme une \textbf{estimation par maximum de vraisemblance}.
 
-\paragraph{L'opération de convolution.}
+soit aussi proche que possible de l'identité réelle $Y_i$.
 
-La fonction $\hat{f}_\theta$ est ici réalisée par un \textbf{réseau de neurones
-convolutif} (CNN). L'opération de base de ce type de réseau est la
-\textbf{convolution discrète} : un petit filtre (ou noyau) $W \in \mathbb{R}^{k \times k}$,
-de paramètres appartenant à $\theta$, glisse sur l'image d'entrée $X$ et produit une
-carte de caractéristiques $F$ définie, pour chaque position $(i,j)$, par
+Il s'agit d'un problème de classification supervisée multiclasse, puisque la
+variable à prédire est qualitative et peut prendre plus de deux modalités.
+Cette situation se distingue d'un problème de régression, dans lequel la
+variable réponse est quantitative.
+
+\paragraph{Sortie probabiliste du modèle.}
+
+Pour une image $X_i$, le réseau produit généralement un vecteur de scores qui
+est transformé en probabilités estimées :
+
 \begin{equation}
-    F(i,j) = \sum_{u=1}^{k} \sum_{v=1}^{k} W(u,v) \, X(i+u, j+v) \; + \; b,
+    \widehat{\boldsymbol{p}}_{\theta}(X_i)
+    =
+    \left(
+        \widehat{p}_{\theta,1}(X_i),
+        \ldots,
+        \widehat{p}_{\theta,K}(X_i)
+    \right),
 \end{equation}
-où $b$ est un biais. Ce résultat est ensuite transformé par une fonction d'activation
-non linéaire $\phi$ (typiquement la \emph{ReLU}, $\phi(x) = \max(0,x)$), donnant une
-carte activée $\phi(F)$. Un réseau convolutif empile ainsi plusieurs couches de ce
-type : les premières couches détectent des motifs simples (contours, textures), les
-couches plus profondes combinent ces motifs en des représentations de plus haut
-niveau (formes de visage, motifs propres à un individu). L'ensemble des poids $W$ et
-biais $b$ de toutes les couches constitue le vecteur de paramètres $\theta$ à
-estimer.
 
-\paragraph{Estimation des paramètres par descente de gradient.}
+avec
 
-L'estimation de $\hat{\theta} = \arg\min_\theta \mathcal{L}(\theta)$ ne peut pas se
-faire par une formule fermée, la fonction $\mathcal{L}$ étant hautement non convexe
-et de très grande dimension (typiquement plusieurs millions de paramètres). On
-procède donc par \textbf{descente de gradient} : partant d'une valeur initiale
-$\theta^{(0)}$, on met à jour itérativement les paramètres dans la direction opposée
-au gradient de la perte,
 \begin{equation}
-    \theta^{(t+1)} = \theta^{(t)} - \eta \, \nabla_\theta \mathcal{L}(\theta^{(t)}),
+    \widehat{p}_{\theta,k}(X_i) \geq 0,
+    \qquad
+    \sum_{k=1}^{K}
+    \widehat{p}_{\theta,k}(X_i)=1.
 \end{equation}
-où $\eta > 0$ est le taux d'apprentissage (\emph{learning rate}). En pratique, le
-gradient n'est pas calculé sur l'ensemble des $n$ exemples à chaque itération (ce
-qui serait trop coûteux), mais sur un sous-échantillon aléatoire (un \emph{batch}) :
-c'est la \textbf{descente de gradient stochastique} (SGD), ou l'une de ses variantes
-(Adam, RMSProp), utilisée en pratique par la quasi-totalité des réseaux de neurones,
-y compris YOLO. Le calcul du gradient $\nabla_\theta \mathcal{L}$, malgré la
-profondeur du réseau, est rendu possible par l'algorithme de
-\textbf{rétropropagation} (\emph{backpropagation}), qui applique la règle de
-dérivation en chaîne couche par couche, depuis la sortie du réseau jusqu'à ses
-premiers paramètres.
 
-Le \textbf{ré-entraînement} (\emph{fine-tuning}) réalisé pendant le stage consiste
-précisément à reprendre cette procédure d'optimisation, non pas depuis une
-initialisation aléatoire $\theta^{(0)}$, mais depuis les paramètres déjà appris sur
-la population de Shodoshima, en poursuivant la descente de gradient sur les
-nouvelles données annotées de Koshima. Cette approche exploite le fait que les
-premières couches du réseau (détection de motifs visuels génériques) restent
-largement valides d'une population à l'autre, seules les couches les plus profondes
-nécessitant un réajustement substantiel pour s'adapter aux nouveaux individus.
+L'identité prédite est alors celle dont la probabilité estimée est la plus
+élevée :
 
-\section{Principe de la détection d'objets et du modèle YOLO}
+\begin{equation}
+    \widehat{Y}_i
+    =
+    \underset{k \in \{1,\ldots,K\}}{\arg\max}
+    \;
+    \widehat{p}_{\theta,k}(X_i).
+\end{equation}
 
-Le modèle utilisé pour la reconnaissance faciale des macaques est un modèle
-\textbf{YOLO} (\emph{You Only Look Once}) \citep{redmon2016}. Contrairement à un
-simple classifieur qui recevrait en entrée une image déjà recadrée sur un visage,
-YOLO est un modèle de \textbf{détection d'objets} : à partir d'une image complète, il
-prédit simultanément, en une seule passe du réseau,
+Ces probabilités permettent non seulement de fournir une prédiction, mais
+également de quantifier le degré de confiance associé aux différentes identités
+candidates.
+
+\paragraph{Fonction de perte et maximum de vraisemblance.}
+
+Dans un problème de classification multiclasse, une fonction de perte
+couramment utilisée est l'entropie croisée. Elle s'écrit
+
+\begin{equation}
+    \mathcal{L}_{\mathrm{cls}}(\theta)
+    =
+    -\frac{1}{n}
+    \sum_{i=1}^{n}
+    \log
+    \left(
+        \widehat{p}_{\theta,Y_i}(X_i)
+    \right).
+    \label{eq:cross_entropy}
+\end{equation}
+
+Cette fonction pénalise fortement les situations dans lesquelles le modèle
+attribue une faible probabilité à la classe réelle.
+
+D'un point de vue statistique, son utilisation peut être reliée au principe du
+maximum de vraisemblance. Sous l'hypothèse que les observations sont
+indépendantes conditionnellement aux paramètres du modèle, la vraisemblance
+s'écrit
+
+\begin{equation}
+    \mathcal{V}(\theta)
+    =
+    \prod_{i=1}^{n}
+    \widehat{p}_{\theta,Y_i}(X_i).
+\end{equation}
+
+La log-vraisemblance est donc
+
+\begin{equation}
+    \log \mathcal{V}(\theta)
+    =
+    \sum_{i=1}^{n}
+    \log
+    \left(
+        \widehat{p}_{\theta,Y_i}(X_i)
+    \right).
+\end{equation}
+
+Minimiser l'entropie croisée définie dans
+l'équation~\eqref{eq:cross_entropy} revient ainsi à maximiser la
+log-vraisemblance, à un facteur multiplicatif négatif près. L'apprentissage
+du classifieur peut donc être interprété comme une estimation des paramètres
+par maximum de vraisemblance.
+
+\paragraph{Réseaux de neurones convolutifs.}
+
+Les images possèdent une structure spatiale : deux pixels voisins ont
+généralement davantage de relations qu'une paire de pixels très éloignés.
+Les réseaux de neurones convolutifs, ou CNN, exploitent cette structure à
+l'aide de filtres locaux.
+
+Pour une image d'entrée $X$ et un noyau $W$ de dimension $q \times q$, une
+carte de caractéristiques peut être définie par
+
+\begin{equation}
+    F(i,j)
+    =
+    \sum_{u=1}^{q}
+    \sum_{v=1}^{q}
+    W(u,v)X(i+u,j+v)+b,
+    \label{eq:convolution}
+\end{equation}
+
+où $b$ est un biais.
+
+En pratique, l'opération réalisée dans de nombreuses bibliothèques
+d'apprentissage profond correspond techniquement à une corrélation croisée,
+mais elle est habituellement appelée convolution dans la littérature sur les
+CNN.
+
+Le résultat est ensuite transformé par une fonction d'activation non linéaire.
+Une fonction courante est la fonction ReLU :
+
+\begin{equation}
+    \phi(x)=\max(0,x).
+\end{equation}
+
+L'empilement de plusieurs couches permet au réseau d'apprendre des
+représentations de complexité croissante. Les premières couches extraient
+généralement des motifs locaux simples, comme les contours ou les textures,
+tandis que les couches plus profondes combinent ces informations pour former
+des représentations plus discriminantes.
+
+\paragraph{Estimation des paramètres.}
+
+Les paramètres du réseau sont estimés en recherchant une valeur
+$\widehat{\theta}$ minimisant la fonction de perte :
+
+\begin{equation}
+    \widehat{\theta}
+    =
+    \underset{\theta}{\arg\min}
+    \;
+    \mathcal{L}(\theta).
+\end{equation}
+
+Cette optimisation ne possède généralement pas de solution analytique, en
+raison du grand nombre de paramètres et de la non-convexité de la fonction de
+perte. Les paramètres sont donc mis à jour de manière itérative par une méthode
+fondée sur le gradient :
+
+\begin{equation}
+    \theta^{(t+1)}
+    =
+    \theta^{(t)}
+    -
+    \eta
+    \nabla_{\theta}
+    \mathcal{L}
+    \left(
+        \theta^{(t)}
+    \right),
+    \label{eq:gradient}
+\end{equation}
+
+où $\eta>0$ est le taux d'apprentissage.
+
+En pratique, le gradient est généralement estimé sur un sous-échantillon
+d'observations appelé \emph{mini-batch}. Cette procédure conduit à la descente
+de gradient stochastique ou à l'une de ses variantes, telles qu'Adam. La
+rétropropagation permet ensuite de calculer efficacement les dérivées de la
+fonction de perte par rapport à l'ensemble des paramètres du réseau.
+
+Dans le cadre d'un ré-entraînement ou \emph{fine-tuning}, l'optimisation ne
+commence pas à partir de paramètres aléatoires. Elle s'appuie sur les paramètres
+d'un modèle préalablement entraîné, puis les adapte aux nouvelles données. Dans
+le projet étudié, le principe consiste à exploiter un modèle déjà ajusté sur
+une autre population de macaques, puis à le réadapter aux individus de la
+population de Koshima. Cette description devra toutefois être précisée à partir
+des informations exactes fournies par l'encadrant concernant le protocole
+d'entraînement effectivement utilisé.
+
+% ---------------------------------------------------------------------
+\section{Détection d'objets et principe général du modèle YOLO}
+% ---------------------------------------------------------------------
+
+Le modèle employé dans le projet appartient à la famille YOLO, acronyme de
+\emph{You Only Look Once} \citep{redmon2016}. Les modèles de cette famille sont
+conçus pour effectuer une détection d'objets directement à partir d'une image
+complète.
+
+Contrairement à un classifieur recevant une image déjà recadrée, un détecteur
+doit résoudre simultanément plusieurs tâches :
+
 \begin{itemize}
-    \item la \textbf{localisation} des objets présents (ici, les coordonnées des
-    boîtes englobantes autour des visages détectés) ;
-    \item la \textbf{classification} de chaque objet détecté, c'est-à-dire
-    l'identité de l'individu parmi les $K$ individus connus.
+    \item déterminer si un objet d'intérêt est présent ;
+    \item localiser cet objet à l'aide d'une boîte englobante ;
+    \item attribuer une classe à l'objet localisé.
 \end{itemize}
-C'est ce mécanisme qui explique le fonctionnement observé dans l'interface
-d'annotation : pour chaque visage localisé, le modèle renvoie les identités
-candidates classées par score de confiance, ce score correspondant à la probabilité
-de classe $\hat{p}_k$ associée à la détection.
 
-\paragraph{Découpage en grille.}
+Dans le cadre du projet, la localisation permet d'obtenir les coordonnées des
+visages détectés, tandis que la classification permet d'associer chaque visage
+à une identité candidate.
 
-Le principe central de YOLO consiste à découper l'image d'entrée en une grille de
-$S \times S$ cellules. Chaque cellule est responsable de détecter un objet si le
-centre de cet objet tombe dans son emprise. L'ensemble de l'image est ainsi traité
-en une seule passe du réseau, contrairement aux approches plus anciennes qui
-balayaient l'image par fenêtres glissantes successives -- d'où le nom de la méthode.
+\paragraph{Représentation d'une boîte englobante.}
 
-\paragraph{Mesure de qualité d'une détection : l'IoU.}
-
-Pour évaluer si une boîte englobante prédite correspond bien à un objet réel, on
-utilise l'\textbf{intersection sur union} (\emph{IoU}) entre la boîte prédite et la
-boîte de vérité terrain :
-\begin{equation}
-    \text{IoU} = \frac{\text{aire}(\text{boîte prédite} \cap \text{boîte réelle})}{\text{aire}(\text{boîte prédite} \cup \text{boîte réelle})} \in [0,1].
-\end{equation}
-Une IoU proche de $1$ indique une boîte prédite quasiment identique à la boîte
-réelle ; une IoU proche de $0$ indique une absence de recouvrement. Cette mesure sert
-à la fois à évaluer la qualité de la détection et, lors de l'entraînement, à
-déterminer quelle prédiction est associée à quel objet réel.
-
-Pour chaque boîte prédite, le réseau produit également un score de confiance
-$\hat{c} \in [0,1]$, qui approche le produit
-\begin{equation}
-    \hat{c} \approx \Pr(\text{objet présent dans la cellule}) \times \text{IoU}(\text{boîte prédite}, \text{boîte réelle}).
-\end{equation}
-Ainsi, une détection n'est retenue que si un objet est jugé présent \emph{et} que la
-boîte prédite recouvre bien l'objet réel.
-
-\paragraph{Filtrage des détections redondantes.}
-
-Plusieurs cellules voisines peuvent proposer des boîtes qui se recouvrent fortement
-pour un même objet. Un post-traitement, la \textbf{suppression non-maximale} (NMS),
-élimine les doublons : parmi les boîtes qui se recouvrent fortement (IoU élevé entre
-elles), seule celle au score de confiance le plus élevé est conservée. C'est ce qui
-garantit qu'un même visage n'est détecté qu'une seule fois dans l'image finale.
-
-\paragraph{Paramétrisation des boîtes par rapport aux ancres.}
-
-YOLO ne prédit pas directement les coordonnées d'une boîte, mais un ajustement par
-rapport à une boîte de référence prédéfinie (\emph{anchor box}), de largeur $p_w$ et
-hauteur $p_h$, associée à la cellule de centre $(c_x, c_y)$. Le réseau prédit quatre
-valeurs brutes $(t_x, t_y, t_w, t_h)$, transformées en coordonnées réelles par :
-\begin{equation}
-    b_x = \sigma(t_x) + c_x, \qquad b_y = \sigma(t_y) + c_y,
-\end{equation}
-\begin{equation}
-    b_w = p_w \, e^{t_w}, \qquad b_h = p_h \, e^{t_h},
-\end{equation}
-où $\sigma$ désigne la fonction sigmoïde, qui contraint le centre prédit à rester
-dans la cellule considérée, tandis que l'exponentielle garantit la positivité des
-largeur et hauteur prédites.
-
-\paragraph{Fonction de perte composite, en détail.}
-
-En notant $\mathbb{1}_{ij}^{\text{obj}}$ l'indicatrice valant $1$ si la cellule
-$(i,j)$ contient effectivement le centre d'un objet réel (et $0$ sinon), et
-$\mathbb{1}_{ij}^{\text{noobj}} = 1 - \mathbb{1}_{ij}^{\text{obj}}$, la perte totale
-se décompose en trois termes :
-\begin{equation}
-    \mathcal{L}_{\text{YOLO}}(\theta) = \mathcal{L}_{\text{loc}}(\theta) + \mathcal{L}_{\text{obj}}(\theta) + \mathcal{L}_{\text{cls}}(\theta),
-\end{equation}
+Une boîte englobante peut être représentée par son centre et ses dimensions :
 
 \begin{equation}
-    \mathcal{L}_{\text{loc}} = \lambda_{\text{coord}} \sum_{i,j} \mathbb{1}_{ij}^{\text{obj}} \Big[(b_x - \hat{b}_x)^2 + (b_y - \hat{b}_y)^2 + (\sqrt{b_w} - \sqrt{\hat{b}_w})^2 + (\sqrt{b_h} - \sqrt{\hat{b}_h})^2\Big],
+    B=(c_x,c_y,w,h),
 \end{equation}
+
+où $(c_x,c_y)$ désigne le centre de la boîte, $w$ sa largeur et $h$ sa hauteur.
+
+Elle peut également être décrite par les coordonnées de ses coins :
 
 \begin{equation}
-    \mathcal{L}_{\text{obj}} = \sum_{i,j} \mathbb{1}_{ij}^{\text{obj}} (\hat{c}_{ij} - c_{ij})^2 \; + \; \lambda_{\text{noobj}} \sum_{i,j} \mathbb{1}_{ij}^{\text{noobj}} \, \hat{c}_{ij}^{\,2},
+    B=(x_{\min},y_{\min},x_{\max},y_{\max}).
 \end{equation}
+
+Ces informations sont particulièrement importantes dans ce projet, car les
+coordonnées des boîtes seront ensuite utilisées pour calculer une mesure de
+distance entre les individus détectés.
+
+\paragraph{Prédiction en une seule étape.}
+
+Le principe général de YOLO consiste à produire, lors d'une même évaluation du
+réseau, les prédictions de localisation, de présence d'objet et de
+classification. Cette approche se distingue des anciennes méthodes en deux
+étapes, qui généraient d'abord des régions candidates avant de les classifier
+séparément.
+
+Le traitement conjoint de l'image rend cette famille de modèles adaptée à
+l'analyse de vidéos comportant un nombre important d'images successives.
+
+Les détails précis de l'architecture, notamment le recours à une grille, à des
+boîtes d'ancrage ou à une représentation sans ancres, dépendent de la version
+de YOLO utilisée. Ils ne doivent donc être décrits dans le rapport qu'après
+identification exacte de la version et du paramétrage employés dans le projet.
+
+\paragraph{Intersection sur union.}
+
+La qualité géométrique d'une boîte prédite peut être évaluée à l'aide de
+l'intersection sur union, notée IoU. Pour une boîte prédite
+$B_{\mathrm{pred}}$ et une boîte de référence $B_{\mathrm{ref}}$, elle est
+définie par
 
 \begin{equation}
-    \mathcal{L}_{\text{cls}} = \sum_{i,j} \mathbb{1}_{ij}^{\text{obj}} \sum_{k=1}^{K} -\log \hat{p}_{ij,k}.
+    \operatorname{IoU}
+    \left(
+        B_{\mathrm{pred}},
+        B_{\mathrm{ref}}
+    \right)
+    =
+    \frac{
+        \operatorname{aire}
+        \left(
+            B_{\mathrm{pred}}
+            \cap
+            B_{\mathrm{ref}}
+        \right)
+    }{
+        \operatorname{aire}
+        \left(
+            B_{\mathrm{pred}}
+            \cup
+            B_{\mathrm{ref}}
+        \right)
+    }.
+    \label{eq:iou}
 \end{equation}
 
-où $\mathcal{L}_{\text{loc}}$ pénalise l'erreur de régression sur les coordonnées de
-la boîte englobante, $\mathcal{L}_{\text{obj}}$ pénalise l'erreur sur le score de
-confiance $\hat{c}$ défini précédemment, et $\mathcal{L}_{\text{cls}}$ retrouve
-exactement le terme d'entropie croisée établi en 1.1, restreint ici aux cellules
-contenant réellement un objet.
+Cette quantité appartient à l'intervalle $[0,1]$. Une valeur proche de $1$
+indique un fort recouvrement entre la boîte prédite et la boîte de référence,
+tandis qu'une valeur proche de $0$ correspond à un faible recouvrement.
 
-Le passage par la racine carrée sur la largeur et la hauteur dans
-$\mathcal{L}_{\text{loc}}$ est un choix technique : il pénalise proportionnellement
-moins une erreur donnée sur une grande boîte que sur une petite boîte (une erreur de
-10 pixels est plus grave, relativement, pour une petite boîte que pour une grande).
-Le poids $\lambda_{\text{noobj}} < 1$ réduit l'importance des cellules sans objet
-dans la perte, très majoritaires dans une image typique, pour éviter qu'elles ne
-dominent l'apprentissage face aux rares cellules contenant effectivement un visage.
+Dans une procédure d'évaluation, une détection est généralement considérée
+comme correctement localisée lorsque son IoU dépasse un seuil fixé. La valeur
+exacte de ce seuil doit être précisée si elle a été utilisée dans le projet.
 
-L'interprétation en termes de maximum de vraisemblance établie en 1.1 reste
-valable, mais concerne uniquement la composante $\mathcal{L}_{\text{cls}}$ de cette
-perte composite : c'est elle qui correspond à l'estimation de l'identité de
-l'individu, tandis que $\mathcal{L}_{\text{loc}}$ et $\mathcal{L}_{\text{obj}}$
-relèvent respectivement d'un problème de régression aux moindres carrés et d'un
-problème de détection binaire (présence/absence d'objet), non directement concernés
-par la classification des identités.
+\paragraph{Scores de confiance et filtrage des prédictions.}
 
-\emph{Note : les versions plus récentes de YOLO (v3 et suivantes) utilisent des
-variantes plus sophistiquées, notamment pour $\mathcal{L}_{\text{loc}}$ (perte de
-type CIoU) ; la formulation ci-dessus correspond à la version originale, suffisante
-pour comprendre le principe général de la méthode.}
+Chaque détection est associée à un ou plusieurs scores représentant notamment
+la confiance du modèle dans la présence d'un objet et dans son appartenance à
+une classe.
 
-\section{Évaluation des performances du modèle}
+Après la prédiction, un seuil de confiance peut être appliqué afin d'écarter les
+détections jugées trop incertaines. Un traitement supplémentaire est également
+nécessaire lorsque plusieurs boîtes se recouvrent fortement autour d'un même
+objet.
+
+La suppression non maximale, ou NMS, consiste à conserver la boîte ayant le
+score le plus élevé, puis à supprimer les autres boîtes dont le recouvrement
+avec celle-ci dépasse un seuil donné. Cette procédure réduit le nombre de
+détections redondantes.
+
+\paragraph{Fonction de perte d'un détecteur.}
+
+L'entraînement d'un détecteur d'objets repose généralement sur une fonction de
+perte composée de plusieurs termes :
+
+\begin{equation}
+    \mathcal{L}_{\mathrm{det}}
+    =
+    \lambda_{\mathrm{loc}}
+    \mathcal{L}_{\mathrm{loc}}
+    +
+    \lambda_{\mathrm{obj}}
+    \mathcal{L}_{\mathrm{obj}}
+    +
+    \lambda_{\mathrm{cls}}
+    \mathcal{L}_{\mathrm{cls}},
+    \label{eq:generic_yolo_loss}
+\end{equation}
+
+où :
+
+\begin{itemize}
+    \item $\mathcal{L}_{\mathrm{loc}}$ mesure l'erreur de localisation des
+    boîtes englobantes ;
+    \item $\mathcal{L}_{\mathrm{obj}}$ mesure l'erreur relative à la présence
+    ou à l'absence d'un objet ;
+    \item $\mathcal{L}_{\mathrm{cls}}$ mesure l'erreur de classification ;
+    \item les coefficients $\lambda_{\mathrm{loc}}$,
+    $\lambda_{\mathrm{obj}}$ et $\lambda_{\mathrm{cls}}$ règlent
+    l'importance relative de ces composantes.
+\end{itemize}
+
+La forme exacte de chacune de ces composantes dépend de la version de YOLO
+utilisée. Certaines versions emploient, par exemple, des fonctions de perte
+fondées sur l'IoU ou sur des variantes telles que la GIoU, la DIoU ou la CIoU
+pour évaluer la localisation des boîtes.
+
+Il serait donc incorrect de présenter une fonction de perte détaillée comme
+étant celle du modèle du projet sans avoir vérifié la version exacte du réseau.
+L'équation~\eqref{eq:generic_yolo_loss} fournit ici une représentation générale
+du principe d'optimisation.
+
+% ---------------------------------------------------------------------
+\section{Évaluation statistique des performances du modèle}
+% ---------------------------------------------------------------------
 \label{sec:eval-theorie}
 
-Cette section présente, sur le plan théorique, les outils statistiques permettant
-d'évaluer la qualité des prédictions d'un modèle de classification. Leur
-application aux données réelles du stage est présentée au
-chapitre~\ref{chap:proximite}, section~\ref{sec:eval-application}.
+L'évaluation du modèle doit distinguer deux aspects :
+
+\begin{itemize}
+    \item la qualité de la localisation des visages ;
+    \item la qualité de l'identification individuelle.
+\end{itemize}
+
+La localisation peut être étudiée à l'aide de l'IoU et de métriques propres à
+la détection d'objets. L'identification individuelle peut être évaluée à partir
+d'une matrice de confusion construite en comparant les identités prédites aux
+identités réelles.
 
 \paragraph{Matrice de confusion.}
 
-Pour un problème de classification à $K$ classes, la \textbf{matrice de confusion}
-$C$ est une matrice $K \times K$ dont l'entrée $C_{kl}$ compte le nombre
-d'observations dont l'identité réelle est $k$ et l'identité prédite est $l$. La
-diagonale de $C$ regroupe les prédictions correctes ; les termes hors diagonale
-correspondent aux erreurs, et leur répartition renseigne sur les confusions
-systématiques entre certains individus.
+Pour un problème comportant $K$ individus, la matrice de confusion est une
+matrice $C=(C_{kl})_{1\leq k,l\leq K}$ dans laquelle
 
-\paragraph{Métriques dérivées.}
-
-À partir de la matrice de confusion, on définit pour chaque individu $k$ :
-\begin{align}
-    \text{précision}_k &= \frac{C_{kk}}{\sum_{l} C_{lk}} \quad \text{(parmi les prédictions "$k$", combien sont correctes)},\\
-    \text{rappel}_k &= \frac{C_{kk}}{\sum_{l} C_{kl}} \quad \text{(parmi les individus réellement "$k$", combien sont bien retrouvés)},
-\end{align}
-ainsi que le taux d'exactitude global (\emph{accuracy}) :
 \begin{equation}
-    \text{exactitude} = \frac{\sum_k C_{kk}}{\sum_{k,l} C_{kl}}.
+    C_{kl}
+    =
+    \text{nombre d'observations d'identité réelle $k$ prédites comme $l$}.
 \end{equation}
 
-\section{Utilisation de YOLO dans le cadre du projet}
+Les valeurs diagonales $C_{kk}$ correspondent aux identifications correctes,
+tandis que les valeurs hors diagonale décrivent les erreurs de classification.
 
-La problématique posée -- détecter des macaques dans une vidéo, puis en déduire une
-mesure de similarité/proximité entre individus -- requiert précisément les deux
-capacités offertes conjointement par YOLO : la \textbf{localisation} (indispensable
-pour extraire les coordonnées nécessaires au calcul ultérieur de la proximité
-spatiale, cf. chapitre~\ref{chap:proximite}) et la \textbf{classification} (nécessaire
-pour savoir quel individu est localisé à quel endroit). Le traitement en une seule
-passe du réseau permet par ailleurs un traitement de vidéos entières, comportant
-plusieurs dizaines de milliers de frames, à un coût de calcul raisonnable -- un
-critère déterminant compte tenu du volume de données vidéo disponible sur la
-population de Koshima (cf. chapitre~\ref{chap:donnees}). Le choix de ce modèle,
-opéré par l'encadrant du stage en amont de celui-ci sur la base de résultats déjà
-obtenus sur la population de Shodoshima, apparaît ainsi pleinement justifié au
-regard de la problématique.
+La matrice permet notamment d'identifier les couples d'individus fréquemment
+confondus par le modèle.
+
+\paragraph{Précision et rappel.}
+
+Pour un individu $k$, la précision est définie par
+
+\begin{equation}
+    \operatorname{Précision}_k
+    =
+    \frac{C_{kk}}
+    {\displaystyle\sum_{l=1}^{K}C_{lk}}.
+    \label{eq:precision}
+\end{equation}
+
+Elle mesure la proportion de prédictions associées à l'identité $k$ qui sont
+effectivement correctes.
+
+Le rappel est défini par
+
+\begin{equation}
+    \operatorname{Rappel}_k
+    =
+    \frac{C_{kk}}
+    {\displaystyle\sum_{l=1}^{K}C_{kl}}.
+    \label{eq:recall}
+\end{equation}
+
+Il mesure la proportion d'observations réellement associées à l'individu $k$
+qui sont correctement reconnues.
+
+\paragraph{F1-score.}
+
+Le F1-score est la moyenne harmonique de la précision et du rappel :
+
+\begin{equation}
+    F1_k
+    =
+    2
+    \frac{
+        \operatorname{Précision}_k
+        \operatorname{Rappel}_k
+    }{
+        \operatorname{Précision}_k
+        +
+        \operatorname{Rappel}_k
+    }.
+    \label{eq:f1}
+\end{equation}
+
+Cette métrique est utile lorsqu'un compromis entre précision et rappel est
+recherché. Elle doit toutefois être interprétée avec précaution lorsque
+certains individus sont beaucoup plus représentés que d'autres.
+
+\paragraph{Exactitude globale.}
+
+Le taux d'exactitude global, ou \emph{accuracy}, est défini par
+
+\begin{equation}
+    \operatorname{Exactitude}
+    =
+    \frac{
+        \displaystyle\sum_{k=1}^{K}C_{kk}
+    }{
+        \displaystyle\sum_{k=1}^{K}
+        \sum_{l=1}^{K}C_{kl}
+    }.
+    \label{eq:accuracy}
+\end{equation}
+
+Il représente la proportion totale de prédictions correctes.
+
+Cependant, lorsque les effectifs diffèrent fortement entre individus, cette
+mesure peut être dominée par les classes les plus représentées. Il est donc
+préférable de compléter l'exactitude globale par des métriques calculées
+individu par individu, puis éventuellement par leurs moyennes macro :
+
+\begin{equation}
+    \operatorname{Rappel}_{\mathrm{macro}}
+    =
+    \frac{1}{K}
+    \sum_{k=1}^{K}
+    \operatorname{Rappel}_k.
+\end{equation}
+
+Cette moyenne accorde le même poids à chaque individu, indépendamment de son
+nombre d'observations.
+
+\paragraph{Ensemble d'évaluation.}
+
+Afin que les métriques mesurent réellement la capacité de généralisation du
+modèle, elles devraient idéalement être calculées sur des données n'ayant pas
+servi à son entraînement.
+
+Si les mêmes images sont utilisées pour entraîner puis évaluer le réseau, les
+performances risquent d'être surestimées. La constitution de l'échantillon de
+vérité terrain et sa relation avec les données d'entraînement devront donc être
+décrites précisément dans le chapitre~\ref{chap:donnees}.
+
+L'application de ces métriques aux résultats obtenus pendant le stage sera
+présentée au chapitre~\ref{chap:proximite}, dans la
+section~\ref{sec:eval-application}.
+
+% ---------------------------------------------------------------------
+\section{Application du modèle YOLO au projet}
+% ---------------------------------------------------------------------
+
+Le choix d'un modèle de détection de la famille YOLO a été effectué par
+l'encadrant du stage avant le début de celui-ci. Ce choix s'appuyait notamment
+sur des résultats déjà obtenus sur une autre population de macaques.
+
+Son utilisation répond à deux besoins complémentaires du projet.
+
+Premièrement, la localisation des visages permet d'extraire les coordonnées des
+boîtes englobantes. Ces coordonnées constituent les informations nécessaires
+au calcul ultérieur des distances spatiales entre individus.
+
+Deuxièmement, la classification permet d'associer chaque boîte englobante à une
+identité. Sans cette étape, il serait possible de mesurer la distance entre
+deux détections, mais pas d'attribuer cette proximité à une paire précise de
+macaques.
+
+La chaîne méthodologique peut ainsi être résumée par
+
+\begin{equation}
+    \text{image}
+    \longrightarrow
+    \text{détection}
+    \longrightarrow
+    \text{localisation}
+    \longrightarrow
+    \text{identification}
+    \longrightarrow
+    \text{mesure de proximité}.
+\end{equation}
+
+Le traitement conjoint de la localisation et de l'identification rend cette
+approche adaptée à l'exploitation de vidéos comportant un grand nombre
+d'images.
+
+Les prédictions obtenues ne sont toutefois pas considérées comme
+automatiquement exactes. Elles doivent être contrôlées, corrigées et évaluées
+avant d'être utilisées dans la construction d'une matrice de proximité sociale.
+La nature des données, leur organisation et les opérations de prétraitement
+sont présentées dans le chapitre suivant.
+```
 
 
 % =====================================================================
