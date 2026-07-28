@@ -670,87 +670,240 @@ La nature des données, leur organisation et les opérations de prétraitement
 sont présentées dans le chapitre suivant.
 ```
 
-
 % =====================================================================
 % CHAPITRE 2 — DONNÉES ET PRÉTRAITEMENT
 % =====================================================================
+
 \chapter{Données et prétraitement}
 \label{chap:donnees}
 
+Ce chapitre présente les données utilisées au cours du stage ainsi que les
+différentes étapes permettant de passer des enregistrements vidéo bruts à un
+jeu d'images annotées et exploitable par les modèles de détection et
+d'identification. Une attention particulière est portée à la sélection des
+images, à la correction manuelle des prédictions et à l'organisation des
+annotations produites.
+
+% ---------------------------------------------------------------------
 \section{Présentation et acquisition des données}
-% TODO : les vidéos ont été enregistrées sur le terrain (Koshima, Japon) par
-% l'encadrant du stage ; expliquer pourquoi ces vidéos sont la seule source
-% d'information permettant de mesurer la proximité sociale des individus, et
-% en quoi leur exploitation par YOLO est nécessaire pour produire des données
-% exploitables scientifiquement (cf. objectif AI-SARU, introduction)
+% ---------------------------------------------------------------------
 
+Les données étudiées proviennent d'enregistrements vidéo de macaques japonais
+appartenant à la population de Koshima, au Japon. Le jeu de données disponible
+dans le cadre du projet AI-SARU représente environ quinze heures de vidéos et
+concerne une population d'environ quarante individus.
+
+Ces enregistrements ont été collectés sur le terrain afin de documenter les
+comportements et les relations sociales entre les individus. La vidéo constitue
+une source d'information particulièrement adaptée à cet objectif, car elle
+permet d'observer simultanément plusieurs animaux, leurs déplacements et leur
+position relative au cours du temps.
+
+Cependant, les vidéos brutes ne peuvent pas être utilisées directement dans
+une analyse statistique. Elles doivent d'abord être transformées en
+observations structurées comportant notamment l'identité des individus, leurs
+coordonnées dans l'image et les instants auxquels ils apparaissent. Le projet
+AI-SARU vise précisément à automatiser cette transformation grâce à une chaîne
+de traitement combinant détection, identification individuelle et mesure de
+proximité.
+
+Les fichiers vidéo suivent une convention de nommage de la forme
+
+\begin{center}
+    \texttt{AAAAMMJJ\_n},
+\end{center}
+
+où \texttt{AAAA}, \texttt{MM} et \texttt{JJ} correspondent respectivement à
+l'année, au mois et au jour de l'enregistrement, tandis que \texttt{n} désigne
+le numéro de la vidéo enregistrée ce jour-là. Par exemple, le nom
+\texttt{20230302\_1} désigne la première vidéo enregistrée le 2 mars 2023.
+
+Les images utilisées pendant le stage étaient extraites automatiquement de ces
+vidéos au moyen d'un script Python. Le script parcourait chaque vidéo et
+enregistrait des images à intervalles réguliers. Les dossiers d'images ainsi
+obtenus constituaient les données d'entrée de l'interface de détection et
+d'identification.
+
+La fréquence d'extraction n'était pas nécessairement identique pour toutes les
+vidéos. Lorsqu'un dossier contenait trop peu d'images exploitables, le paramètre
+contrôlant le nombre d'images extraites par seconde était augmenté. Cette
+adaptation permettait d'enrichir le jeu de données tout en conservant une
+couverture temporelle suffisante de la vidéo.
+
+% ---------------------------------------------------------------------
 \section{Organisation et préparation des données}
+% ---------------------------------------------------------------------
 
-Les prédictions du modèle sont stockées au format JSON, selon une structure proche
-du format COCO, organisée en trois blocs :
+Pour chaque vidéo, les images extraites étaient regroupées dans un dossier
+portant un nom permettant de conserver le lien avec l'enregistrement d'origine.
+Les noms des images contenaient également le nom de la vidéo et le numéro de la
+frame extraite. Un nom tel que
+
+\begin{center}
+    \texttt{20230330\_9\_...\_frame\_000035.jpg}
+\end{center}
+
+permet ainsi d'identifier la vidéo source et la position de l'image dans la
+séquence.
+
+Après la sélection des images, le dossier correspondant était compressé au
+format ZIP afin d'être chargé dans l'interface de prédiction. Cette interface,
+développée dans le cadre du projet, était lancée depuis le terminal à l'aide
+d'une série de commandes spécifiques.
+
+Trois éléments principaux devaient être fournis lors du lancement :
+
 \begin{itemize}
-    \item \texttt{images} : une entrée par frame vidéo (identifiant, nom de fichier,
-    dimensions) ;
-    \item \texttt{annotations} : une entrée par détection, contenant les coordonnées
-    de la boîte englobante (\texttt{bbox}), l'identifiant de \emph{track}
-    (\texttt{track\_id}), le score de confiance de la meilleure prédiction
-    (\texttt{confidence}), l'identité retenue (\texttt{category\_id},
-    \texttt{category\_name}), ainsi que le détail des cinq identités les plus
-    probables et leurs scores respectifs (\texttt{extended\_classification},
-    top1 à top5) ;
-    \item \texttt{categories} : la liste des individus connus de la population
-    étudiée (43 individus recensés dans l'exemple ci-dessous).
+    \item le fichier \texttt{detector.pt}, correspondant au modèle chargé de
+    détecter les visages de macaques ;
+    \item le fichier \texttt{identificator.pt}, correspondant au modèle chargé
+    d'attribuer une identité à chaque visage détecté ;
+    \item le dossier d'images compressé au format ZIP.
 \end{itemize}
 
-Un fichier JSON de ce type est généré par vidéo traitée. À titre d'illustration, un
-fichier correspondant à une vidéo de la population de Koshima contient :
+Le premier modèle localisait les visages présents dans les images à l'aide de
+boîtes englobantes. Le second associait ensuite à chaque détection une identité
+parmi les individus connus de la population de Koshima.
+
+À l'issue du traitement, les résultats étaient enregistrés dans un fichier JSON
+dont la structure est proche du format COCO. Ce fichier est organisé en trois
+blocs principaux :
+
 \begin{itemize}
-    \item 68\,332 frames et 46\,647 détections (soit en moyenne 0,68 détection par
-    frame, la plupart des frames ne contenant pas ou un seul individu détecté) ;
-    \item 1\,270 \emph{tracks} distincts, de taille très variable (médiane : 11
-    frames, maximum : 1\,171 frames) ;
-    \item une confiance moyenne de la meilleure prédiction de 0,750
-    (écart-type : 0,092) ;
-    \item une forte hétérogénéité du nombre de détections par individu, allant de
-    26 (individu le moins représenté) à 2\,670 (individu le plus représenté) ;
-    \item une proportion notable de détections ambiguës : dans 29,6\% des cas,
-    l'écart de score entre la première et la deuxième identité proposée est
-    inférieur à 0,1, signe d'une identification incertaine du modèle.
+    \item \texttt{images} : une entrée par image, contenant notamment son
+    identifiant, son nom de fichier, sa hauteur et sa largeur ;
+
+    \item \texttt{annotations} : une entrée par détection, contenant
+    l'identifiant de l'image, les coordonnées de la boîte englobante
+    (\texttt{bbox}), le score de confiance de la détection
+    (\texttt{confidence}), l'identité retenue
+    (\texttt{category\_id} et \texttt{category\_name}) et, lorsqu'elles sont
+    disponibles, les informations de suivi temporel telles que
+    \texttt{track\_id} ;
+
+    \item \texttt{categories} : la liste des identités pouvant être attribuées
+    aux détections.
 \end{itemize}
 
-\emph{Remarque méthodologique} : ce fichier ne contient pas de champ distinguant
-explicitement une identité \emph{corrigée manuellement} d'une identité simplement
-\emph{prédite par le modèle} -- \texttt{category\_name} correspond dans tous les cas
-observés à la première proposition (\emph{top1}) de \texttt{extended\_classification}.
-Une clarification reste nécessaire pour déterminer si les fichiers disponibles
-correspondent aux prédictions avant ou après le ré-entraînement du modèle sur les
-données corrigées de Koshima ; cette question est discutée en
-section~\ref{sec:limites}.
+Une boîte englobante est enregistrée sous la forme
 
-Les vidéos sont par ailleurs numérisées en une séquence de frames à intervalle
-régulier (échantillonnage temporel), chaque frame étant redimensionnée à une
-résolution fixe avant d'être présentée en entrée du réseau.
-% TODO : compléter avec les paramètres exacts (fréquence d'échantillonnage,
-% résolution, normalisation des pixels) une fois confirmés
+\begin{equation}
+    \texttt{bbox}=[x,y,w,h],
+\end{equation}
 
-\section{Nettoyage et annotation des images}
-% TODO :
-% - protocole d'annotation et de correction manuelle via l'interface
-% - critères de nettoyage (images floues, individus non identifiables même
-%   manuellement, détections dupliquées, frames sans détection exploitable)
+où $(x,y)$ représente le coin supérieur gauche de la boîte, $w$ sa largeur et
+$h$ sa hauteur, en pixels.
 
-\section{Correction et validation des détections}
+Pour chaque détection, le champ
+\texttt{extended\_classification} contient également les cinq identités jugées
+les plus probables par le modèle, notées \texttt{top1} à \texttt{top5}, ainsi
+que leurs scores respectifs. Ces informations permettent de visualiser le degré
+d'incertitude du modèle et de vérifier si l'identité réelle figure parmi les
+premières propositions.
 
-Afin d'évaluer objectivement la qualité des identifications produites par le
-modèle, un échantillon d'images est relu manuellement : pour chaque image de
-l'échantillon, l'identité réelle de l'individu est reportée dans un tableau, en
-regard de l'identité prédite par le modèle. Ce tableau constitue la \textbf{vérité
-terrain} nécessaire au calcul des métriques d'évaluation présentées au
-chapitre~\ref{chap:methode}, section~\ref{sec:eval-theorie}, et appliquées au
+Dans le fichier fourni à titre d'exemple, les images ont une résolution de
+$640 \times 360$ pixels. Le bloc \texttt{categories} contient 42 identités de
+macaques, numérotées de 0 à 41.
+
+Le fichier JSON comprend par ailleurs un champ \texttt{proximity}, initialement
+vide dans les annotations examinées. Ce champ est destiné à recevoir, dans une
+étape ultérieure du pipeline, les informations relatives aux individus estimés
+proches de l'individu détecté. Le calcul de cette proximité est présenté au
 chapitre~\ref{chap:proximite}.
-% TODO : décrire concrètement la construction de ce tableau (nombre d'images
-% relues, méthode d'échantillonnage, répartition entre les deux annotateurs)
 
+% ---------------------------------------------------------------------
+\section{Nettoyage et annotation des images}
+% ---------------------------------------------------------------------
+
+Avant leur utilisation dans l'interface, les dossiers d'images faisaient
+l'objet d'un nettoyage manuel. Cette étape avait pour objectif d'améliorer la
+qualité et la représentativité du jeu de données utilisé pour l'identification
+des macaques.
+
+Les images trop floues étaient supprimées lorsque le visage de l'individu ne
+pouvait pas être identifié de manière suffisamment fiable. Une image de mauvaise
+qualité peut en effet conduire à une annotation incertaine et introduire du
+bruit dans le jeu de données d'entraînement.
+
+Les images fortement répétitives étaient également retirées. Lorsque plusieurs
+frames consécutives représentaient presque exactement la même scène et le même
+individu sous un angle identique, leur conservation apportait peu d'information
+nouvelle. Elle pouvait en revanche accentuer artificiellement la représentation
+de certaines situations ou de certains individus dans le jeu de données.
+
+Le nettoyage devait toutefois rester compatible avec la nécessité de disposer
+d'un nombre suffisant d'exemples pour chaque individu. Lorsqu'un dossier
+contenait trop peu d'images après suppression des frames floues ou redondantes,
+la fréquence d'extraction du script Python était augmentée, puis les images
+étaient générées de nouveau à partir de la vidéo.
+
+Le dossier nettoyé était ensuite compressé et chargé dans l'interface avec les
+deux modèles \texttt{detector.pt} et \texttt{identificator.pt}. L'interface
+affichait les boîtes englobantes proposées par le détecteur ainsi que l'identité
+considérée comme la plus probable par le modèle d'identification.
+
+Cette première sortie constituait une préannotation automatique. Elle réduisait
+le temps nécessaire à l'annotation, mais ne pouvait pas être utilisée sans
+contrôle humain, car le modèle pouvait omettre un visage, détecter un élément ne
+correspondant pas à un macaque ou attribuer une identité incorrecte.
+
+% ---------------------------------------------------------------------
+\section{Correction et validation des détections}
+% ---------------------------------------------------------------------
+
+Chaque prédiction était examinée manuellement dans l'interface. Plusieurs types
+de corrections pouvaient être réalisés.
+
+Lorsqu'un visage de macaque était visible dans l'image mais n'avait pas été
+détecté par le modèle, une nouvelle boîte englobante pouvait être ajoutée
+manuellement autour du visage. Cette situation correspond à une détection
+manquée par le modèle.
+
+À l'inverse, lorsqu'une boîte englobante ne correspondait pas réellement à un
+visage de macaque, la fausse détection pouvait être supprimée.
+
+Enfin, lorsque la boîte était correctement positionnée mais que l'identité
+proposée en première position par le modèle était incorrecte, le nom de
+l'individu pouvait être modifié manuellement. Les cinq propositions affichées
+par le modèle facilitaient parfois cette correction lorsque l'identité réelle
+figurait parmi les propositions secondaires.
+
+Les corrections réalisées dans l'interface étaient ensuite enregistrées. Cette
+opération générait un fichier \texttt{coco\_annotations.json} dans un répertoire
+de travail nommé \texttt{workdir}. Le fichier produit conservait les
+informations relatives aux images, aux boîtes englobantes et aux identités
+validées.
+
+Le fichier JSON était ensuite déplacé dans le dossier correspondant aux images
+traitées. Cette organisation permettait de conserver ensemble les données
+visuelles et leurs annotations, et donc de retrouver facilement les
+annotations associées à chaque lot d'images.
+
+Avant le traitement d'un nouveau dossier, le contenu du répertoire
+\texttt{workdir} devait être supprimé. Cette précaution évitait de mélanger les
+fichiers générés lors de deux traitements différents ou d'associer par erreur
+un fichier JSON au mauvais dossier d'images.
+
+Les fichiers JSON corrigés avaient ainsi deux fonctions principales. D'une
+part, ils constituaient un jeu d'annotations validées pouvant être réutilisé
+pour l'entraînement ou le réentraînement des modèles. D'autre part, ils
+fournissaient les informations nécessaires aux étapes suivantes du pipeline,
+notamment les identités et les coordonnées des boîtes englobantes utilisées
+pour calculer la proximité entre individus.
+
+Pour évaluer la qualité des identifications produites par le modèle, les
+identités prédites pouvaient également être comparées aux identités validées
+manuellement. Pour chaque observation, l'identité réelle et l'identité prédite
+étaient reportées dans un tableau de comparaison. Ce tableau constitue la
+vérité terrain nécessaire au calcul de la matrice de confusion et des métriques
+présentées au chapitre~\ref{chap:methode},
+section~\ref{sec:eval-theorie}.
+
+Les résultats numériques de cette évaluation sont présentés au
+chapitre~\ref{chap:proximite}, section~\ref{sec:eval-application}. Les
+annotations corrigées sont quant à elles utilisées comme données d'entrée du
+programme Python chargé d'extraire les coordonnées, de consolider les identités
+et de construire la matrice de proximité sociale.
 
 % =====================================================================
 % CHAPITRE 3 — CONSTRUCTION DES MATRICES DE PROXIMITÉ SOCIALE

@@ -22,35 +22,35 @@
 \contentsline {section}{\numberline {1.4}Application du modèle YOLO au projet}{9}{section.1.4}%
 \contentsline {chapter}{\numberline {2}Données et prétraitement}{10}{chapter.2}%
 \contentsline {section}{\numberline {2.1}Présentation et acquisition des données}{10}{section.2.1}%
-\contentsline {section}{\numberline {2.2}Organisation et préparation des données}{10}{section.2.2}%
+\contentsline {section}{\numberline {2.2}Organisation et préparation des données}{11}{section.2.2}%
 \contentsline {section}{\numberline {2.3}Nettoyage et annotation des images}{11}{section.2.3}%
-\contentsline {section}{\numberline {2.4}Correction et validation des détections}{11}{section.2.4}%
-\contentsline {chapter}{\numberline {3}Construction des matrices de proximité sociale}{12}{chapter.3}%
-\contentsline {section}{\numberline {3.1}Détection des individus et évaluation des résultats}{12}{section.3.1}%
-\contentsline {paragraph}{Consolidation de l'identité par \emph {track.}}{12}{section*.23}%
-\contentsline {paragraph}{Résultats d'évaluation.}{12}{section*.24}%
-\contentsline {section}{\numberline {3.2}Extraction des coordonnées et calcul des distances}{12}{section.3.2}%
-\contentsline {section}{\numberline {3.3}Construction de la matrice de proximité sociale à partir des détections}{13}{section.3.3}%
-\contentsline {paragraph}{Agrégation frame vers vidéo.}{13}{section*.25}%
-\contentsline {paragraph}{Agrégation vidéo vers matrice globale.}{13}{section*.26}%
-\contentsline {paragraph}{Propriétés de la matrice obtenue.}{13}{section*.27}%
-\contentsline {section}{\numberline {3.4}Construction de la matrice de référence à partir des observations de terrain}{13}{section.3.4}%
-\contentsline {chapter}{\numberline {4}Comparaison statistique des matrices}{15}{chapter.4}%
-\contentsline {section}{\numberline {4.1}Méthodologie de comparaison des matrices}{15}{section.4.1}%
-\contentsline {section}{\numberline {4.2}Présentation théorique du test de Mantel}{15}{section.4.2}%
-\contentsline {paragraph}{Statistique de test.}{15}{section*.28}%
-\contentsline {paragraph}{Hypothèse nulle et test par permutation.}{15}{section*.29}%
-\contentsline {section}{\numberline {4.3}Application du test de Mantel et résultats}{15}{section.4.3}%
-\contentsline {paragraph}{Vérification des conditions d'application.}{15}{section*.30}%
-\contentsline {paragraph}{Résultats obtenus.}{16}{section*.31}%
-\contentsline {section}{\numberline {4.4}Interprétation des résultats}{16}{section.4.4}%
-\contentsline {chapter}{\numberline {5}Discussion et perspectives}{17}{chapter.5}%
-\contentsline {section}{\numberline {5.1}Discussion des résultats}{17}{section.5.1}%
-\contentsline {section}{\numberline {5.2}Limites et conditions d'application des méthodes}{17}{section.5.2}%
-\contentsline {section}{\numberline {5.3}Perspectives d'amélioration}{17}{section.5.3}%
-\contentsline {chapter}{Conclusion générale}{18}{chapter*.32}%
-\contentsline {chapter}{Bibliographie}{18}{chapter*.32}%
-\contentsline {chapter}{\numberline {A}Annexes}{19}{appendix.A}%
-\contentsline {section}{\numberline {A.1}Extraits de code}{19}{section.A.1}%
-\contentsline {section}{\numberline {A.2}Figures complémentaires}{19}{section.A.2}%
-\contentsline {section}{\numberline {A.3}Tableaux complémentaires}{19}{section.A.3}%
+\contentsline {section}{\numberline {2.4}Correction et validation des détections}{12}{section.2.4}%
+\contentsline {chapter}{\numberline {3}Construction des matrices de proximité sociale}{14}{chapter.3}%
+\contentsline {section}{\numberline {3.1}Détection des individus et évaluation des résultats}{14}{section.3.1}%
+\contentsline {paragraph}{Consolidation de l'identité par \emph {track.}}{14}{section*.23}%
+\contentsline {paragraph}{Résultats d'évaluation.}{14}{section*.24}%
+\contentsline {section}{\numberline {3.2}Extraction des coordonnées et calcul des distances}{14}{section.3.2}%
+\contentsline {section}{\numberline {3.3}Construction de la matrice de proximité sociale à partir des détections}{15}{section.3.3}%
+\contentsline {paragraph}{Agrégation frame vers vidéo.}{15}{section*.25}%
+\contentsline {paragraph}{Agrégation vidéo vers matrice globale.}{15}{section*.26}%
+\contentsline {paragraph}{Propriétés de la matrice obtenue.}{15}{section*.27}%
+\contentsline {section}{\numberline {3.4}Construction de la matrice de référence à partir des observations de terrain}{15}{section.3.4}%
+\contentsline {chapter}{\numberline {4}Comparaison statistique des matrices}{17}{chapter.4}%
+\contentsline {section}{\numberline {4.1}Méthodologie de comparaison des matrices}{17}{section.4.1}%
+\contentsline {section}{\numberline {4.2}Présentation théorique du test de Mantel}{17}{section.4.2}%
+\contentsline {paragraph}{Statistique de test.}{17}{section*.28}%
+\contentsline {paragraph}{Hypothèse nulle et test par permutation.}{17}{section*.29}%
+\contentsline {section}{\numberline {4.3}Application du test de Mantel et résultats}{17}{section.4.3}%
+\contentsline {paragraph}{Vérification des conditions d'application.}{17}{section*.30}%
+\contentsline {paragraph}{Résultats obtenus.}{18}{section*.31}%
+\contentsline {section}{\numberline {4.4}Interprétation des résultats}{18}{section.4.4}%
+\contentsline {chapter}{\numberline {5}Discussion et perspectives}{19}{chapter.5}%
+\contentsline {section}{\numberline {5.1}Discussion des résultats}{19}{section.5.1}%
+\contentsline {section}{\numberline {5.2}Limites et conditions d'application des méthodes}{19}{section.5.2}%
+\contentsline {section}{\numberline {5.3}Perspectives d'amélioration}{19}{section.5.3}%
+\contentsline {chapter}{Conclusion générale}{20}{chapter*.32}%
+\contentsline {chapter}{Bibliographie}{20}{chapter*.32}%
+\contentsline {chapter}{\numberline {A}Annexes}{21}{appendix.A}%
+\contentsline {section}{\numberline {A.1}Extraits de code}{21}{section.A.1}%
+\contentsline {section}{\numberline {A.2}Figures complémentaires}{21}{section.A.2}%
+\contentsline {section}{\numberline {A.3}Tableaux complémentaires}{21}{section.A.3}%

@@ -1,4 +1,4 @@
-This is pdfTeX, Version 3.141592653-2.6-1.40.28 (MiKTeX 25.12) (preloaded format=pdflatex 2026.7.20)  27 JUL 2026 16:00
+This is pdfTeX, Version 3.141592653-2.6-1.40.28 (MiKTeX 25.12) (preloaded format=pdflatex 2026.7.20)  29 JUL 2026 00:50
 entering extended mode
  restricted \write18 enabled.
  file:line:error style messages enabled.
@@ -605,8 +605,8 @@ Package fancyhdr Warning: \headheight is too small (12.0pt):
 [9]
 Chapitre 2.
 
-Overfull \hbox (16.5601pt too wide) in paragraph at lines 721--729
-\T1/cmr/m/n/10.95 cor-res-pond dans tous les cas ob-ser-v�s � la pre-mi�re pro-po-si-tion (\T1/cmr/m/it/10.95 top1\T1/cmr/m/n/10.95 ) de \T1/cmtt/m/n/10.95 extended_classification\T1/cmr/m/n/10.95 .
+Overfull \hbox (3.30948pt too wide) in paragraph at lines 727--732
+\T1/cmr/m/n/10.95 qu'un dos-sier conte-nait trop peu d'images ex-ploi-tables, le pa-ra-m�tre contr�-lant le nombre d'images
  []
 
 [10
@@ -620,10 +620,14 @@ Package fancyhdr Warning: \headheight is too small (12.0pt):
 (fancyhdr)                \addtolength{\topmargin}{-1.59999pt}.
 
 [11]
-Chapitre 3.
-[12
 
-]
+Package fancyhdr Warning: \headheight is too small (12.0pt): 
+(fancyhdr)                Make it at least 13.59999pt, for example:
+(fancyhdr)                \setlength{\headheight}{13.59999pt}.
+(fancyhdr)                You might also make \topmargin smaller:
+(fancyhdr)                \addtolength{\topmargin}{-1.59999pt}.
+
+[12]
 
 Package fancyhdr Warning: \headheight is too small (12.0pt): 
 (fancyhdr)                Make it at least 13.59999pt, for example:
@@ -632,6 +636,10 @@ Package fancyhdr Warning: \headheight is too small (12.0pt):
 (fancyhdr)                \addtolength{\topmargin}{-1.59999pt}.
 
 [13]
+Chapitre 3.
+[14
+
+]
 
 Package fancyhdr Warning: \headheight is too small (12.0pt): 
 (fancyhdr)                Make it at least 13.59999pt, for example:
@@ -639,14 +647,7 @@ Package fancyhdr Warning: \headheight is too small (12.0pt):
 (fancyhdr)                You might also make \topmargin smaller:
 (fancyhdr)                \addtolength{\topmargin}{-1.59999pt}.
 
-[14]
-Chapitre 4.
-
-Package natbib Warning: Citation `mantel1967' on page 15 undefined on input line 905.
-
-[15
-
-]
+[15]
 
 Package fancyhdr Warning: \headheight is too small (12.0pt): 
 (fancyhdr)                Make it at least 13.59999pt, for example:
@@ -655,19 +656,34 @@ Package fancyhdr Warning: \headheight is too small (12.0pt):
 (fancyhdr)                \addtolength{\topmargin}{-1.59999pt}.
 
 [16]
-Chapitre 5.
+Chapitre 4.
+
+Package natbib Warning: Citation `mantel1967' on page 17 undefined on input line 1058.
+
 [17
 
 ]
+
+Package fancyhdr Warning: \headheight is too small (12.0pt): 
+(fancyhdr)                Make it at least 13.59999pt, for example:
+(fancyhdr)                \setlength{\headheight}{13.59999pt}.
+(fancyhdr)                You might also make \topmargin smaller:
+(fancyhdr)                \addtolength{\topmargin}{-1.59999pt}.
+
+[18]
+Chapitre 5.
+[19
+
+]
 No file version2rapport.bbl.
-[18
+[20
 
 ]
 Annexe A.
 
 Package natbib Warning: There were undefined citations.
 
-[19
+[21
 
 ] (version2rapport.aux)
  ***********
@@ -678,17 +694,17 @@ Package rerunfilecheck Info: File `version2rapport.out' has not changed.
 (rerunfilecheck)             Checksum: 89728369F8BBEBD298ADD82E7F96B735;7898.
  ) 
 Here is how much of TeX's memory you used:
- 16838 strings out of 467870
- 265441 string characters out of 5417871
+ 16844 strings out of 467870
+ 265501 string characters out of 5417871
  930462 words of memory out of 5000000
- 45378 multiletter control sequences out of 15000+600000
- 649362 words of font info for 93 fonts, out of 8000000 for 9000
+ 45380 multiletter control sequences out of 15000+600000
+ 649988 words of font info for 95 fonts, out of 8000000 for 9000
  1141 hyphenation exceptions out of 8191
  75i,12n,79p,595b,1275s stack positions out of 10000i,1000n,20000p,200000b,200000s
  <C:\Users\Elève\AppData\Local\MiKTeX\fonts/pk/ljfour/jknappen/ec/dpi600\ectt1000.pk> <C:\Users\Elève\AppData\Local\MiKTeX\fonts/pk/ljfour/jknappen/ec/dpi600\ecrm0600.pk> <C:\Users\Elève\AppData\Local\MiKTeX\fonts/pk/ljfour/jknappen/ec/dpi600\ecrm0800.pk> <C:\Users\Elève\AppData\Local\MiKTeX\fonts/pk/ljfour/jknappen/ec/dpi600\ecbi1095.pk> <C:\Users\Elève\AppData\Local\MiKTeX\fonts/pk/ljfour/jknappen/ec/dpi600\ectt1095.pk> <C:\Users\Elève\AppData\Local\MiKTeX\fonts/pk/ljfour/jknappen/ec/dpi600\ecbx2074.pk> <C:\Users\Elève\AppData\Local\MiKTeX\fonts/pk/ljfour/jknappen/ec/dpi600\ecti1095.pk> <C:\Users\Elève\AppData\Local\MiKTeX\fonts/pk/ljfour/jknappen/ec/dpi600\ecbx1440.pk> <C:\Users\Elève\AppData\Local\MiKTeX\fonts/pk/ljfour/jknappen/ec/dpi600\ecrm1095.pk> <C:\Users\Elève\AppData\Local\MiKTeX\fonts/pk/ljfour/jknappen/ec/dpi600\ecbx1095.pk> <C:\Users\Elève\AppData\Local\MiKTeX\fonts/pk/ljfour/jknappen/ec/dpi600\ecbx2488.pk> <C:\Users\Elève\AppData\Local\MiKTeX\fonts/pk/ljfour/jknappen/ec/dpi600\ecrm1200.pk> <C:\Users\Elève\AppData\Local\MiKTeX\fonts/pk/ljfour/jknappen/ec/dpi600\ecrm1440.pk><C:/Users/Elève/AppData/Local/Programs/MiKTeX/fonts/type1/public/amsfonts/cm/cmex10.pfb><C:/Users/Elève/AppData/Local/Programs/MiKTeX/fonts/type1/public/amsfonts/cm/cmmi10.pfb><C:/Users/Elève/AppData/Local/Programs/MiKTeX/fonts/type1/public/amsfonts/cm/cmmi6.pfb><C:/Users/Elève/AppData/Local/Programs/MiKTeX/fonts/type1/public/amsfonts/cm/cmmi8.pfb><C:/Users/Elève/AppData/Local/Programs/MiKTeX/fonts/type1/public/amsfonts/cm/cmmib10.pfb><C:/Users/Elève/AppData/Local/Programs/MiKTeX/fonts/type1/public/amsfonts/cm/cmr10.pfb><C:/Users/Elève/AppData/Local/Programs/MiKTeX/fonts/type1/public/amsfonts/cm/cmr8.pfb><C:/Users/Elève/AppData/Local/Programs/MiKTeX/fonts/type1/public/amsfonts/cm/cmsy10.pfb><C:/Users/Elève/AppData/Local/Programs/MiKTeX/fonts/type1/public/amsfonts/cm/cmsy8.pfb>
-Output written on version2rapport.pdf (20 pages, 338778 bytes).
+Output written on version2rapport.pdf (22 pages, 348453 bytes).
 PDF statistics:
- 850 PDF objects out of 1000 (max. 8388607)
- 123 named destinations out of 1000 (max. 500000)
+ 867 PDF objects out of 1000 (max. 8388607)
+ 126 named destinations out of 1000 (max. 500000)
  249 words of extra memory for PDF output out of 10000 (max. 10000000)
 
