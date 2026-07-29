@@ -908,36 +908,130 @@ et de construire la matrice de proximité sociale.
 % =====================================================================
 % CHAPITRE 3 — CONSTRUCTION DES MATRICES DE PROXIMITÉ SOCIALE
 % =====================================================================
-\chapter{Construction des matrices de proximité sociale}
-\label{chap:proximite}
+%=====================================================================
+\section{Construction des observations individuelles}
+\label{sec:construction_observations}
+%=====================================================================
+
+Les annotations corrigées présentées au chapitre précédent constituent les
+données d'entrée de l'analyse de proximité. Chaque annotation correspond à une
+détection d'un individu dans une image et est caractérisée par sa localisation,
+son identité prédite ainsi qu'un ensemble d'informations permettant son suivi
+dans la séquence vidéo.
+
+Mathématiquement, une observation peut être représentée par le vecteur
+
+\begin{equation}
+o_i=
+\left(
+x_i,
+y_i,
+w_i,
+h_i,
+c_i,
+t_i,
+s_i
+\right),
+\end{equation}
+
+où $(x_i,y_i)$ désigne les coordonnées du coin supérieur gauche de la boîte
+englobante, $w_i$ et $h_i$ sa largeur et sa hauteur, $c_i$ l'identité attribuée
+par le modèle, $t_i$ le numéro du \emph{track} auquel appartient la détection et
+$s_i$ le score de confiance associé à cette prédiction.
+
+Les observations correspondant à un même individu apparaissant dans plusieurs
+images successives ne sont pas considérées comme indépendantes. Elles sont
+regroupées en \emph{tracks}, c'est-à-dire en séquences temporelles décrivant le
+suivi d'un même individu au cours d'une portion de vidéo. Cette étape permet
+d'exploiter l'information temporelle afin d'obtenir une estimation plus robuste
+de l'identité que celle obtenue à partir d'une unique image.
+
+\subsection*{Consolidation des identités}
+
+Pour chaque observation, le modèle d'identification ne fournit pas uniquement
+une identité unique, mais les cinq identités les plus probables accompagnées de
+leurs probabilités respectives. Pour un track donné, ces informations sont
+agrégées sur l'ensemble des images composant le suivi.
+
+Soit $t$ un track constitué de $n_t$ observations. Pour chaque individu
+candidat $k$, on définit le score cumulé
+
+\begin{equation}
+S_t(k)
+=
+\sum_{i\in t}
+p_i(k),
+\end{equation}
+
+où $p_i(k)$ représente le score attribué à l'identité $k$ pour l'observation
+$i$.
+
+L'identité retenue est celle maximisant cette quantité,
+
+\begin{equation}
+\widehat c_t
+=
+\arg\max_k S_t(k).
+\end{equation}
+
+Contrairement à une décision indépendante prise image par image, cette
+agrégation permet de réduire l'influence d'erreurs ponctuelles dues à une
+occlusion, un flou de mouvement ou une mauvaise orientation du visage. Une
+identité faiblement prédite sur quelques images peut ainsi être compensée par
+des prédictions plus fiables obtenues sur les autres images du même track.
+
+Afin d'éviter l'utilisation de suivis trop incertains, deux critères de
+validation sont appliqués.
+
+Le premier repose sur le support relatif de l'identité majoritaire
+
+\begin{equation}
+\text{Support}(t)
+=
+\frac{\displaystyle
+\max_k S_t(k)}
+{\displaystyle
+\sum_k S_t(k)}.
+\end{equation}
+
+Le track n'est conservé que si
+
+\begin{equation}
+\text{Support}(t)\geq0.60.
+\end{equation}
+
+Autrement dit, l'identité retenue doit représenter au moins 60\,\% du score
+total cumulé des différentes identités proposées.
+
+Le second critère impose qu'un track comporte au minimum trois observations.
+Cette contrainte évite de prendre une décision sur la base d'une ou deux images
+isolées, pour lesquelles la variabilité des prédictions est plus importante. Les
+paramètres effectivement utilisés lors des analyses sont un support minimal de
+0,60 et un minimum de trois observations par track. :contentReference[oaicite:0]{index=0}
+
+Ces deux critères permettent de privilégier la fiabilité des identifications
+plutôt que leur quantité. Les tracks ne satisfaisant pas ces conditions sont
+écartés des étapes suivantes de l'analyse afin de limiter la propagation
+d'erreurs vers le calcul des proximités entre individus.
+
+\subsection*{Résultats de la consolidation}
+
+L'application de cette procédure aux quatre fichiers JSON analysés conduit à la
+construction de 4\,339 tracks au total. Parmi eux, 1\,014 satisfont les critères
+de validation et sont conservés pour la suite de l'analyse, tandis que
+3\,325 sont rejetés en raison d'un support insuffisant ou d'un nombre
+d'observations trop faible.
+
+Ce filtrage volontairement conservateur permet de limiter les erreurs
+d'identification susceptibles d'affecter la construction de la matrice de
+proximité sociale. La qualité des observations retenues est privilégiée au
+nombre total de détections, afin que les distances calculées entre individus
+reposent sur des identités les plus fiables possible.
 
 \section{Détection des individus et évaluation des résultats}
 \label{sec:eval-application}
 
-\paragraph{Consolidation de l'identité par \emph{track.}}
 
-Les détections ne sont pas traitées indépendamment image par image : elles sont
-regroupées en \emph{tracks}, c'est-à-dire des séquences de détections correspondant à
-un même individu suivi sur plusieurs frames consécutives. Pour un track $t$, on cumule
-sur toutes ses frames les scores de confiance associés à chaque identité candidate $k$ :
-\begin{equation}
-    S_t(k) = \sum_{\text{frame } f \,\in\, t} \text{score}_f(k).
-\end{equation}
-L'identité retenue pour le track est celle qui maximise ce score cumulé, sous deux
-conditions de fiabilité :
-\begin{itemize}
-    \item un support relatif suffisant, $\dfrac{\max_k S_t(k)}{\sum_k S_t(k)} \geq \tau_{\text{support}}$
-    (seuil par défaut : $60\%$) ;
-    \item un nombre minimal de frames dans le track (par défaut : 3).
-\end{itemize}
-Cette consolidation par vote pondéré agrégé rend l'identification plus robuste qu'une
-décision frame par frame, chaque frame individuelle pouvant être bruitée.
-
-\paragraph{Résultats d'évaluation.}
-% TODO : appliquer les formules du chapitre 1 (matrice de confusion, précision,
-% rappel, exactitude) aux données du tableau de vérité terrain construit au
-% chapitre 2 ; présenter et critiquer les valeurs obtenues (bonnes ou mauvaises),
-% comparer si possible avant/après ré-entraînement
 
 \section{Extraction des coordonnées et calcul des distances}
 
