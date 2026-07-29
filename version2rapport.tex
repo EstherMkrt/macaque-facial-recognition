@@ -1194,68 +1194,160 @@ un effet de perspective. Seules les paires satisfaisant simultanément ces deux
 conditions sont retenues pour la construction de la matrice de proximité
 sociale. :contentReference[oaicite:1]{index=1}
 
+%=====================================================================
+\section{Construction de la matrice de proximité sociale}
+\label{sec:construction_matrice}
+%=====================================================================
 
-\section{Construction de la matrice de proximité sociale à partir des détections}
+Les critères de proximité définis à la section précédente permettent de
+déterminer, pour chaque image, si deux individus sont considérés comme proches
+ou non. L'objectif est maintenant d'agréger ces observations afin d'obtenir une
+mesure globale de la proximité sociale entre chaque paire d'individus.
 
-\paragraph{Agrégation frame vers vidéo.}
+Cette construction est réalisée en deux étapes. Dans un premier temps, un score
+de proximité est calculé indépendamment pour chaque vidéo. Dans un second temps,
+ces scores sont combinés afin d'obtenir une matrice unique décrivant l'ensemble
+des relations de proximité observées dans les données.
 
-Pour chaque vidéo $v$ et chaque paire $(a,b)$ co-détectée, on calcule la proportion de
-frames où la paire est proche :
+\subsection*{Calcul d'un score de proximité par vidéo}
+
+Considérons une vidéo $v$ et deux individus $a$ et $b$. Les deux individus ne
+sont pas nécessairement visibles dans toutes les images de la vidéo. Seules les
+images dans lesquelles ils sont simultanément détectés et satisfont les critères
+de validité définis précédemment sont retenues.
+
+On note
+
+\begin{itemize}
+    \item $N_{\mathrm{co}}^{(v)}(a,b)$ le nombre de frames où les deux individus
+    sont simultanément observés ;
+    \item $N_{\mathrm{prox}}^{(v)}(a,b)$ le nombre de ces frames pour lesquelles
+    les deux individus sont considérés comme proches.
+\end{itemize}
+
+Le score de proximité associé à la vidéo $v$ est alors défini par
+
 \begin{equation}
-    \text{score}_v(a,b) = \frac{\text{nombre de frames "proches"}}{\text{nombre de frames co-détectées valides}}.
+S_v(a,b)
+=
+\frac{
+N_{\mathrm{prox}}^{(v)}(a,b)}
+{N_{\mathrm{co}}^{(v)}(a,b)}.
 \end{equation}
 
-\paragraph{Agrégation vidéo vers matrice globale.}
+Ce score correspond à la proportion d'observations où les deux individus sont
+en situation de proximité parmi toutes les observations où ils apparaissent
+ensemble.
 
-Les frames d'une même vidéo ne constituent pas des observations indépendantes : deux
-individus filmés proches pendant 30 secondes ne fournissent pas autant d'information
-que 900 observations indépendantes de proximité, mais plutôt une unique situation
-répétée à haute fréquence d'échantillonnage. Pour limiter le poids disproportionné des
-vidéos longues, chaque vidéo se voit attribuer un poids plafonné :
-\begin{equation}
-    w_v = \min(\text{nombre de frames co-détectées valides}_v, \; w_{\max}),
-\end{equation}
-avec $w_{\max} = 900$ par défaut (soit 30 secondes à 30 images/seconde).
+Par construction,
 
-La matrice de proximité globale $\hat{M}$ est alors une moyenne pondérée des scores
-vidéo :
 \begin{equation}
-    \hat{M}_{ab} = \frac{\displaystyle\sum_{v} w_v \cdot \text{score}_v(a,b)}{\displaystyle\sum_{v} w_v}.
+0\leq S_v(a,b)\leq1.
 \end{equation}
 
-\paragraph{Propriétés de la matrice obtenue.}
-% TODO : symétrie, valeurs manquantes (paires jamais co-détectées), diagonale, échelle [0,1]
+Une valeur proche de 1 indique que les deux individus sont presque toujours
+observés côte à côte lorsqu'ils apparaissent dans une même vidéo, tandis qu'une
+valeur proche de 0 traduit une faible proximité spatiale.
 
-\section{Construction de la matrice de référence à partir des observations de terrain}
+\subsection*{Agrégation des vidéos}
 
-La matrice de référence $M^*$ est construite à partir d'observations de terrain
-réalisées directement par des chercheurs, sur la même période temporelle que les
-vidéos utilisées pour le ré-entraînement du modèle. Contrairement à la matrice
-estimée $\hat{M}$, qui repose uniquement sur la fréquence de proximité spatiale
-détectée automatiquement, $M^*$ agrège plusieurs dimensions du lien social observées
-sur le terrain : la fréquence de coprésence, les interactions de toilettage
-(\emph{grooming}), les relations de dominance, ainsi que les liens de parenté entre
-individus. $M^*_{ab}$ traduit ainsi une intensité globale de proximité sociale entre
-les individus $a$ et $b$, au sens large.
+Les différentes vidéos disponibles ne possèdent pas toutes la même durée ni le
+même nombre d'observations exploitables. Une moyenne arithmétique simple
+attribuerait le même poids à une vidéo contenant seulement quelques dizaines
+d'observations qu'à une vidéo beaucoup plus riche en informations.
 
-Cette différence de nature entre les deux matrices doit être nuancée. La matrice
-estimée $\hat{M}$ ne mesure explicitement qu'une proximité spatiale ; elle ne
-distingue pas la nature du lien à l'origine de cette proximité. Cependant, les
-épisodes de grooming ou de jeu, qui impliquent par nature un contact ou une grande
-proximité physique entre les individus concernés, se traduisent directement par des
-scores de proximité élevés dans $\hat{M}$ : ces comportements sont donc captés
-\emph{indirectement} par la mesure spatiale, sans être reconnus ou différenciés en
-tant que tels. $\hat{M}$ ne peut en revanche pas distinguer une proximité spatiale
-« fortuite » (par exemple deux individus qui se nourrissent côte à côte sans
-interaction sociale particulière) d'une proximité liée à un comportement social
-significatif, ni capter des liens sociaux ne se traduisant pas par une coprésence
-spatiale fréquente (par exemple un lien de parenté entre deux individus qui se
-croisent rarement). La matrice de référence $M^*$, construite à partir
-d'observations de terrain intégrant explicitement la nature des interactions
-(grooming, dominance, parenté), permet cette distinction que $\hat{M}$ ne fait pas.
-Cette asymétrie doit être gardée à l'esprit dans l'interprétation de leur
-comparaison (cf. section~\ref{sec:limites}).
+Afin de tenir compte de cette hétérogénéité, chaque vidéo est pondérée en
+fonction du nombre de frames valides utilisées pour calculer son score.
 
+Le poids attribué à la vidéo $v$ est défini par
+
+\begin{equation}
+w_v
+=
+\min
+\left(
+N_{\mathrm{co}}^{(v)},
+w_{\max}
+\right),
+\end{equation}
+
+où $N_{\mathrm{co}}^{(v)}$ représente le nombre de codétections valides dans la
+vidéo et $w_{\max}$ un plafond fixé à 900 observations. Cette limitation évite
+qu'une vidéo très longue domine excessivement l'estimation finale. Les
+paramètres effectivement utilisés lors des analyses correspondent à
+$w_{\max}=900$. :contentReference[oaicite:0]{index=0}
+
+La matrice globale de proximité est ensuite obtenue par une moyenne pondérée des
+scores vidéo :
+
+\begin{equation}
+\widehat{M}_{ab}
+=
+\frac{
+\displaystyle\sum_v
+w_v\,S_v(a,b)}
+{
+\displaystyle\sum_v
+w_v
+}.
+\end{equation}
+
+Ainsi, les vidéos apportant davantage d'observations contribuent davantage à
+l'estimation, tout en restant limitées par le poids maximal autorisé.
+
+\subsection*{Interprétation statistique}
+
+Le coefficient $\widehat{M}_{ab}$ peut être interprété comme un estimateur
+empirique de la fréquence de proximité entre les individus $a$ et $b$ au sein de
+l'ensemble des vidéos analysées.
+
+Plus sa valeur est élevée, plus les deux individus sont observés à proximité
+l'un de l'autre de manière répétée. À l'inverse, une valeur faible indique que
+les situations de proximité sont rares malgré la présence simultanée des deux
+individus.
+
+Contrairement à une distance métrique, cette quantité mesure une intensité de
+proximité et non une séparation spatiale. Deux individus présentant une valeur
+élevée dans la matrice sont donc interprétés comme entretenant une relation de
+proximité plus fréquente.
+
+\subsection*{Propriétés de la matrice}
+
+La matrice $\widehat{M}$ possède plusieurs propriétés importantes.
+
+Tout d'abord, elle est symétrique :
+
+\begin{equation}
+\widehat{M}_{ab}
+=
+\widehat{M}_{ba},
+\end{equation}
+
+puisque la proximité entre les individus $a$ et $b$ est indépendante de l'ordre
+dans lequel ils sont considérés.
+
+Les coefficients appartiennent également à l'intervalle
+
+\begin{equation}
+0
+\leq
+\widehat{M}_{ab}
+\leq
+1,
+\end{equation}
+
+car ils résultent d'une moyenne pondérée de proportions, elles-mêmes comprises
+entre 0 et 1.
+
+Par ailleurs, les éléments diagonaux ne sont pas interprétés, puisqu'un individu
+est toujours situé à une distance nulle de lui-même. Enfin, certaines cases de
+la matrice peuvent être absentes lorsqu'une paire d'individus n'a jamais été
+simultanément observée dans les vidéos disponibles.
+
+La matrice ainsi obtenue constitue la synthèse quantitative des proximités
+détectées automatiquement à partir des séquences vidéo. Elle servira de base à
+la comparaison statistique avec la matrice issue des observations de terrain,
+présentée au chapitre suivant.
 
 % =====================================================================
 % CHAPITRE 4 — COMPARAISON STATISTIQUE DES MATRICES
