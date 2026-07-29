@@ -1028,46 +1028,172 @@ proximité sociale. La qualité des observations retenues est privilégiée au
 nombre total de détections, afin que les distances calculées entre individus
 reposent sur des identités les plus fiables possible.
 
-\section{Détection des individus et évaluation des résultats}
-\label{sec:eval-application}
 
-
-
+%=====================================================================
 \section{Extraction des coordonnées et calcul des distances}
+\label{sec:distances}
+%=====================================================================
 
-Pour deux individus $a$ et $b$ détectés dans une même frame, on note
-$(c_{x,a}, c_{y,a})$ et $(c_{x,b}, c_{y,b})$ les centres de leurs boîtes de détection
-respectives. La distance centre-centre s'écrit
+L'objectif de cette étape est de transformer les informations géométriques
+contenues dans les boîtes englobantes en une mesure quantitative de proximité
+entre individus. Chaque détection étant localisée par une boîte englobante, il
+est nécessaire de définir un représentant unique de sa position dans l'image
+avant de pouvoir calculer des distances entre individus.
+
+\subsection*{Position des individus}
+
+Une boîte englobante est décrite par les coordonnées de son coin supérieur
+gauche $(x,y)$ ainsi que par sa largeur $w$ et sa hauteur $h$. La position de
+l'individu est approchée par le centre de cette boîte, défini par
+
 \begin{equation}
-    d_{ab} = \sqrt{(c_{x,a}-c_{x,b})^2 + (c_{y,a}-c_{y,b})^2}.
+c_x=x+\frac{w}{2},
+\qquad
+c_y=y+\frac{h}{2}.
 \end{equation}
 
-Cette distance en pixels ne suffit pas à elle seule, car elle ne tient pas compte de la
-profondeur : un même écart en pixels peut correspondre à une grande distance réelle si
-les individus sont loin de la caméra, ou une faible distance s'ils en sont proches. La
-hauteur de la boîte de détection sert de proxy à l'échelle apparente de l'individu,
-corrigée d'un facteur $\alpha(\text{âge})$ (les individus jeunes, plus petits, sont
-sous-corrigés sinon) :
+Le centre de la boîte constitue une approximation simple de la position de
+l'individu dans le plan de l'image. Bien qu'il ne corresponde pas exactement au
+centre de gravité de l'animal, il présente l'avantage d'être directement
+déterminé à partir des sorties du détecteur et d'être calculable de manière
+identique pour toutes les observations.
+
+\subsection*{Distance euclidienne}
+
+Pour deux individus $a$ et $b$ détectés simultanément dans une même image, la
+distance entre leurs centres est calculée à l'aide de la distance euclidienne
+
 \begin{equation}
-    h^{\text{corr}} = h \times \alpha(\text{âge}).
-\end{equation}
-La distance normalisée est alors
-\begin{equation}
-    d_{ab}^{\text{norm}} = \frac{d_{ab}}{\max(h_a^{\text{corr}}, h_b^{\text{corr}})}.
+d_{ab}
+=
+\sqrt{
+(c_{x,a}-c_{x,b})^2+
+(c_{y,a}-c_{y,b})^2
+}.
 \end{equation}
 
-Un ratio de taille des aires corrigées sert de garde-fou contre les incompatibilités de
-profondeur :
-\begin{equation}
-    r_{ab} = \frac{\max(\text{aire}_a^{\text{corr}}, \text{aire}_b^{\text{corr}})}{\min(\text{aire}_a^{\text{corr}}, \text{aire}_b^{\text{corr}})}.
-\end{equation}
-Si $r_{ab}$ dépasse un seuil $\tau_{\text{ratio}}$, la paire est jugée trop incertaine
-en profondeur et exclue.
+Cette quantité mesure l'écart apparent entre les deux individus dans le plan de
+l'image. Cependant, elle dépend directement de la perspective de la caméra : une
+même distance physique peut produire des distances très différentes en pixels
+selon que les individus sont proches ou éloignés de l'objectif.
 
-La paire $(a,b)$ est déclarée \textbf{proche} dans la frame si
+Une normalisation est donc nécessaire afin de rendre comparables les distances
+calculées dans différentes situations d'observation.
+
+\subsection*{Normalisation par la taille apparente}
+
+La hauteur de la boîte englobante constitue un indicateur de l'échelle de
+l'individu dans l'image. Plus un individu est éloigné de la caméra, plus sa
+boîte apparaît petite. À l'inverse, un individu proche de la caméra possède
+généralement une boîte de plus grande hauteur.
+
+Toutefois, la taille apparente dépend également de l'âge de l'animal. Les jeunes
+macaques étant naturellement plus petits que les adultes, une correction est
+appliquée afin de limiter ce biais.
+
+La hauteur corrigée est définie par
+
 \begin{equation}
-    d_{ab}^{\text{norm}} \leq \tau_{\text{dist}} \quad \text{et} \quad r_{ab} \leq \tau_{\text{ratio}}.
+h^{\mathrm{corr}}
+=
+h\times\alpha(\mathrm{âge}),
 \end{equation}
+
+où $\alpha(\mathrm{âge})$ est un facteur correctif dépendant de la classe d'âge
+attribuée à l'individu.
+
+La distance normalisée est alors obtenue par
+
+\begin{equation}
+d_{ab}^{\mathrm{norm}}
+=
+\frac{d_{ab}}
+{\max\left(h_a^{\mathrm{corr}},
+h_b^{\mathrm{corr}}\right)}.
+\end{equation}
+
+Cette normalisation permet d'exprimer la distance relativement à la taille
+apparente des individus plutôt qu'en nombre de pixels. Les distances deviennent
+ainsi plus comparables entre vidéos filmées à des distances différentes de la
+caméra.
+
+\subsection*{Contrôle des différences de profondeur}
+
+Deux individus peuvent sembler proches dans l'image alors qu'ils sont en réalité
+situés à des profondeurs très différentes. Pour limiter ce phénomène de
+perspective, une seconde vérification est effectuée à partir de la taille des
+boîtes corrigées.
+
+Le rapport entre les aires corrigées est défini par
+
+\begin{equation}
+r_{ab}
+=
+\frac{
+\max\left(A_a^{\mathrm{corr}},
+A_b^{\mathrm{corr}}\right)}
+{
+\min\left(A_a^{\mathrm{corr}},
+A_b^{\mathrm{corr}}\right)},
+\end{equation}
+
+où
+
+\begin{equation}
+A^{\mathrm{corr}}
+=
+w\times h^{\mathrm{corr}}.
+\end{equation}
+
+Lorsque ce rapport devient trop important, les deux individus sont supposés se
+trouver à des profondeurs incompatibles et la paire est exclue de l'analyse.
+
+Le seuil retenu est
+
+\begin{equation}
+r_{ab}\leq3,
+\end{equation}
+
+ce qui correspond à la valeur utilisée lors du calcul de la matrice de proximité. :contentReference[oaicite:0]{index=0}
+
+\subsection*{Définition d'une proximité}
+
+Une paire d'individus est considérée comme proche lorsque deux conditions sont
+simultanément vérifiées :
+
+\begin{equation}
+d_{ab}^{\mathrm{norm}}
+\leq
+\tau_{\mathrm{dist}}
+\end{equation}
+
+avec
+
+\[
+\tau_{\mathrm{dist}}=3,
+\]
+
+et
+
+\begin{equation}
+r_{ab}
+\leq
+\tau_{\mathrm{ratio}},
+\end{equation}
+
+avec
+
+\[
+\tau_{\mathrm{ratio}}=3.
+\]
+
+Ces deux critères sont complémentaires. Le premier traduit une proximité
+géométrique entre les individus, tandis que le second permet d'écarter les
+situations dans lesquelles cette proximité apparente pourrait être expliquée par
+un effet de perspective. Seules les paires satisfaisant simultanément ces deux
+conditions sont retenues pour la construction de la matrice de proximité
+sociale. :contentReference[oaicite:1]{index=1}
+
 
 \section{Construction de la matrice de proximité sociale à partir des détections}
 
