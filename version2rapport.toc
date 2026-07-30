@@ -30,21 +30,29 @@
 \contentsline {section}{\numberline {3.2}Extraction des coordonnées et calcul des distances}{15}{section.3.2}%
 \contentsline {section}{\numberline {3.3}Construction de la matrice de proximité sociale}{17}{section.3.3}%
 \contentsline {chapter}{\numberline {4}Comparaison statistique des matrices}{20}{chapter.4}%
-\contentsline {section}{\numberline {4.1}Méthodologie de comparaison des matrices}{20}{section.4.1}%
-\contentsline {section}{\numberline {4.2}Présentation théorique du test de Mantel}{20}{section.4.2}%
-\contentsline {paragraph}{Statistique de test.}{20}{section*.34}%
-\contentsline {paragraph}{Hypothèse nulle et test par permutation.}{20}{section*.35}%
-\contentsline {section}{\numberline {4.3}Application du test de Mantel et résultats}{20}{section.4.3}%
-\contentsline {paragraph}{Vérification des conditions d'application.}{20}{section*.36}%
-\contentsline {paragraph}{Résultats obtenus.}{21}{section*.37}%
-\contentsline {section}{\numberline {4.4}Interprétation des résultats}{21}{section.4.4}%
-\contentsline {chapter}{\numberline {5}Discussion et perspectives}{22}{chapter.5}%
-\contentsline {section}{\numberline {5.1}Discussion des résultats}{22}{section.5.1}%
-\contentsline {section}{\numberline {5.2}Limites et conditions d'application des méthodes}{22}{section.5.2}%
-\contentsline {section}{\numberline {5.3}Perspectives d'amélioration}{22}{section.5.3}%
-\contentsline {chapter}{Conclusion générale}{23}{chapter*.38}%
-\contentsline {chapter}{Bibliographie}{23}{chapter*.38}%
-\contentsline {chapter}{\numberline {A}Annexes}{24}{appendix.A}%
-\contentsline {section}{\numberline {A.1}Extraits de code}{24}{section.A.1}%
-\contentsline {section}{\numberline {A.2}Figures complémentaires}{24}{section.A.2}%
-\contentsline {section}{\numberline {A.3}Tableaux complémentaires}{24}{section.A.3}%
+\contentsline {section}{\numberline {4.1}Présentation des matrices comparées}{20}{section.4.1}%
+\contentsline {subsection}{\numberline {4.1.1}Matrice d'association issue des observations de terrain}{20}{subsection.4.1.1}%
+\contentsline {subsection}{\numberline {4.1.2}Matrice de proximité obtenue automatiquement}{20}{subsection.4.1.2}%
+\contentsline {section}{\numberline {4.2}Préparation des matrices pour la comparaison}{23}{section.4.2}%
+\contentsline {section}{\numberline {4.3}Méthodologie de comparaison des matrices}{23}{section.4.3}%
+\contentsline {section}{\numberline {4.4}Présentation théorique du test de Mantel}{23}{section.4.4}%
+\contentsline {subsection}{\numberline {4.4.1}Statistique observée}{23}{subsection.4.4.1}%
+\contentsline {subsection}{\numberline {4.4.2}Hypothèses statistiques}{24}{subsection.4.4.2}%
+\contentsline {subsection}{\numberline {4.4.3}Principe des permutations}{24}{subsection.4.4.3}%
+\contentsline {section}{\numberline {4.5}Application du test de Mantel}{24}{section.4.5}%
+\contentsline {section}{\numberline {4.6}Résultats}{25}{section.4.6}%
+\contentsline {subsection}{\numberline {4.6.1}Test de Mantel fondé sur la corrélation de Pearson}{25}{subsection.4.6.1}%
+\contentsline {subsection}{\numberline {4.6.2}Test de Mantel fondé sur la corrélation de Spearman}{25}{subsection.4.6.2}%
+\contentsline {subsection}{\numberline {4.6.3}Synthèse des résultats}{25}{subsection.4.6.3}%
+\contentsline {section}{\numberline {4.7}Analyse graphique de la correspondance entre les matrices}{27}{section.4.7}%
+\contentsline {section}{\numberline {4.8}Interprétation des résultats}{27}{section.4.8}%
+\contentsline {chapter}{\numberline {5}Discussion et perspectives}{28}{chapter.5}%
+\contentsline {section}{\numberline {5.1}Discussion des résultats}{28}{section.5.1}%
+\contentsline {section}{\numberline {5.2}Limites et conditions d'application des méthodes}{28}{section.5.2}%
+\contentsline {section}{\numberline {5.3}Perspectives d'amélioration}{28}{section.5.3}%
+\contentsline {chapter}{Conclusion générale}{29}{chapter*.38}%
+\contentsline {chapter}{Bibliographie}{29}{chapter*.38}%
+\contentsline {chapter}{\numberline {A}Annexes}{30}{appendix.A}%
+\contentsline {section}{\numberline {A.1}Extraits de code}{30}{section.A.1}%
+\contentsline {section}{\numberline {A.2}Figures complémentaires}{30}{section.A.2}%
+\contentsline {section}{\numberline {A.3}Tableaux complémentaires}{30}{section.A.3}%

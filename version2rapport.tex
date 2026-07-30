@@ -1357,83 +1357,489 @@ présentée au chapitre suivant.
 % =====================================================================
 % CHAPITRE 4 — COMPARAISON STATISTIQUE DES MATRICES
 % =====================================================================
+
 \chapter{Comparaison statistique des matrices}
 \label{chap:comparaison}
 
-\section{Méthodologie de comparaison des matrices}
+L'objectif de ce chapitre est d'évaluer dans quelle mesure la matrice de
+proximité construite automatiquement à partir des vidéos reproduit la
+structure des associations observées sur le terrain. Cette comparaison
+repose sur deux matrices définies à l'échelle des paires d'individus :
+la matrice d'association de référence, issue des observations
+éthologiques, et la matrice de proximité automatique présentée au
+chapitre précédent.
 
-Les entrées de la matrice $\hat{M}$ (et de la matrice de référence $M^*$) ne sont pas
-indépendantes entre elles : la ligne associée à un individu $a$ particulièrement
-sociable sera globalement élevée sur toute la ligne, car les valeurs $\hat{M}_{ab}$ et
-$\hat{M}_{ac}$ partagent la même dépendance à $a$. Un test de corrélation classique
-(Pearson), qui suppose l'indépendance des observations, ne peut donc pas être appliqué
-directement entre les entrées des deux matrices. Une méthode adaptée à cette
-structure de dépendance est nécessaire : le test de Mantel.
+La comparaison visuelle de ces matrices est d'abord présentée. Leur
+correspondance est ensuite évaluée statistiquement à l'aide du test de
+Mantel, qui tient compte de la structure de dépendance propre aux données
+matricielles.
 
-\section{Présentation théorique du test de Mantel}
 
-Le \textbf{test de Mantel} \citep{mantel1967} est spécifiquement conçu pour comparer
-deux matrices de distance ou de proximité définies sur le même ensemble d'unités
-(ici, les $K$ individus).
+% ---------------------------------------------------------------------
+\section{Présentation des matrices comparées}
+\label{sec:matrices_comparees}
+% ---------------------------------------------------------------------
 
-\paragraph{Statistique de test.}
+\subsection{Matrice d'association issue des observations de terrain}
 
-On considère la corrélation (par exemple de Pearson) entre les entrées des deux
-matrices, restreinte aux paires distinctes $(a,b)$, $a \neq b$ :
-\begin{equation}
-    Z_{\text{obs}} = \text{corr}\big(\{\hat{M}_{ab}\}_{a<b}, \; \{M^*_{ab}\}_{a<b}\big).
-\end{equation}
+La première matrice, notée $M^*$, correspond à la matrice d'association
+construite à partir des observations réalisées sur le terrain. Pour une
+paire d'individus $(a,b)$, le coefficient $M^*_{ab}$ quantifie
+l'intensité de leur association observée par les éthologues.
 
-\paragraph{Hypothèse nulle et test par permutation.}
+Les coefficients de cette matrice prennent des valeurs continues
+comprises entre 0 et 1. Une valeur proche de 0 correspond à une
+association rarement observée, tandis qu'une valeur plus élevée indique
+une association plus fréquente entre les deux individus.
 
-L'hypothèse nulle $H_0$ postule l'absence d'association entre les deux structures de
-proximité. Comme les entrées d'une même matrice ne sont pas indépendantes (une ligne
-entière dépend de la sociabilité globale d'un individu), la distribution théorique
-usuelle de la statistique de corrélation ne s'applique pas. On construit donc la
-distribution de $Z$ sous $H_0$ par \textbf{permutation} :
-\begin{enumerate}
-    \item on permute aléatoirement l'ordre des individus (lignes et colonnes
-    simultanément) dans l'une des deux matrices, par exemple $M^*$, donnant $M^*_\pi$
-    pour une permutation $\pi$ ;
-    \item on recalcule la statistique de corrélation $Z_\pi$ entre $\hat{M}$ et
-    $M^*_\pi$ ;
-    \item on répète l'opération un grand nombre de fois (typiquement $999$ ou
-    $9999$ permutations), donnant une distribution empirique $\{Z_\pi\}$ sous $H_0$.
-\end{enumerate}
+La figure~\ref{fig:heatmap_terrain} représente la matrice d'association
+de terrain sous la forme d'une carte thermique.
 
-La p-valeur empirique est alors la proportion de permutations pour lesquelles
-$Z_\pi$ est au moins aussi extrême que $Z_{\text{obs}}$ :
-\begin{equation}
-    p = \frac{1 + \#\{\pi : |Z_\pi| \geq |Z_{\text{obs}}|\}}{1 + \text{nombre de permutations}}.
-\end{equation}
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=\textwidth]{images/heatmap_matrice_terrain.png}
+    \caption{Matrice d'association construite à partir des observations
+    de terrain. La couleur de chaque cellule représente l'indice
+    d'association observé pour la paire d'individus correspondante.}
+    \label{fig:heatmap_terrain}
+\end{figure}
 
-\section{Application du test de Mantel et résultats}
 
-\paragraph{Vérification des conditions d'application.}
+\subsection{Matrice de proximité obtenue automatiquement}
+
+La seconde matrice, notée $\hat{M}$, a été construite automatiquement à
+partir des vidéos selon la méthode décrite au
+chapitre~\ref{chap:matrice_proximite}. Pour chaque paire d'individus, le
+score repose sur les co-détections considérées comme valides et sur la
+proportion d'images dans lesquelles les deux individus sont classés
+comme proches.
+
+La méthode distingue deux situations :
 
 \begin{itemize}
-    \item Les deux matrices doivent être définies sur le même ensemble d'individus,
-    avec le même ordre de lignes/colonnes avant permutation.
-    \item Le nombre de permutations doit être suffisant pour estimer précisément la
-    p-valeur (au minimum quelques centaines).
-    \item Les valeurs manquantes (paires jamais co-détectées dans $\hat{M}$) doivent
-    être traitées explicitement (exclusion de la paire dans les deux matrices, ou
-    imputation à justifier).
-    \item Le test de Mantel suppose que la structure de dépendance interne à chaque
-    matrice est correctement neutralisée par la permutation conjointe des
-    lignes/colonnes -- ce qui est le cas ici, la permutation appliquée à un individu
-    déplace simultanément toute sa ligne et sa colonne.
+    \item une valeur nulle indique que la paire a pu être évaluée, mais
+    qu'aucune proximité n'a été détectée parmi les observations valides ;
+    \item une valeur manquante indique qu'aucune information suffisamment
+    fiable n'était disponible pour calculer un score pour cette paire.
 \end{itemize}
 
-\paragraph{Résultats obtenus.}
-% TODO : coefficient de corrélation observé, p-valeur, nombre de permutations
-% utilisées, individus/paires exclus le cas échéant
+Les valeurs manquantes ne sont donc pas assimilées à des scores nuls,
+car l'absence de mesure ne signifie pas nécessairement l'absence de
+proximité entre les individus.
 
+La figure~\ref{fig:heatmap_automatique} présente la matrice obtenue à
+partir du traitement automatique des vidéos.
+
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=\textwidth]{images/proximity_heatmap.png}
+    \caption{Matrice globale des scores de proximité obtenus
+    automatiquement à partir des vidéos.}
+    \label{fig:heatmap_automatique}
+\end{figure}
+
+La matrice automatique apparaît beaucoup plus clairsemée que la matrice
+de terrain. Seul un nombre limité de paires possède un score exploitable.
+Cette différence de couverture doit être prise en compte lors de la
+comparaison statistique des deux matrices.
+
+
+% ---------------------------------------------------------------------
+\section{Préparation des matrices pour la comparaison}
+\label{sec:preparation_matrices}
+% ---------------------------------------------------------------------
+
+Avant d'appliquer le test statistique, les noms des individus présents
+dans les deux matrices ont été comparés. La matrice automatique
+comportait initialement 43 individus, tandis que la matrice de terrain
+en comportait 42.
+
+Après alignement, 42 individus étaient communs aux deux matrices. Les
+lignes et les colonnes ont été réordonnées de manière à garantir que la
+même position correspondait au même individu dans les deux matrices.
+
+Pour une matrice symétrique de 42 individus, le nombre total de paires
+distinctes possibles est :
+
+\begin{equation}
+    \binom{42}{2}
+    =
+    \frac{42 \times 41}{2}
+    =
+    861.
+\end{equation}
+
+Cependant, la matrice automatique comportait un nombre important de
+valeurs manquantes. Après exclusion des paires pour lesquelles au moins
+l'une des deux matrices ne possédait pas de valeur exploitable, seules
+33 paires disposaient simultanément d'un score automatique et d'un
+indice d'association de terrain.
+
+La comparaison statistique porte donc sur ces 33 paires communes. Les
+valeurs manquantes n'ont pas été remplacées par zéro afin de ne pas
+confondre l'absence d'information avec une absence effective de
+proximité.
+
+
+% ---------------------------------------------------------------------
+\section{Méthodologie de comparaison des matrices}
+\label{sec:methode_comparaison}
+% ---------------------------------------------------------------------
+
+Les coefficients extraits d'une matrice d'association ne peuvent pas
+être considérés comme des observations indépendantes. Par exemple, les
+coefficients $\hat{M}_{ab}$ et $\hat{M}_{ac}$ ont en commun l'individu
+$a$. Ils peuvent donc être influencés par les mêmes caractéristiques,
+telles que la sociabilité de cet individu, sa présence dans les vidéos
+ou sa probabilité d'être correctement identifié.
+
+Une corrélation classique appliquée directement aux coefficients des
+deux matrices permettrait de mesurer leur association, mais la
+significativité obtenue à partir du test usuel de Pearson ne serait pas
+adaptée à cette dépendance entre les paires.
+
+Une méthode spécifique aux données matricielles est donc nécessaire.
+Dans ce travail, la correspondance entre les deux matrices est évaluée
+à l'aide du test de Mantel.
+
+
+% ---------------------------------------------------------------------
+\section{Présentation théorique du test de Mantel}
+\label{sec:test_mantel}
+% ---------------------------------------------------------------------
+
+Le \textbf{test de Mantel} \citep{mantel1967} est conçu pour évaluer
+l'association entre deux matrices définies sur le même ensemble
+d'unités statistiques. Il est notamment utilisé pour comparer des
+matrices de distances, de similarités ou d'associations.
+
+\subsection{Statistique observée}
+
+Après alignement des matrices, leurs diagonales ne sont pas utilisées,
+car elles représentent l'association d'un individu avec lui-même. Une
+seule moitié de chaque matrice est conservée afin d'éviter de compter
+deux fois les paires symétriques $(a,b)$ et $(b,a)$.
+
+Soient les vecteurs :
+
+\begin{equation}
+    \mathbf{x}
+    =
+    \left\{
+    \hat{M}_{ab}
+    \right\}_{a<b}
+\end{equation}
+
+et
+
+\begin{equation}
+    \mathbf{y}
+    =
+    \left\{
+    M^*_{ab}
+    \right\}_{a<b},
+\end{equation}
+
+restreints aux paires pour lesquelles une valeur est disponible dans
+les deux matrices.
+
+La statistique observée du test de Mantel est alors définie par :
+
+\begin{equation}
+    Z_{\mathrm{obs}}
+    =
+    \operatorname{corr}(\mathbf{x},\mathbf{y}).
+\end{equation}
+
+Deux coefficients de corrélation ont été considérés :
+
+\begin{itemize}
+    \item la corrélation de Pearson, qui évalue l'existence d'une
+    relation linéaire entre les coefficients des deux matrices ;
+    \item la corrélation de Spearman, qui repose sur les rangs et
+    recherche plus généralement une relation monotone.
+\end{itemize}
+
+
+\subsection{Hypothèses statistiques}
+
+Les hypothèses du test sont les suivantes :
+
+\begin{equation}
+    H_0 :
+    \text{absence d'association entre les deux matrices},
+\end{equation}
+
+contre :
+
+\begin{equation}
+    H_1 :
+    \text{présence d'une association entre les deux matrices}.
+\end{equation}
+
+Le test est réalisé de manière bilatérale. Une corrélation positive ou
+négative suffisamment éloignée de zéro peut donc conduire au rejet de
+l'hypothèse nulle.
+
+
+\subsection{Principe des permutations}
+
+La distribution de la statistique sous $H_0$ est construite par
+permutation. Pour chaque permutation $\pi$, les lignes et les colonnes
+de l'une des matrices sont réordonnées simultanément :
+
+\begin{equation}
+    M^*_{\pi}
+    =
+    P_{\pi} M^* P_{\pi}^{\mathsf{T}},
+\end{equation}
+
+où $P_{\pi}$ désigne la matrice de permutation associée à $\pi$.
+
+La permutation conjointe des lignes et des colonnes conserve la
+structure interne de la matrice, tout en rompant la correspondance
+initiale entre les identités des individus des deux matrices.
+
+Pour chaque permutation, une nouvelle statistique est calculée :
+
+\begin{equation}
+    Z_{\pi}
+    =
+    \operatorname{corr}
+    \left(
+    \left\{\hat{M}_{ab}\right\}_{a<b},
+    \left\{M^*_{\pi,ab}\right\}_{a<b}
+    \right).
+\end{equation}
+
+En présence de valeurs manquantes, le masque des paires valides est
+recalculé après chaque permutation. Les permutations pour lesquelles la
+corrélation ne peut pas être calculée sont exclues de la distribution
+empirique.
+
+La p-valeur bilatérale est estimée par :
+
+\begin{equation}
+    p
+    =
+    \frac{
+        1+
+        \displaystyle\sum_{\pi=1}^{B}
+        \mathbb{I}
+        \left(
+        \left|Z_{\pi}\right|
+        \geq
+        \left|Z_{\mathrm{obs}}\right|
+        \right)
+    }{
+        1+B
+    },
+\end{equation}
+
+où $B$ correspond au nombre de permutations valides et
+$\mathbb{I}$ à la fonction indicatrice.
+
+
+% ---------------------------------------------------------------------
+\section{Application du test de Mantel}
+\label{sec:application_mantel}
+% ---------------------------------------------------------------------
+
+Les deux matrices ont d'abord été vérifiées afin de s'assurer qu'elles
+étaient carrées, symétriques et correctement indexées par les noms des
+individus.
+
+Les étapes suivantes ont ensuite été appliquées :
+
+\begin{enumerate}
+    \item identification des individus communs aux deux matrices ;
+    \item réorganisation des lignes et des colonnes selon un ordre
+    commun ;
+    \item extraction des coefficients situés au-dessus de la diagonale ;
+    \item conservation des paires possédant une valeur valide dans les
+    deux matrices ;
+    \item calcul des corrélations observées de Pearson et de Spearman ;
+    \item permutation simultanée des lignes et des colonnes de la
+    matrice de terrain ;
+    \item recalcul du masque des valeurs valides et de la corrélation
+    pour chaque permutation ;
+    \item estimation des p-valeurs empiriques bilatérales.
+\end{enumerate}
+
+Au total, 9999 permutations ont été demandées. Parmi celles-ci, 9983 ont
+permis de calculer une statistique valide et ont été utilisées pour
+construire la distribution empirique du test.
+
+
+% ---------------------------------------------------------------------
+\section{Résultats}
+\label{sec:resultats_mantel}
+% ---------------------------------------------------------------------
+
+\subsection{Test de Mantel fondé sur la corrélation de Pearson}
+
+Le test fondé sur la corrélation de Pearson donne :
+
+\begin{equation}
+    r_{\mathrm{Mantel}}
+    =
+    0{,}146,
+\end{equation}
+
+avec une p-valeur bilatérale égale à :
+
+\begin{equation}
+    p
+    =
+    0{,}416.
+\end{equation}
+
+La corrélation observée est positive, mais de faible intensité. De plus,
+la p-valeur est largement supérieure au seuil de significativité de
+5\,\%. L'hypothèse nulle d'absence d'association entre les matrices ne
+peut donc pas être rejetée.
+
+
+\subsection{Test de Mantel fondé sur la corrélation de Spearman}
+
+Le test fondé sur la corrélation des rangs de Spearman donne :
+
+\begin{equation}
+    \rho_{\mathrm{Mantel}}
+    =
+    0{,}006,
+\end{equation}
+
+avec :
+
+\begin{equation}
+    p
+    =
+    0{,}977.
+\end{equation}
+
+Le coefficient est ici pratiquement nul. La p-valeur indique également
+que la structure de classement des paires dans la matrice automatique
+ne correspond pas significativement à celle de la matrice de terrain.
+
+
+\subsection{Synthèse des résultats}
+
+Les résultats des deux tests sont regroupés dans le
+tableau~\ref{tab:resultats_mantel}.
+
+\begin{table}[H]
+    \centering
+    \caption{Résultats des tests de Mantel entre la matrice automatique
+    et la matrice d'association de terrain.}
+    \label{tab:resultats_mantel}
+    \begin{tabular}{lccc}
+        \hline
+        \textbf{Coefficient} &
+        \textbf{Corrélation observée} &
+        \textbf{p-valeur} &
+        \textbf{Conclusion à 5\,\%} \\
+        \hline
+        Pearson  & $0{,}146$ & $0{,}416$ & Non significatif \\
+        Spearman & $0{,}006$ & $0{,}977$ & Non significatif \\
+        \hline
+    \end{tabular}
+\end{table}
+
+Les deux approches conduisent ainsi à la même conclusion : les données
+analysées ne permettent pas de mettre en évidence une association
+statistiquement significative entre les deux matrices.
+
+
+% ---------------------------------------------------------------------
+\section{Analyse graphique de la correspondance entre les matrices}
+\label{sec:analyse_graphique_matrices}
+% ---------------------------------------------------------------------
+
+La figure~\ref{fig:nuage_matrices} représente, pour chacune des 33
+paires comparables, le score de proximité automatique en abscisse et
+l'indice d'association de terrain en ordonnée.
+
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=0.9\textwidth]
+    {images/nuage_comparaison_matrices.png}
+    \caption{Comparaison des scores de proximité automatiques et des
+    indices d'association issus des observations de terrain pour les
+    33 paires valides. Le coefficient et la p-valeur affichés
+    correspondent au test de Mantel fondé sur la corrélation de
+    Pearson.}
+    \label{fig:nuage_matrices}
+\end{figure}
+
+Le graphique montre que les scores de proximité automatiques sont
+principalement concentrés autour de 0 et de 1. À l'inverse, les indices
+d'association de terrain présentent une variation plus continue, entre
+0 et environ 0,37.
+
+Pour les paires ayant un score automatique égal ou proche de 1, les
+indices d'association de terrain sont fortement dispersés. Certains
+sont presque nuls, tandis que d'autres atteignent les valeurs les plus
+élevées de la matrice de terrain. Un score automatique élevé n'est donc
+pas systématiquement associé à un indice de terrain élevé.
+
+De même, parmi les paires ayant un score automatique nul, plusieurs
+possèdent un indice d'association de terrain strictement positif. Cette
+configuration ne fait apparaître aucune tendance linéaire nette, ce qui
+est cohérent avec la faible corrélation de Pearson obtenue.
+
+Le coefficient de Spearman presque nul montre également que le
+classement des paires selon leur proximité automatique ne reproduit pas
+le classement établi à partir des observations de terrain.
+
+
+% ---------------------------------------------------------------------
 \section{Interprétation des résultats}
-% TODO : le résultat du test permet-il de conclure à une association entre les
-% deux matrices ? Discuter en tenant compte de la nuance établie au chapitre 3
-% (proximité spatiale vs. lien social composite)
+\label{sec:interpretation_mantel}
+% ---------------------------------------------------------------------
 
+Dans les conditions de cette étude, les résultats ne permettent pas de
+conclure que la matrice de proximité automatique reproduit la structure
+de la matrice d'association de terrain.
+
+Cette conclusion doit toutefois être interprétée avec prudence. Elle ne
+signifie pas nécessairement que le système automatique ne contient
+aucune information pertinente sur les relations entre les individus.
+
+Premièrement, la comparaison ne repose que sur 33 paires, alors que 861
+paires distinctes sont théoriquement possibles pour 42 individus. La
+faible couverture de la matrice automatique réduit fortement la
+quantité d'information disponible pour évaluer la correspondance entre
+les deux méthodes. Elle est également susceptible de limiter la
+puissance statistique du test.
+
+Deuxièmement, les deux matrices ne mesurent pas nécessairement
+exactement le même phénomène. La matrice automatique décrit une
+proximité spatiale détectée dans les vidéos sélectionnées. La matrice de
+terrain peut résumer une association sociale observée sur une période
+plus large et intégrer indirectement plusieurs contextes
+comportementaux. Deux individus peuvent ainsi être régulièrement
+associés sans être systématiquement détectés à faible distance dans les
+vidéos analysées.
+
+Troisièmement, la matrice automatique dépend des différentes étapes du
+pipeline, notamment de la détection, du suivi, de l'identification des
+individus et de la disponibilité de co-détections valides. Une
+incertitude ou une absence d'information à l'une de ces étapes peut
+empêcher le calcul du score d'une paire, sans que cela traduise une
+absence réelle de relation entre les individus.
+
+Enfin, les scores automatiques observés sont fréquemment proches des
+valeurs extrêmes 0 et 1. Cette faible diversité des scores les distingue
+des indices continus de la matrice de terrain et limite la capacité à
+reproduire finement leur hiérarchie.
+
+Ainsi, l'absence de corrélation significative constitue un résultat de
+l'étude, mais elle doit être replacée dans le contexte de la couverture
+limitée des données, des différences de définition entre les deux
+matrices et des contraintes propres au traitement automatique des
+vidéos. Ces éléments seront approfondis dans le
+chapitre~\ref{chap:discussion}.
 
 % =====================================================================
 % CHAPITRE 5 — DISCUSSION ET PERSPECTIVES
