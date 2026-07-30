@@ -25,15 +25,15 @@
 \contentsline {section}{\numberline {2.2}Organisation et préparation des données}{11}{section.2.2}%
 \contentsline {section}{\numberline {2.3}Nettoyage et annotation des images}{11}{section.2.3}%
 \contentsline {section}{\numberline {2.4}Correction et validation des détections}{12}{section.2.4}%
-\contentsline {chapter}{\numberline {3}Construction de la matrice de proximité }{14}{chapter.3}%
+\contentsline {chapter}{\numberline {3}Construction de la matrice de proximité}{14}{chapter.3}%
 \contentsline {section}{\numberline {3.1}Construction des observations individuelles}{14}{section.3.1}%
 \contentsline {section}{\numberline {3.2}Extraction des coordonnées et calcul des distances}{15}{section.3.2}%
 \contentsline {section}{\numberline {3.3}Construction de la matrice de proximité sociale}{17}{section.3.3}%
 \contentsline {chapter}{\numberline {4}Comparaison statistique des matrices}{20}{chapter.4}%
 \contentsline {section}{\numberline {4.1}Présentation des matrices comparées}{20}{section.4.1}%
 \contentsline {subsection}{\numberline {4.1.1}Matrice d'association issue des observations de terrain}{20}{subsection.4.1.1}%
-\contentsline {subsection}{\numberline {4.1.2}Matrice de proximité obtenue automatiquement}{20}{subsection.4.1.2}%
-\contentsline {section}{\numberline {4.2}Préparation des matrices pour la comparaison}{23}{section.4.2}%
+\contentsline {subsection}{\numberline {4.1.2}Matrice de proximité obtenue automatiquement}{21}{subsection.4.1.2}%
+\contentsline {section}{\numberline {4.2}Préparation des matrices pour la comparaison}{22}{section.4.2}%
 \contentsline {section}{\numberline {4.3}Méthodologie de comparaison des matrices}{23}{section.4.3}%
 \contentsline {section}{\numberline {4.4}Présentation théorique du test de Mantel}{23}{section.4.4}%
 \contentsline {subsection}{\numberline {4.4.1}Statistique observée}{23}{subsection.4.4.1}%
@@ -44,7 +44,7 @@
 \contentsline {subsection}{\numberline {4.6.1}Test de Mantel fondé sur la corrélation de Pearson}{25}{subsection.4.6.1}%
 \contentsline {subsection}{\numberline {4.6.2}Test de Mantel fondé sur la corrélation de Spearman}{25}{subsection.4.6.2}%
 \contentsline {subsection}{\numberline {4.6.3}Synthèse des résultats}{25}{subsection.4.6.3}%
-\contentsline {section}{\numberline {4.7}Analyse graphique de la correspondance entre les matrices}{27}{section.4.7}%
+\contentsline {section}{\numberline {4.7}Analyse graphique de la correspondance entre les matrices}{25}{section.4.7}%
 \contentsline {section}{\numberline {4.8}Interprétation des résultats}{27}{section.4.8}%
 \contentsline {chapter}{\numberline {5}Discussion et perspectives}{28}{chapter.5}%
 \contentsline {section}{\numberline {5.1}Discussion des résultats}{28}{section.5.1}%

@@ -146,6 +146,8 @@ INPUT C:\Users\Elève\AppData\Local\Programs\MiKTeX\tex\latex\fancyhdr\fancyhdr.
 INPUT C:\Users\Elève\AppData\Local\Programs\MiKTeX\tex\latex\fancyhdr\fancyhdr.sty
 INPUT C:\Users\Elève\AppData\Local\Programs\MiKTeX\tex\latex\natbib\natbib.sty
 INPUT C:\Users\Elève\AppData\Local\Programs\MiKTeX\tex\latex\natbib\natbib.sty
+INPUT C:\Users\Elève\AppData\Local\Programs\MiKTeX\tex\latex\float\float.sty
+INPUT C:\Users\Elève\AppData\Local\Programs\MiKTeX\tex\latex\float\float.sty
 INPUT C:\Users\Elève\AppData\Local\Programs\MiKTeX\tex\latex\listings\lstlang1.sty
 INPUT C:\Users\Elève\AppData\Local\Programs\MiKTeX\tex\latex\listings\lstlang1.sty
 INPUT C:\Users\Elève\AppData\Local\Programs\MiKTeX\tex\latex\listings\lstlang1.sty
@@ -157,8 +159,6 @@ INPUT C:\Users\Elève\AppData\Local\Programs\MiKTeX\tex\context\base\mkii\supp-p
 INPUT C:\Users\Elève\AppData\Local\Programs\MiKTeX\tex\context\base\mkii\supp-pdf.mkii
 INPUT C:\Users\Elève\AppData\Local\Programs\MiKTeX\tex\latex\epstopdf-pkg\epstopdf-base.sty
 INPUT C:\Users\Elève\AppData\Local\Programs\MiKTeX\tex\latex\epstopdf-pkg\epstopdf-base.sty
-INPUT C:\Users\Elève\AppData\Local\Programs\MiKTeX\tex\latex\grfext\grfext.sty
-INPUT C:\Users\Elève\AppData\Local\Programs\MiKTeX\tex\latex\grfext\grfext.sty
 INPUT C:\Users\Elève\AppData\Local\Programs\MiKTeX\tex\latex\00miktex\epstopdf-sys.cfg
 INPUT C:\Users\Elève\AppData\Local\Programs\MiKTeX\tex\latex\00miktex\epstopdf-sys.cfg
 INPUT C:\Users\Elève\AppData\Local\Programs\MiKTeX\tex\latex\00miktex\epstopdf-sys.cfg
@@ -224,6 +224,13 @@ INPUT C:\Users\Elève\AppData\Local\Programs\MiKTeX\fonts\tfm\jknappen\ec\ectt10
 INPUT C:\Users\Elève\AppData\Local\Programs\MiKTeX\fonts\tfm\jknappen\ec\ectt0800.tfm
 INPUT C:\Users\Elève\AppData\Local\Programs\MiKTeX\fonts\tfm\jknappen\ec\ectt0800.tfm
 INPUT C:\Users\Elève\AppData\Local\Programs\MiKTeX\fonts\tfm\jknappen\ec\ecbx1200.tfm
+INPUT .\heatmap_matrice_terrain.png
+INPUT .\heatmap_matrice_terrain.png
+INPUT .\heatmap_matrice_terrain.png
+INPUT .\heatmap_matrice_terrain.png
+INPUT .\heatmap_matrice_terrain.png
+INPUT .\heatmap_matrice_terrain.png
+INPUT .\heatmap_matrice_terrain.png
 INPUT C:\Users\Elève\AppData\Local\Programs\MiKTeX\fonts\tfm\jknappen\ec\eccc1095.tfm
 INPUT C:\Users\Elève\AppData\Local\Programs\MiKTeX\fonts\tfm\public\cm\cmss10.tfm
 INPUT C:\Users\Elève\AppData\Local\Programs\MiKTeX\fonts\tfm\public\cm\cmss8.tfm

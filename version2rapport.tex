@@ -16,7 +16,7 @@
 \usepackage{xcolor}
 \usepackage{fancyhdr}
 \usepackage[numbers,sort&compress]{natbib}
-
+\usepackage{float}
 % ===================== MISE EN PAGE =====================
 \pagestyle{fancy}
 \fancyhf{}
@@ -909,7 +909,7 @@ et de construire la matrice de proximité sociale.
 % CHAPITRE 3 — CONSTRUCTION DES MATRICES DE PROXIMITÉ SOCIALE
 % =====================================================================
 
-\chapter{Construction de la matrice de proximité }
+\chapter{Construction de la matrice de proximité}
 \label{chap:proximite}
 
 
@@ -1397,7 +1397,7 @@ de terrain sous la forme d'une carte thermique.
 
 \begin{figure}[H]
     \centering
-    \includegraphics[width=\textwidth]{images/heatmap_matrice_terrain.png}
+    \includegraphics[width=\textwidth]{heatmap_matrice_terrain.png}
     \caption{Matrice d'association construite à partir des observations
     de terrain. La couleur de chaque cellule représente l'indice
     d'association observé pour la paire d'individus correspondante.}
@@ -1409,7 +1409,7 @@ de terrain sous la forme d'une carte thermique.
 
 La seconde matrice, notée $\hat{M}$, a été construite automatiquement à
 partir des vidéos selon la méthode décrite au
-chapitre~\ref{chap:matrice_proximite}. Pour chaque paire d'individus, le
+chapitre~\ref{chap:proximite}. Pour chaque paire d'individus, le
 score repose sur les co-détections considérées comme valides et sur la
 proportion d'images dans lesquelles les deux individus sont classés
 comme proches.
@@ -1432,7 +1432,7 @@ partir du traitement automatique des vidéos.
 
 \begin{figure}[H]
     \centering
-    \includegraphics[width=\textwidth]{images/proximity_heatmap.png}
+    \includegraphics[width=\textwidth]{proximity_heatmap.png}
     \caption{Matrice globale des scores de proximité obtenus
     automatiquement à partir des vidéos.}
     \label{fig:heatmap_automatique}

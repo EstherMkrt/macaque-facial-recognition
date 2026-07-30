@@ -1,4 +1,4 @@
-This is pdfTeX, Version 3.141592653-2.6-1.40.28 (MiKTeX 25.12) (preloaded format=pdflatex 2026.7.20)  31 JUL 2026 00:06
+This is pdfTeX, Version 3.141592653-2.6-1.40.28 (MiKTeX 25.12) (preloaded format=pdflatex 2026.7.20)  31 JUL 2026 00:28
 entering extended mode
  restricted \write18 enabled.
  file:line:error style messages enabled.
@@ -409,6 +409,13 @@ Package: natbib 2010/09/13 8.31b (PWD, AO)
 \bibsep=\skip73
 LaTeX Info: Redefining \cite on input line 694.
 \c@NAT@ctr=\count334
+) (C:\Users\Elève\AppData\Local\Programs\MiKTeX\tex/latex/float\float.sty
+Package: float 2001/11/08 v1.3d Float enhancements (AL)
+\c@float@type=\count335
+\float@exts=\toks35
+\float@box=\box57
+\@float@everytoks=\toks36
+\@floatcapt=\box58
 ) (C:\Users\Elève\AppData\Local\Programs\MiKTeX\tex/latex/listings\lstlang1.sty
 File: lstlang1.sty 2025/11/14 1.11b listings language file
 )
@@ -418,7 +425,7 @@ Package french3.ldf Warning: Please load the "natbib" package
 
 (C:\Users\Elève\AppData\Local\Programs\MiKTeX\tex/latex/l3backend\l3backend-pdftex.def
 File: l3backend-pdftex.def 2025-10-09 L3 backend support: PDF output (pdfTeX)
-\l__color_backend_stack_int=\count335
+\l__color_backend_stack_int=\count336
 )
 No file version2rapport.aux.
 \openout1 = `version2rapport.aux'.
@@ -446,26 +453,20 @@ Package babel Info: 'french' activates 'french' shorthands.
 LaTeX Info: Redefining \degres on input line 51.
 (C:\Users\Elève\AppData\Local\Programs\MiKTeX\tex/context/base/mkii\supp-pdf.mkii
 [Loading MPS to PDF converter (version 2006.09.02).]
-\scratchcounter=\count336
+\scratchcounter=\count337
 \scratchdimen=\dimen262
-\scratchbox=\box57
-\nofMPsegments=\count337
-\nofMParguments=\count338
-\everyMPshowfont=\toks35
-\MPscratchCnt=\count339
+\scratchbox=\box59
+\nofMPsegments=\count338
+\nofMParguments=\count339
+\everyMPshowfont=\toks37
+\MPscratchCnt=\count340
 \MPscratchDim=\dimen263
-\MPnumerator=\count340
-\makeMPintoPDFobject=\count341
-\everyMPtoPDFconversion=\toks36
+\MPnumerator=\count341
+\makeMPintoPDFobject=\count342
+\everyMPtoPDFconversion=\toks38
 ) (C:\Users\Elève\AppData\Local\Programs\MiKTeX\tex/latex/epstopdf-pkg\epstopdf-base.sty
 Package: epstopdf-base 2020-01-24 v2.11 Base part for package epstopdf
- (C:\Users\Elève\AppData\Local\Programs\MiKTeX\tex/latex/grfext\grfext.sty
-Package: grfext 2019/12/03 v1.3 Manage graphics extensions (HO)
-)
 Package epstopdf-base Info: Redefining graphics rule for `.eps' on input line 485.
-Package grfext Info: Graphics extension search list:
-(grfext)             [.pdf,.png,.jpg,.mps,.jpeg,.jbig2,.jb2,.PDF,.PNG,.JPG,.JPEG,.JBIG2,.JB2,.eps]
-(grfext)             \AppendGraphicsExtensions on input line 504.
  (C:\Users\Elève\AppData\Local\Programs\MiKTeX\tex/latex/00miktex\epstopdf-sys.cfg
 File: epstopdf-sys.cfg 2021/03/18 v2.0 Configuration of epstopdf for MiKTeX
 ))
@@ -508,9 +509,10 @@ Package hyperref Info: Link coloring ON on input line 51.
 \openout3 = `version2rapport.out'.
 
 Package caption Info: Begin \AtBeginDocument code.
+Package caption Info: float package is loaded.
 Package caption Info: listings package is loaded.
 Package caption Info: End \AtBeginDocument code.
-\c@lstlisting=\count342
+\c@lstlisting=\count343
 LaTeX Font Info:    Trying to load font information for U+msa on input line 54.
 (C:\Users\Elève\AppData\Local\Programs\MiKTeX\tex/latex/amsfonts\umsa.fd
 File: umsa.fd 2013/01/14 v3.01 AMS symbols A
@@ -720,67 +722,35 @@ Chapitre 4.
 
 LaTeX Warning: Reference `fig:heatmap_terrain' on page 20 undefined on input line 1395.
 
-
-c:/Users/Elève/Desktop/Rapport de Stage/version2rapport.tex:1398: LaTeX Error: Unknown float option `H'.
-
-See the LaTeX manual or LaTeX Companion for explanation.
-Type  H <return>  for immediate help.
- ...                                              
-                                                  
-l.1398 \begin{figure}[H]
-                        
-Option `H' ignored and `p' used.
-
-
-LaTeX Warning: File `images/heatmap_matrice_terrain.png' not found on input line 1400.
-
-
-c:/Users/Elève/Desktop/Rapport de Stage/version2rapport.tex:1400: Package pdftex.def Error: File `images/heatmap_matrice_terrain.png' not found: using draft setting.
-
-See the pdftex.def package documentation for explanation.
-Type  H <return>  for immediate help.
- ...                                              
-                                                  
-l.1400 ...dth]{images/heatmap_matrice_terrain.png}
-                                                  
-Try typing  <return>  to proceed.
-If that doesn't work, type  X <return>  to quit.
-
-
-LaTeX Warning: Reference `chap:matrice_proximite' on page 20 undefined on input line 1412.
-
-
-LaTeX Warning: Reference `fig:heatmap_automatique' on page 20 undefined on input line 1430.
-
-
-c:/Users/Elève/Desktop/Rapport de Stage/version2rapport.tex:1433: LaTeX Error: Unknown float option `H'.
-
-See the LaTeX manual or LaTeX Companion for explanation.
-Type  H <return>  for immediate help.
- ...                                              
-                                                  
-l.1433 \begin{figure}[H]
-                        
-Option `H' ignored and `p' used.
-
-
-LaTeX Warning: File `images/proximity_heatmap.png' not found on input line 1435.
-
-
-c:/Users/Elève/Desktop/Rapport de Stage/version2rapport.tex:1435: Package pdftex.def Error: File `images/proximity_heatmap.png' not found: using draft setting.
-
-See the pdftex.def package documentation for explanation.
-Type  H <return>  for immediate help.
- ...                                              
-                                                  
-l.1435 ...textwidth]{images/proximity_heatmap.png}
-                                                  
-Try typing  <return>  to proceed.
-If that doesn't work, type  X <return>  to quit.
-
+<heatmap_matrice_terrain.png, id=196, 722.7pt x 578.16pt>
+File: heatmap_matrice_terrain.png Graphic file (type png)
+<use heatmap_matrice_terrain.png>
+Package pdftex.def Info: heatmap_matrice_terrain.png  used on input line 1400.
+(pdftex.def)             Requested size: 455.24411pt x 364.19861pt.
 [20
 
 ]
+
+LaTeX Warning: Reference `chap:proximite' on page 21 undefined on input line 1412.
+
+
+LaTeX Warning: Reference `fig:heatmap_automatique' on page 21 undefined on input line 1430.
+
+
+LaTeX Warning: File `proximity_heatmap.png' not found on input line 1435.
+
+
+c:/Users/Elève/Desktop/Rapport de Stage/version2rapport.tex:1435: Package pdftex.def Error: File `proximity_heatmap.png' not found: using draft setting.
+
+See the pdftex.def package documentation for explanation.
+Type  H <return>  for immediate help.
+ ...                                              
+                                                  
+l.1435 ...width=\textwidth]{proximity_heatmap.png}
+                                                  
+Try typing  <return>  to proceed.
+If that doesn't work, type  X <return>  to quit.
+
 
 Package fancyhdr Warning: \headheight is too small (12.0pt): 
 (fancyhdr)                Make it at least 13.59999pt, for example:
@@ -788,7 +758,7 @@ Package fancyhdr Warning: \headheight is too small (12.0pt):
 (fancyhdr)                You might also make \topmargin smaller:
 (fancyhdr)                \addtolength{\topmargin}{-1.59999pt}.
 
-[21]
+[21 <./heatmap_matrice_terrain.png>]
 
 Package fancyhdr Warning: \headheight is too small (12.0pt): 
 (fancyhdr)                Make it at least 13.59999pt, for example:
@@ -820,29 +790,7 @@ Package fancyhdr Warning: \headheight is too small (12.0pt):
 LaTeX Warning: Reference `tab:resultats_mantel' on page 25 undefined on input line 1729.
 
 
-c:/Users/Elève/Desktop/Rapport de Stage/version2rapport.tex:1731: LaTeX Error: Unknown float option `H'.
-
-See the LaTeX manual or LaTeX Companion for explanation.
-Type  H <return>  for immediate help.
- ...                                              
-                                                  
-l.1731 \begin{table}[H]
-                       
-Option `H' ignored and `p' used.
-
-
 LaTeX Warning: Reference `fig:nuage_matrices' on page 25 undefined on input line 1759.
-
-
-c:/Users/Elève/Desktop/Rapport de Stage/version2rapport.tex:1763: LaTeX Error: Unknown float option `H'.
-
-See the LaTeX manual or LaTeX Companion for explanation.
-Type  H <return>  for immediate help.
- ...                                              
-                                                  
-l.1763 \begin{figure}[H]
-                        
-Option `H' ignored and `p' used.
 
 
 LaTeX Warning: File `images/nuage_comparaison_matrices.png' not found on input line 1766.
@@ -919,20 +867,20 @@ Package rerunfilecheck Warning: File `version2rapport.out' has changed.
 
 Package rerunfilecheck Info: Checksums for `version2rapport.out':
 (rerunfilecheck)             Before: <no file>
-(rerunfilecheck)             After:  1C7D2DEBE783FC8F929C8E6A1380BE2A;10195.
+(rerunfilecheck)             After:  7A9B7ACFEE794D5578B7F53EA0A34819;10187.
  ) 
 Here is how much of TeX's memory you used:
- 16984 strings out of 467870
- 270016 string characters out of 5417871
- 929462 words of memory out of 5000000
- 45472 multiletter control sequences out of 15000+600000
+ 16979 strings out of 467870
+ 268683 string characters out of 5417871
+ 931862 words of memory out of 5000000
+ 45467 multiletter control sequences out of 15000+600000
  651644 words of font info for 99 fonts, out of 8000000 for 9000
  1141 hyphenation exceptions out of 8191
  75i,12n,79p,595b,1277s stack positions out of 10000i,1000n,20000p,200000b,200000s
  <C:\Users\Elève\AppData\Local\MiKTeX\fonts/pk/ljfour/jknappen/ec/dpi600\ectt1000.pk> <C:\Users\Elève\AppData\Local\MiKTeX\fonts/pk/ljfour/jknappen/ec/dpi600\ecrm0600.pk> <C:\Users\Elève\AppData\Local\MiKTeX\fonts/pk/ljfour/jknappen/ec/dpi600\eccc1095.pk> <C:\Users\Elève\AppData\Local\MiKTeX\fonts/pk/ljfour/jknappen/ec/dpi600\ecbx1200.pk> <C:\Users\Elève\AppData\Local\MiKTeX\fonts/pk/ljfour/jknappen/ec/dpi600\ectt1095.pk> <C:\Users\Elève\AppData\Local\MiKTeX\fonts/pk/ljfour/jknappen/ec/dpi600\ecbx2074.pk> <C:\Users\Elève\AppData\Local\MiKTeX\fonts/pk/ljfour/jknappen/ec/dpi600\ecbx1095.pk> <C:\Users\Elève\AppData\Local\MiKTeX\fonts/pk/ljfour/jknappen/ec/dpi600\ecti1095.pk> <C:\Users\Elève\AppData\Local\MiKTeX\fonts/pk/ljfour/jknappen/ec/dpi600\ecrm1095.pk> <C:\Users\Elève\AppData\Local\MiKTeX\fonts/pk/ljfour/jknappen/ec/dpi600\ecbx1440.pk> <C:\Users\Elève\AppData\Local\MiKTeX\fonts/pk/ljfour/jknappen/ec/dpi600\ecbx2488.pk> <C:\Users\Elève\AppData\Local\MiKTeX\fonts/pk/ljfour/jknappen/ec/dpi600\ecrm1200.pk> <C:\Users\Elève\AppData\Local\MiKTeX\fonts/pk/ljfour/jknappen/ec/dpi600\ecrm1440.pk><C:/Users/Elève/AppData/Local/Programs/MiKTeX/fonts/type1/public/amsfonts/cm/cmbx10.pfb><C:/Users/Elève/AppData/Local/Programs/MiKTeX/fonts/type1/public/amsfonts/cm/cmex10.pfb><C:/Users/Elève/AppData/Local/Programs/MiKTeX/fonts/type1/public/amsfonts/cm/cmmi10.pfb><C:/Users/Elève/AppData/Local/Programs/MiKTeX/fonts/type1/public/amsfonts/cm/cmmi6.pfb><C:/Users/Elève/AppData/Local/Programs/MiKTeX/fonts/type1/public/amsfonts/cm/cmmi8.pfb><C:/Users/Elève/AppData/Local/Programs/MiKTeX/fonts/type1/public/amsfonts/cm/cmmib10.pfb><C:/Users/Elève/AppData/Local/Programs/MiKTeX/fonts/type1/public/amsfonts/cm/cmr10.pfb><C:/Users/Elève/AppData/Local/Programs/MiKTeX/fonts/type1/public/amsfonts/cm/cmr8.pfb><C:/Users/Elève/AppData/Local/Programs/MiKTeX/fonts/type1/public/amsfonts/cm/cmss8.pfb><C:/Users/Elève/AppData/Local/Programs/MiKTeX/fonts/type1/public/amsfonts/cm/cmsy10.pfb><C:/Users/Elève/AppData/Local/Programs/MiKTeX/fonts/type1/public/amsfonts/cm/cmsy8.pfb><C:/Users/Elève/AppData/Local/Programs/MiKTeX/fonts/type1/public/amsfonts/symbols/msbm10.pfb>
-Output written on version2rapport.pdf (31 pages, 388830 bytes).
+Output written on version2rapport.pdf (31 pages, 606770 bytes).
 PDF statistics:
- 867 PDF objects out of 1000 (max. 8388607)
+ 870 PDF objects out of 1000 (max. 8388607)
  179 named destinations out of 1000 (max. 500000)
- 1 words of extra memory for PDF output out of 10000 (max. 10000000)
+ 6 words of extra memory for PDF output out of 10000 (max. 10000000)
 
