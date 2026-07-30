@@ -1,4 +1,4 @@
-This is pdfTeX, Version 3.141592653-2.6-1.40.28 (MiKTeX 25.12) (preloaded format=pdflatex 2026.7.20)  31 JUL 2026 00:28
+This is pdfTeX, Version 3.141592653-2.6-1.40.28 (MiKTeX 25.12) (preloaded format=pdflatex 2026.7.20)  31 JUL 2026 00:40
 entering extended mode
  restricted \write18 enabled.
  file:line:error style messages enabled.
@@ -426,8 +426,7 @@ Package french3.ldf Warning: Please load the "natbib" package
 (C:\Users\Elève\AppData\Local\Programs\MiKTeX\tex/latex/l3backend\l3backend-pdftex.def
 File: l3backend-pdftex.def 2025-10-09 L3 backend support: PDF output (pdfTeX)
 \l__color_backend_stack_int=\count336
-)
-No file version2rapport.aux.
+) (version2rapport.aux)
 \openout1 = `version2rapport.aux'.
 
 LaTeX Font Info:    Checking defaults for OML/cmm/m/it on input line 51.
@@ -451,7 +450,7 @@ LaTeX Font Info:    ... okay on input line 51.
 Package babel Info: 'french' activates 'french' shorthands.
 (babel)             Reported on input line 51.
 LaTeX Info: Redefining \degres on input line 51.
-(C:\Users\Elève\AppData\Local\Programs\MiKTeX\tex/context/base/mkii\supp-pdf.mkii
+ (C:\Users\Elève\AppData\Local\Programs\MiKTeX\tex/context/base/mkii\supp-pdf.mkii
 [Loading MPS to PDF converter (version 2006.09.02).]
 \scratchcounter=\count337
 \scratchdimen=\dimen262
@@ -870,10 +869,10 @@ Package rerunfilecheck Info: Checksums for `version2rapport.out':
 (rerunfilecheck)             After:  7A9B7ACFEE794D5578B7F53EA0A34819;10187.
  ) 
 Here is how much of TeX's memory you used:
- 16979 strings out of 467870
- 268683 string characters out of 5417871
+ 16982 strings out of 467870
+ 268794 string characters out of 5417871
  931862 words of memory out of 5000000
- 45467 multiletter control sequences out of 15000+600000
+ 45468 multiletter control sequences out of 15000+600000
  651644 words of font info for 99 fonts, out of 8000000 for 9000
  1141 hyphenation exceptions out of 8191
  75i,12n,79p,595b,1277s stack positions out of 10000i,1000n,20000p,200000b,200000s
