@@ -1842,32 +1842,126 @@ vidéos. Ces éléments seront approfondis dans le
 chapitre~\ref{chap:discussion}.
 
 % =====================================================================
-% CHAPITRE 5 — DISCUSSION ET PERSPECTIVES
+% CHAPITRE 5 — DISCUSSION, LIMITES ET PERSPECTIVES
 % =====================================================================
-\chapter{Discussion et perspectives}
 
+\chapter{Discussion, limites et perspectives}
+\label{chap:discussion}
+
+%---------------------------------------------------------------------
 \section{Discussion des résultats}
-% TODO : synthèse croisée -- qualité de détection (chapitre 3.1) et fidélité de
-% la matrice de proximité (chapitre 4) ; propagation des erreurs d'identification
-% vers la matrice de proximité ; apport personnel et degré d'autonomie pendant
-% le stage
+%---------------------------------------------------------------------
 
-\section{Limites et conditions d'application des méthodes}
-\label{sec:limites}
-% TODO :
-% - absence d'ensemble de test indépendant (train/validation seulement)
-% - non-indépendance temporelle des frames au sein d'une vidéo
-% - hypothèses du proxy de profondeur (ratio de taille des boîtes)
-% - taille de l'échantillon Koshima
-% - incertitude sur le statut avant/après ré-entraînement des fichiers disponibles
-% - échantillon de vérité terrain limité (chapitre 2)
+L'objectif principal de ce stage était de proposer une méthode permettant
+d'estimer automatiquement les relations de proximité entre les individus
+d'une population de macaques japonais à partir de séquences vidéo, puis
+d'évaluer la pertinence de cette estimation en la comparant à une matrice
+d'association construite à partir d'observations de terrain.
 
-\section{Perspectives d'amélioration}
-% TODO : poursuite du ré-entraînement avec davantage de données, extension à
-% d'autres populations, amélioration du proxy de profondeur, automatisation de
-% la constitution de la vérité terrain, etc.
+Le pipeline développé permet de traiter automatiquement les données
+issues des vidéos, depuis l'identification des individus jusqu'à la
+construction d'une matrice de proximité sociale. Les différentes étapes
+de traitement reposent sur la détection des individus, leur
+identification, le suivi temporel des trajectoires et le calcul de
+mesures de proximité fondées sur la distance entre les boîtes
+englobantes détectées.
 
+La comparaison entre la matrice automatique et la matrice d'association
+de terrain a été réalisée à l'aide du test de Mantel, méthode adaptée à
+la comparaison de matrices présentant une structure de dépendance entre
+leurs observations.
 
+Les résultats obtenus ne mettent pas en évidence de corrélation
+statistiquement significative entre les deux matrices. Cette absence de
+corrélation ne doit cependant pas être interprétée comme un échec de la
+méthode proposée. En effet, la matrice automatique et la matrice de
+référence ne décrivent pas exactement le même phénomène.
+
+La matrice automatique repose exclusivement sur la proximité spatiale
+observée dans les vidéos disponibles. À l'inverse, la matrice de
+référence est construite à partir d'observations réalisées directement
+par les éthologues et traduit une intensité globale des associations
+sociales entre individus. Elle intègre donc indirectement plusieurs
+dimensions du comportement social qui ne sont pas nécessairement visibles
+sur une simple séquence vidéo.
+
+Ainsi, deux individus fréquemment proches dans les vidéos ne présentent
+pas obligatoirement un fort indice d'association dans la matrice de
+terrain. Inversement, deux individus fortement associés selon les
+observations des éthologues peuvent être rarement observés ensemble dans
+les vidéos utilisées pour cette étude.
+
+Ces différences de définition expliquent en partie les écarts observés
+entre les deux matrices et montrent que la proximité spatiale constitue
+une approximation des relations sociales, sans pouvoir les résumer à
+elle seule.
+
+%---------------------------------------------------------------------
+\section{Limites de l'étude}
+%---------------------------------------------------------------------
+
+Plusieurs limites doivent être prises en compte dans l'interprétation des
+résultats obtenus.
+
+La première concerne le volume des données disponibles. Les analyses ont
+été réalisées à partir d'un nombre limité de vidéos correspondant à
+quatre journées d'observation. Ce faible volume réduit naturellement le
+nombre de situations dans lesquelles certaines paires d'individus sont
+simultanément observées.
+
+Par ailleurs, la construction de la matrice automatique repose sur des
+critères de validation volontairement stricts afin de garantir la
+fiabilité des observations retenues. Les tracks présentant un support
+insuffisant ou un nombre trop faible d'observations sont exclus de
+l'analyse, tout comme les paires pour lesquelles la différence de taille
+apparente rend l'estimation de la proximité trop incertaine. Ces choix
+méthodologiques améliorent la qualité des données conservées mais
+diminuent le nombre de paires disponibles pour la comparaison.
+
+Une autre limite provient des performances du système d'identification.
+Malgré le ré-entraînement du modèle sur la population de Koshima, des
+erreurs de détection ou d'identification peuvent encore apparaître,
+notamment en présence d'occlusions, de mouvements rapides ou lorsque
+plusieurs individus présentent des caractéristiques morphologiques
+proches.
+
+Enfin, la proximité spatiale ne constitue qu'un indicateur indirect des
+relations sociales. Deux individus peuvent être proches sans interagir,
+tandis que certaines relations sociales importantes peuvent ne pas se
+traduire par une proximité spatiale fréquente. Cette différence de nature
+entre les deux matrices constitue une limite importante de leur
+comparaison.
+
+%---------------------------------------------------------------------
+\section{Perspectives}
+%---------------------------------------------------------------------
+
+Plusieurs pistes d'amélioration peuvent être envisagées afin d'enrichir
+les travaux réalisés au cours de ce stage.
+
+Une première perspective consiste à augmenter le volume des données
+analysées. L'utilisation d'un plus grand nombre de vidéos couvrant des
+périodes d'observation plus longues permettrait d'obtenir davantage de
+co-détections entre individus et d'améliorer la représentativité de la
+matrice de proximité.
+
+Une seconde perspective concerne l'amélioration du système
+d'identification. L'intégration de nouvelles données annotées permettrait
+de poursuivre le ré-entraînement du modèle et de réduire les erreurs de
+classification observées sur certains individus.
+
+Il serait également intéressant d'étendre la définition de la proximité
+en intégrant d'autres informations issues des vidéos, telles que la
+durée des interactions, les déplacements simultanés ou certains
+comportements sociaux observables. Une telle approche permettrait de
+rapprocher davantage la matrice automatique des observations réalisées
+par les éthologues.
+
+Enfin, les méthodes développées au cours de ce stage pourraient être
+appliquées à d'autres populations de primates ou adaptées à d'autres
+espèces animales faisant l'objet d'un suivi vidéo. Elles constituent une
+base de travail prometteuse pour le développement d'outils d'aide à
+l'analyse automatisée des comportements sociaux.
 % =====================================================================
 % CONCLUSION GÉNÉRALE
 % =====================================================================

@@ -46,13 +46,13 @@
 \contentsline {subsection}{\numberline {4.6.3}Synthèse des résultats}{26}{subsection.4.6.3}%
 \contentsline {section}{\numberline {4.7}Analyse graphique de la correspondance entre les matrices}{26}{section.4.7}%
 \contentsline {section}{\numberline {4.8}Interprétation des résultats}{27}{section.4.8}%
-\contentsline {chapter}{\numberline {5}Discussion et perspectives}{29}{chapter.5}%
+\contentsline {chapter}{\numberline {5}Discussion, limites et perspectives}{29}{chapter.5}%
 \contentsline {section}{\numberline {5.1}Discussion des résultats}{29}{section.5.1}%
-\contentsline {section}{\numberline {5.2}Limites et conditions d'application des méthodes}{29}{section.5.2}%
-\contentsline {section}{\numberline {5.3}Perspectives d'amélioration}{29}{section.5.3}%
-\contentsline {chapter}{Conclusion générale}{30}{chapter*.38}%
-\contentsline {chapter}{Bibliographie}{30}{chapter*.38}%
-\contentsline {chapter}{\numberline {A}Annexes}{31}{appendix.A}%
-\contentsline {section}{\numberline {A.1}Extraits de code}{31}{section.A.1}%
-\contentsline {section}{\numberline {A.2}Figures complémentaires}{31}{section.A.2}%
-\contentsline {section}{\numberline {A.3}Tableaux complémentaires}{31}{section.A.3}%
+\contentsline {section}{\numberline {5.2}Limites de l'étude}{29}{section.5.2}%
+\contentsline {section}{\numberline {5.3}Perspectives}{30}{section.5.3}%
+\contentsline {chapter}{Conclusion générale}{31}{chapter*.38}%
+\contentsline {chapter}{Bibliographie}{31}{chapter*.38}%
+\contentsline {chapter}{\numberline {A}Annexes}{32}{appendix.A}%
+\contentsline {section}{\numberline {A.1}Extraits de code}{32}{section.A.1}%
+\contentsline {section}{\numberline {A.2}Figures complémentaires}{32}{section.A.2}%
+\contentsline {section}{\numberline {A.3}Tableaux complémentaires}{32}{section.A.3}%
