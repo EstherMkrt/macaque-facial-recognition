@@ -1,4 +1,4 @@
-This is pdfTeX, Version 3.141592653-2.6-1.40.28 (MiKTeX 25.12) (preloaded format=pdflatex 2026.7.20)  31 JUL 2026 00:40
+This is pdfTeX, Version 3.141592653-2.6-1.40.28 (MiKTeX 25.12) (preloaded format=pdflatex 2026.7.20)  31 JUL 2026 20:53
 entering extended mode
  restricted \write18 enabled.
  file:line:error style messages enabled.
@@ -426,7 +426,10 @@ Package french3.ldf Warning: Please load the "natbib" package
 (C:\Users\Elève\AppData\Local\Programs\MiKTeX\tex/latex/l3backend\l3backend-pdftex.def
 File: l3backend-pdftex.def 2025-10-09 L3 backend support: PDF output (pdfTeX)
 \l__color_backend_stack_int=\count336
-) (version2rapport.aux)
+) (version2rapport.aux
+Package babel Info: 'french' activates 'french' shorthands.
+(babel)             Reported on input line 11.
+)
 \openout1 = `version2rapport.aux'.
 
 LaTeX Font Info:    Checking defaults for OML/cmm/m/it on input line 51.
@@ -447,8 +450,6 @@ LaTeX Font Info:    Checking defaults for PD1/pdf/m/n on input line 51.
 LaTeX Font Info:    ... okay on input line 51.
 LaTeX Font Info:    Checking defaults for PU/pdf/m/n on input line 51.
 LaTeX Font Info:    ... okay on input line 51.
-Package babel Info: 'french' activates 'french' shorthands.
-(babel)             Reported on input line 51.
 LaTeX Info: Redefining \degres on input line 51.
  (C:\Users\Elève\AppData\Local\Programs\MiKTeX\tex/context/base/mkii\supp-pdf.mkii
 [Loading MPS to PDF converter (version 2006.09.02).]
@@ -504,6 +505,7 @@ File: epstopdf-sys.cfg 2021/03/18 v2.0 Configuration of epstopdf for MiKTeX
 * (1in=72.27pt=25.4mm, 1cm=28.453pt)
 
 Package hyperref Info: Link coloring ON on input line 51.
+(version2rapport.out) (version2rapport.out)
 \@outlinefile=\write3
 \openout3 = `version2rapport.out'.
 
@@ -513,7 +515,7 @@ Package caption Info: listings package is loaded.
 Package caption Info: End \AtBeginDocument code.
 \c@lstlisting=\count343
 LaTeX Font Info:    Trying to load font information for U+msa on input line 54.
-(C:\Users\Elève\AppData\Local\Programs\MiKTeX\tex/latex/amsfonts\umsa.fd
+ (C:\Users\Elève\AppData\Local\Programs\MiKTeX\tex/latex/amsfonts\umsa.fd
 File: umsa.fd 2013/01/14 v3.01 AMS symbols A
 )
 LaTeX Font Info:    Trying to load font information for U+msb on input line 54.
@@ -528,42 +530,25 @@ pdfTeX warning (ext4): destination with the same identifier (name{page.1}) has b
 l.60 \newpage
               [1
 
-]
-No file version2rapport.toc.
+] (version2rapport.toc [2
+
+])
 \tf@toc=\write4
 \openout4 = `version2rapport.toc'.
 
-[2
+ [3]
 
-]
+Package natbib Warning: Citation `schofield2019' on page 4 undefined on input line 90.
 
-Package natbib Warning: Citation `schofield2019' on page 3 undefined on input line 90.
-
-
-LaTeX Warning: Reference `chap:proximite' on page 3 undefined on input line 98.
-
-[3
-
-]
-Chapitre 1.
 [4
 
 ]
+Chapitre 1.
+[5
 
-LaTeX Warning: Reference `eq:cross_entropy' on page 5 undefined on input line 246.
-
+]
 Package babel Info: 'french' activates 'french' shorthands.
 (babel)             Reported on input line 301.
-
-Package fancyhdr Warning: \headheight is too small (12.0pt): 
-(fancyhdr)                Make it at least 27.07053pt, for example:
-(fancyhdr)                \setlength{\headheight}{27.07053pt}.
-(fancyhdr)                You might also make \topmargin smaller:
-(fancyhdr)                \addtolength{\topmargin}{-15.07053pt}.
-
-[5]
-
-Package natbib Warning: Citation `redmon2016' on page 6 undefined on input line 344.
 
 
 Package fancyhdr Warning: \headheight is too small (12.0pt): 
@@ -574,7 +559,7 @@ Package fancyhdr Warning: \headheight is too small (12.0pt):
 
 [6]
 
-LaTeX Warning: Reference `eq:generic_yolo_loss' on page 7 undefined on input line 492.
+Package natbib Warning: Citation `redmon2016' on page 7 undefined on input line 344.
 
 
 Package fancyhdr Warning: \headheight is too small (12.0pt): 
@@ -584,6 +569,14 @@ Package fancyhdr Warning: \headheight is too small (12.0pt):
 (fancyhdr)                \addtolength{\topmargin}{-15.07053pt}.
 
 [7]
+
+Package fancyhdr Warning: \headheight is too small (12.0pt): 
+(fancyhdr)                Make it at least 27.07053pt, for example:
+(fancyhdr)                \setlength{\headheight}{27.07053pt}.
+(fancyhdr)                You might also make \topmargin smaller:
+(fancyhdr)                \addtolength{\topmargin}{-15.07053pt}.
+
+[8]
 
 LaTeX Warning: Command \' invalid in math mode on input line 534.
 
@@ -603,15 +596,9 @@ Package fancyhdr Warning: \headheight is too small (12.0pt):
 (fancyhdr)                You might also make \topmargin smaller:
 (fancyhdr)                \addtolength{\topmargin}{-15.07053pt}.
 
-[8]
+[9]
 
-LaTeX Warning: Reference `chap:donnees' on page 9 undefined on input line 623.
-
-
-LaTeX Warning: Reference `chap:proximite' on page 9 undefined on input line 626.
-
-
-LaTeX Warning: Reference `sec:eval-application' on page 9 undefined on input line 627.
+LaTeX Warning: Reference `sec:eval-application' on page 10 undefined on input line 627.
 
 
 Package fancyhdr Warning: \headheight is too small (12.0pt): 
@@ -620,33 +607,16 @@ Package fancyhdr Warning: \headheight is too small (12.0pt):
 (fancyhdr)                You might also make \topmargin smaller:
 (fancyhdr)                \addtolength{\topmargin}{-15.07053pt}.
 
-[9]
+[10]
 Chapitre 2.
 
 Overfull \hbox (3.30948pt too wide) in paragraph at lines 727--732
 \T1/cmr/m/n/10.95 qu'un dos-sier conte-nait trop peu d'images ex-ploi-tables, le pa-ra-m�tre contr�-lant le nombre d'images
  []
 
-[10
+[11
 
 ]
-
-LaTeX Warning: Reference `chap:proximite' on page 11 undefined on input line 812.
-
-
-Package fancyhdr Warning: \headheight is too small (12.0pt): 
-(fancyhdr)                Make it at least 13.59999pt, for example:
-(fancyhdr)                \setlength{\headheight}{13.59999pt}.
-(fancyhdr)                You might also make \topmargin smaller:
-(fancyhdr)                \addtolength{\topmargin}{-1.59999pt}.
-
-[11]
-
-LaTeX Warning: Reference `chap:methode' on page 12 undefined on input line 899.
-
-
-LaTeX Warning: Reference `sec:eval-theorie' on page 12 undefined on input line 900.
-
 
 Package fancyhdr Warning: \headheight is too small (12.0pt): 
 (fancyhdr)                Make it at least 13.59999pt, for example:
@@ -656,12 +626,6 @@ Package fancyhdr Warning: \headheight is too small (12.0pt):
 
 [12]
 
-LaTeX Warning: Reference `chap:proximite' on page 13 undefined on input line 903.
-
-
-LaTeX Warning: Reference `sec:eval-application' on page 13 undefined on input line 903.
-
-
 Package fancyhdr Warning: \headheight is too small (12.0pt): 
 (fancyhdr)                Make it at least 13.59999pt, for example:
 (fancyhdr)                \setlength{\headheight}{13.59999pt}.
@@ -669,13 +633,8 @@ Package fancyhdr Warning: \headheight is too small (12.0pt):
 (fancyhdr)                \addtolength{\topmargin}{-1.59999pt}.
 
 [13]
-Chapitre 3.
-[14
 
-]
-Overfull \hbox (5.93906pt too wide) in paragraph at lines 1011--1016
-[]\T1/cmr/m/n/10.95 Le se-cond cri-t�re im-pose qu'un track com-porte au mi-ni-mum trois ob-ser-va-tions. Cette contrainte
- []
+LaTeX Warning: Reference `sec:eval-application' on page 14 undefined on input line 903.
 
 
 Package fancyhdr Warning: \headheight is too small (12.0pt): 
@@ -684,7 +643,15 @@ Package fancyhdr Warning: \headheight is too small (12.0pt):
 (fancyhdr)                You might also make \topmargin smaller:
 (fancyhdr)                \addtolength{\topmargin}{-1.59999pt}.
 
-[15]
+[14]
+Chapitre 3.
+[15
+
+]
+Overfull \hbox (5.93906pt too wide) in paragraph at lines 1011--1016
+[]\T1/cmr/m/n/10.95 Le se-cond cri-t�re im-pose qu'un track com-porte au mi-ni-mum trois ob-ser-va-tions. Cette contrainte
+ []
+
 
 Package fancyhdr Warning: \headheight is too small (12.0pt): 
 (fancyhdr)                Make it at least 13.59999pt, for example:
@@ -717,38 +684,28 @@ Package fancyhdr Warning: \headheight is too small (12.0pt):
 (fancyhdr)                \addtolength{\topmargin}{-1.59999pt}.
 
 [19]
+
+Package fancyhdr Warning: \headheight is too small (12.0pt): 
+(fancyhdr)                Make it at least 13.59999pt, for example:
+(fancyhdr)                \setlength{\headheight}{13.59999pt}.
+(fancyhdr)                You might also make \topmargin smaller:
+(fancyhdr)                \addtolength{\topmargin}{-1.59999pt}.
+
+[20]
 Chapitre 4.
-
-LaTeX Warning: Reference `fig:heatmap_terrain' on page 20 undefined on input line 1395.
-
-<heatmap_matrice_terrain.png, id=196, 722.7pt x 578.16pt>
+<heatmap_matrice_terrain.png, id=404, 722.7pt x 578.16pt>
 File: heatmap_matrice_terrain.png Graphic file (type png)
 <use heatmap_matrice_terrain.png>
 Package pdftex.def Info: heatmap_matrice_terrain.png  used on input line 1400.
 (pdftex.def)             Requested size: 455.24411pt x 364.19861pt.
-[20
+[21
 
 ]
-
-LaTeX Warning: Reference `chap:proximite' on page 21 undefined on input line 1412.
-
-
-LaTeX Warning: Reference `fig:heatmap_automatique' on page 21 undefined on input line 1430.
-
-
-LaTeX Warning: File `proximity_heatmap.png' not found on input line 1435.
-
-
-c:/Users/Elève/Desktop/Rapport de Stage/version2rapport.tex:1435: Package pdftex.def Error: File `proximity_heatmap.png' not found: using draft setting.
-
-See the pdftex.def package documentation for explanation.
-Type  H <return>  for immediate help.
- ...                                              
-                                                  
-l.1435 ...width=\textwidth]{proximity_heatmap.png}
-                                                  
-Try typing  <return>  to proceed.
-If that doesn't work, type  X <return>  to quit.
+<proximity_heatmap.png, id=413, 867.24pt x 722.7pt>
+File: proximity_heatmap.png Graphic file (type png)
+<use proximity_heatmap.png>
+Package pdftex.def Info: proximity_heatmap.png  used on input line 1435.
+(pdftex.def)             Requested size: 455.24411pt x 379.36804pt.
 
 
 Package fancyhdr Warning: \headheight is too small (12.0pt): 
@@ -757,7 +714,7 @@ Package fancyhdr Warning: \headheight is too small (12.0pt):
 (fancyhdr)                You might also make \topmargin smaller:
 (fancyhdr)                \addtolength{\topmargin}{-1.59999pt}.
 
-[21 <./heatmap_matrice_terrain.png>]
+[22 <./heatmap_matrice_terrain.png>]
 
 Package fancyhdr Warning: \headheight is too small (12.0pt): 
 (fancyhdr)                Make it at least 13.59999pt, for example:
@@ -765,18 +722,10 @@ Package fancyhdr Warning: \headheight is too small (12.0pt):
 (fancyhdr)                You might also make \topmargin smaller:
 (fancyhdr)                \addtolength{\topmargin}{-1.59999pt}.
 
-[22]
+[23 <./proximity_heatmap.png>]
 
-Package natbib Warning: Citation `mantel1967' on page 23 undefined on input line 1511.
+Package natbib Warning: Citation `mantel1967' on page 24 undefined on input line 1511.
 
-
-Package fancyhdr Warning: \headheight is too small (12.0pt): 
-(fancyhdr)                Make it at least 13.59999pt, for example:
-(fancyhdr)                \setlength{\headheight}{13.59999pt}.
-(fancyhdr)                You might also make \topmargin smaller:
-(fancyhdr)                \addtolength{\topmargin}{-1.59999pt}.
-
-[23]
 
 Package fancyhdr Warning: \headheight is too small (12.0pt): 
 (fancyhdr)                Make it at least 13.59999pt, for example:
@@ -786,27 +735,6 @@ Package fancyhdr Warning: \headheight is too small (12.0pt):
 
 [24]
 
-LaTeX Warning: Reference `tab:resultats_mantel' on page 25 undefined on input line 1729.
-
-
-LaTeX Warning: Reference `fig:nuage_matrices' on page 25 undefined on input line 1759.
-
-
-LaTeX Warning: File `images/nuage_comparaison_matrices.png' not found on input line 1766.
-
-
-c:/Users/Elève/Desktop/Rapport de Stage/version2rapport.tex:1766: Package pdftex.def Error: File `images/nuage_comparaison_matrices.png' not found: using draft setting.
-
-See the pdftex.def package documentation for explanation.
-Type  H <return>  for immediate help.
- ...                                              
-                                                  
-l.1766     {images/nuage_comparaison_matrices.png}
-                                                  
-Try typing  <return>  to proceed.
-If that doesn't work, type  X <return>  to quit.
-
-
 Package fancyhdr Warning: \headheight is too small (12.0pt): 
 (fancyhdr)                Make it at least 13.59999pt, for example:
 (fancyhdr)                \setlength{\headheight}{13.59999pt}.
@@ -814,6 +742,12 @@ Package fancyhdr Warning: \headheight is too small (12.0pt):
 (fancyhdr)                \addtolength{\topmargin}{-1.59999pt}.
 
 [25]
+<nuage_comparaison_matrices.png, id=457, 570.933pt x 423.7431pt>
+File: nuage_comparaison_matrices.png Graphic file (type png)
+<use nuage_comparaison_matrices.png>
+Package pdftex.def Info: nuage_comparaison_matrices.png  used on input line 1766.
+(pdftex.def)             Requested size: 409.71692pt x 304.09906pt.
+
 
 Package fancyhdr Warning: \headheight is too small (12.0pt): 
 (fancyhdr)                Make it at least 13.59999pt, for example:
@@ -823,7 +757,15 @@ Package fancyhdr Warning: \headheight is too small (12.0pt):
 
 [26]
 
-LaTeX Warning: Reference `chap:discussion' on page 27 undefined on input line 1842.
+Package fancyhdr Warning: \headheight is too small (12.0pt): 
+(fancyhdr)                Make it at least 13.59999pt, for example:
+(fancyhdr)                \setlength{\headheight}{13.59999pt}.
+(fancyhdr)                You might also make \topmargin smaller:
+(fancyhdr)                \addtolength{\topmargin}{-1.59999pt}.
+
+[27 <./nuage_comparaison_matrices.png>]
+
+LaTeX Warning: Reference `chap:discussion' on page 28 undefined on input line 1842.
 
 
 Package fancyhdr Warning: \headheight is too small (12.0pt): 
@@ -832,20 +774,20 @@ Package fancyhdr Warning: \headheight is too small (12.0pt):
 (fancyhdr)                You might also make \topmargin smaller:
 (fancyhdr)                \addtolength{\topmargin}{-1.59999pt}.
 
-[27]
+[28]
 Chapitre 5.
-[28
+[29
 
 ]
 No file version2rapport.bbl.
-[29
+[30
 
 ]
 Annexe A.
 
 Package natbib Warning: There were undefined citations.
 
-[30
+[31
 
 ] (version2rapport.aux)
  ***********
@@ -856,30 +798,21 @@ L3 programming layer <2025-12-24>
 
 LaTeX Warning: There were undefined references.
 
-
-LaTeX Warning: Label(s) may have changed. Rerun to get cross-references right.
-
-
-Package rerunfilecheck Warning: File `version2rapport.out' has changed.
-(rerunfilecheck)                Rerun to get outlines right
-(rerunfilecheck)                or use package `bookmark'.
-
-Package rerunfilecheck Info: Checksums for `version2rapport.out':
-(rerunfilecheck)             Before: <no file>
-(rerunfilecheck)             After:  7A9B7ACFEE794D5578B7F53EA0A34819;10187.
+Package rerunfilecheck Info: File `version2rapport.out' has not changed.
+(rerunfilecheck)             Checksum: 7A9B7ACFEE794D5578B7F53EA0A34819;10187.
  ) 
 Here is how much of TeX's memory you used:
- 16982 strings out of 467870
- 268794 string characters out of 5417871
+ 16987 strings out of 467870
+ 267770 string characters out of 5417871
  931862 words of memory out of 5000000
- 45468 multiletter control sequences out of 15000+600000
+ 45466 multiletter control sequences out of 15000+600000
  651644 words of font info for 99 fonts, out of 8000000 for 9000
  1141 hyphenation exceptions out of 8191
  75i,12n,79p,595b,1277s stack positions out of 10000i,1000n,20000p,200000b,200000s
- <C:\Users\Elève\AppData\Local\MiKTeX\fonts/pk/ljfour/jknappen/ec/dpi600\ectt1000.pk> <C:\Users\Elève\AppData\Local\MiKTeX\fonts/pk/ljfour/jknappen/ec/dpi600\ecrm0600.pk> <C:\Users\Elève\AppData\Local\MiKTeX\fonts/pk/ljfour/jknappen/ec/dpi600\eccc1095.pk> <C:\Users\Elève\AppData\Local\MiKTeX\fonts/pk/ljfour/jknappen/ec/dpi600\ecbx1200.pk> <C:\Users\Elève\AppData\Local\MiKTeX\fonts/pk/ljfour/jknappen/ec/dpi600\ectt1095.pk> <C:\Users\Elève\AppData\Local\MiKTeX\fonts/pk/ljfour/jknappen/ec/dpi600\ecbx2074.pk> <C:\Users\Elève\AppData\Local\MiKTeX\fonts/pk/ljfour/jknappen/ec/dpi600\ecbx1095.pk> <C:\Users\Elève\AppData\Local\MiKTeX\fonts/pk/ljfour/jknappen/ec/dpi600\ecti1095.pk> <C:\Users\Elève\AppData\Local\MiKTeX\fonts/pk/ljfour/jknappen/ec/dpi600\ecrm1095.pk> <C:\Users\Elève\AppData\Local\MiKTeX\fonts/pk/ljfour/jknappen/ec/dpi600\ecbx1440.pk> <C:\Users\Elève\AppData\Local\MiKTeX\fonts/pk/ljfour/jknappen/ec/dpi600\ecbx2488.pk> <C:\Users\Elève\AppData\Local\MiKTeX\fonts/pk/ljfour/jknappen/ec/dpi600\ecrm1200.pk> <C:\Users\Elève\AppData\Local\MiKTeX\fonts/pk/ljfour/jknappen/ec/dpi600\ecrm1440.pk><C:/Users/Elève/AppData/Local/Programs/MiKTeX/fonts/type1/public/amsfonts/cm/cmbx10.pfb><C:/Users/Elève/AppData/Local/Programs/MiKTeX/fonts/type1/public/amsfonts/cm/cmex10.pfb><C:/Users/Elève/AppData/Local/Programs/MiKTeX/fonts/type1/public/amsfonts/cm/cmmi10.pfb><C:/Users/Elève/AppData/Local/Programs/MiKTeX/fonts/type1/public/amsfonts/cm/cmmi6.pfb><C:/Users/Elève/AppData/Local/Programs/MiKTeX/fonts/type1/public/amsfonts/cm/cmmi8.pfb><C:/Users/Elève/AppData/Local/Programs/MiKTeX/fonts/type1/public/amsfonts/cm/cmmib10.pfb><C:/Users/Elève/AppData/Local/Programs/MiKTeX/fonts/type1/public/amsfonts/cm/cmr10.pfb><C:/Users/Elève/AppData/Local/Programs/MiKTeX/fonts/type1/public/amsfonts/cm/cmr8.pfb><C:/Users/Elève/AppData/Local/Programs/MiKTeX/fonts/type1/public/amsfonts/cm/cmss8.pfb><C:/Users/Elève/AppData/Local/Programs/MiKTeX/fonts/type1/public/amsfonts/cm/cmsy10.pfb><C:/Users/Elève/AppData/Local/Programs/MiKTeX/fonts/type1/public/amsfonts/cm/cmsy8.pfb><C:/Users/Elève/AppData/Local/Programs/MiKTeX/fonts/type1/public/amsfonts/symbols/msbm10.pfb>
-Output written on version2rapport.pdf (31 pages, 606770 bytes).
+ <C:\Users\Elève\AppData\Local\MiKTeX\fonts/pk/ljfour/jknappen/ec/dpi600\ectt1000.pk> <C:\Users\Elève\AppData\Local\MiKTeX\fonts/pk/ljfour/jknappen/ec/dpi600\ecrm0600.pk> <C:\Users\Elève\AppData\Local\MiKTeX\fonts/pk/ljfour/jknappen/ec/dpi600\eccc1095.pk> <C:\Users\Elève\AppData\Local\MiKTeX\fonts/pk/ljfour/jknappen/ec/dpi600\ecbx1200.pk> <C:\Users\Elève\AppData\Local\MiKTeX\fonts/pk/ljfour/jknappen/ec/dpi600\ectt1095.pk> <C:\Users\Elève\AppData\Local\MiKTeX\fonts/pk/ljfour/jknappen/ec/dpi600\ecbx2074.pk> <C:\Users\Elève\AppData\Local\MiKTeX\fonts/pk/ljfour/jknappen/ec/dpi600\ecti1095.pk> <C:\Users\Elève\AppData\Local\MiKTeX\fonts/pk/ljfour/jknappen/ec/dpi600\ecbx1440.pk> <C:\Users\Elève\AppData\Local\MiKTeX\fonts/pk/ljfour/jknappen/ec/dpi600\ecrm1095.pk> <C:\Users\Elève\AppData\Local\MiKTeX\fonts/pk/ljfour/jknappen/ec/dpi600\ecbx1095.pk> <C:\Users\Elève\AppData\Local\MiKTeX\fonts/pk/ljfour/jknappen/ec/dpi600\ecbx2488.pk> <C:\Users\Elève\AppData\Local\MiKTeX\fonts/pk/ljfour/jknappen/ec/dpi600\ecrm1200.pk> <C:\Users\Elève\AppData\Local\MiKTeX\fonts/pk/ljfour/jknappen/ec/dpi600\ecrm1440.pk><C:/Users/Elève/AppData/Local/Programs/MiKTeX/fonts/type1/public/amsfonts/cm/cmbx10.pfb><C:/Users/Elève/AppData/Local/Programs/MiKTeX/fonts/type1/public/amsfonts/cm/cmex10.pfb><C:/Users/Elève/AppData/Local/Programs/MiKTeX/fonts/type1/public/amsfonts/cm/cmmi10.pfb><C:/Users/Elève/AppData/Local/Programs/MiKTeX/fonts/type1/public/amsfonts/cm/cmmi6.pfb><C:/Users/Elève/AppData/Local/Programs/MiKTeX/fonts/type1/public/amsfonts/cm/cmmi8.pfb><C:/Users/Elève/AppData/Local/Programs/MiKTeX/fonts/type1/public/amsfonts/cm/cmmib10.pfb><C:/Users/Elève/AppData/Local/Programs/MiKTeX/fonts/type1/public/amsfonts/cm/cmr10.pfb><C:/Users/Elève/AppData/Local/Programs/MiKTeX/fonts/type1/public/amsfonts/cm/cmr8.pfb><C:/Users/Elève/AppData/Local/Programs/MiKTeX/fonts/type1/public/amsfonts/cm/cmss8.pfb><C:/Users/Elève/AppData/Local/Programs/MiKTeX/fonts/type1/public/amsfonts/cm/cmsy10.pfb><C:/Users/Elève/AppData/Local/Programs/MiKTeX/fonts/type1/public/amsfonts/cm/cmsy8.pfb><C:/Users/Elève/AppData/Local/Programs/MiKTeX/fonts/type1/public/amsfonts/symbols/msbm10.pfb>
+Output written on version2rapport.pdf (32 pages, 995133 bytes).
 PDF statistics:
- 870 PDF objects out of 1000 (max. 8388607)
- 179 named destinations out of 1000 (max. 500000)
- 6 words of extra memory for PDF output out of 10000 (max. 10000000)
+ 1068 PDF objects out of 1200 (max. 8388607)
+ 180 named destinations out of 1000 (max. 500000)
+ 352 words of extra memory for PDF output out of 10000 (max. 10000000)
 
