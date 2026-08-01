@@ -2062,13 +2062,15 @@ Ultralytics (2025).
 \addcontentsline{toc}{chapter}{Annexes}
 
 %---------------------------------------------------------------------
-\section*{Annexe A -- Exemple de structure d'un fichier JSON}
-\addcontentsline{toc}{section}{Annexe A -- Exemple de structure d'un fichier JSON}
+\section*{Annexe A -- Exemple de fichier d'annotation au format JSON}
+\addcontentsline{toc}{section}{Annexe A -- Exemple de fichier d'annotation au format JSON}
 
-Les annotations générées par l'interface sont enregistrées dans un fichier
-JSON suivant une structure proche du format COCO. Chaque annotation contient
-les informations nécessaires à l'identification d'un individu et au calcul
-des proximités.
+Les annotations générées après la correction manuelle sont enregistrées
+dans un fichier JSON dont la structure est proche du format COCO. Chaque
+annotation contient les informations nécessaires à l'identification des
+individus ainsi qu'au calcul de la matrice de proximité.
+
+L'extrait suivant présente la structure générale d'une annotation.
 
 \begin{verbatim}
 {
@@ -2085,66 +2087,37 @@ des proximités.
 }
 \end{verbatim}
 
-Les principaux champs utilisés au cours de ce stage sont :
+Les principaux champs exploités au cours du stage sont les suivants :
 
 \begin{itemize}
-    \item \texttt{bbox} : coordonnées de la boîte englobante ;
+    \item \texttt{bbox} : coordonnées de la boîte englobante de l'individu ;
     \item \texttt{track\_id} : identifiant du suivi temporel de l'individu ;
-    \item \texttt{category\_name} : identité retenue après correction ;
-    \item \texttt{confidence} : score de confiance associé à la prédiction ;
-    \item \texttt{extended\_classification} : classement des identités les plus probables.
+    \item \texttt{category\_name} : identité attribuée après validation ;
+    \item \texttt{confidence} : score de confiance de la prédiction ;
+    \item \texttt{extended\_classification} : classement des identités proposées par le modèle.
 \end{itemize}
 
 %---------------------------------------------------------------------
 \section*{Annexe B -- Interface d'annotation}
 \addcontentsline{toc}{section}{Annexe B -- Interface d'annotation}
 
-Cette annexe présente une capture d'écran de l'interface utilisée pendant le
-stage pour corriger manuellement les prédictions du modèle.
+La figure~\ref{fig:interface_annotation} présente l'interface utilisée au
+cours du stage pour la correction manuelle des détections et des
+identifications produites par le modèle.
 
 \begin{figure}[H]
     \centering
     \includegraphics[width=\textwidth]{interface_annotation.png}
-    \caption{Interface d'annotation utilisée pour la correction des détections.}
+    \caption{Interface d'annotation utilisée pendant le stage.}
+    \label{fig:interface_annotation}
 \end{figure}
 
 Cette interface permettait notamment :
 
 \begin{itemize}
-    \item d'importer les images au format ZIP ;
-    \item de charger les modèles \texttt{detector.pt} et
-    \texttt{identifier.pt} ;
-    \item d'ajouter une boîte englobante lorsqu'un individu n'était pas
-    détecté ;
+    \item de charger les modèles \texttt{detector.pt} et \texttt{identifier.pt} ;
+    \item d'importer un dossier d'images au format ZIP ;
+    \item d'ajouter une boîte englobante lorsqu'un individu n'était pas détecté ;
     \item de supprimer une fausse détection ;
-    \item de corriger l'identité proposée par le modèle.
+    \item de corriger l'identité proposée par le modèle avant l'enregistrement des annotations.
 \end{itemize}
-
-%---------------------------------------------------------------------
-\section*{Annexe C -- Exemple de correction manuelle}
-\addcontentsline{toc}{section}{Annexe C -- Exemple de correction manuelle}
-
-La figure suivante illustre un exemple de correction effectuée au cours de
-l'annotation.
-
-\begin{figure}[H]
-    \centering
-    \includegraphics[width=.85\textwidth]{correction_annotation.png}
-    \caption{Exemple de correction manuelle de l'identité d'un individu.}
-\end{figure}
-
-Après validation, les corrections sont enregistrées dans un nouveau fichier
-JSON utilisé pour les étapes suivantes du traitement.
-
-%---------------------------------------------------------------------
-\section*{Annexe D -- Exemple d'une matrice de proximité}
-\addcontentsline{toc}{section}{Annexe D -- Exemple d'une matrice de proximité}
-
-La figure suivante présente un extrait de la matrice de proximité obtenue à
-partir des détections automatiques.
-
-\begin{figure}[H]
-    \centering
-    \includegraphics[width=.85\textwidth]{proximity_heatmap.png}
-    \caption{Exemple de matrice de proximité calculée automatiquement.}
-\end{figure}
