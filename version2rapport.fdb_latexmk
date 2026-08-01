@@ -1,5 +1,5 @@
 # Fdb version 4
-["pdflatex"] 1785612501.33001 "c:/Users/Elève/Desktop/Rapport de Stage/version2rapport.tex" "version2rapport.pdf" "version2rapport" 1785612516.41003 2
+["pdflatex"] 1785612954.94297 "c:/Users/Elève/Desktop/Rapport de Stage/version2rapport.tex" "version2rapport.pdf" "version2rapport" 1785612955.97392 2
   "C:/Users/Elève/AppData/Local/MiKTeX/fonts/map/pdftex/pdftex.map" 1785095171 80909 eab91d9745dd2edfd62a31d53cd5fe15 ""
   "C:/Users/Elève/AppData/Local/MiKTeX/miktex/data/le/pdftex/pdflatex.fmt" 1784571557 13334012 b281a0a03d8c5a84730fa61e0e21d2b7 ""
   "C:/Users/Elève/AppData/Local/Programs/MiKTeX/fonts/tfm/jknappen/ec/ecbx1095.tfm" 993061956 3228 aacd2ac2d814480e4422ad7e830fd2d4 ""
@@ -124,18 +124,17 @@
   "C:/Users/Elève/AppData/Local/Programs/MiKTeX/tex/latex/rerunfilecheck/rerunfilecheck.sty" 1751104012 9684 a33a14b82ce60d6e77cb9be689d79ee6 ""
   "C:/Users/Elève/AppData/Local/Programs/MiKTeX/tex/latex/url/url.sty" 1388490452 12796 8edb7d69a20b857904dd0ea757c14ec9 ""
   "C:/Users/Elève/AppData/Local/Programs/MiKTeX/tex/latex/xcolor/xcolor.sty" 1729265222 55384 b454dec21c2d9f45ec0b793f0995b992 ""
-  "c:/Users/Elève/Desktop/Rapport de Stage/version2rapport.tex" 1785612377 83715 bb36abf11dbcbdf734639a21e4e5ce3e ""
+  "c:/Users/Elève/Desktop/Rapport de Stage/version2rapport.tex" 1785612949 83715 5f9b824983d06c88b26626148ce071aa ""
   "heatmap_matrice_terrain.png" 1785448415 247634 b9dcc865b9af8ef6b2b5d7ff7579743b ""
+  "interface_annotation.PNG" 1785601088 381194 10899b60a47bc9d2e9e04ac606de4772 ""
   "interface_annotation.png" 1785601088 381194 10899b60a47bc9d2e9e04ac606de4772 ""
   "nuage_comparaison_matrices.png" 1785445550 128654 f000e71a2d51db70ab62458e12c961f4 ""
   "proximity_heatmap.png" 1780911499 257303 316e7941e15c146ec22c152d630315ce ""
-  "version2rapport.aux" 1785612515 12913 39450b0a1532c18bb653499d58e1e0d2 "pdflatex"
-  "version2rapport.tex" 1785612377 83715 bb36abf11dbcbdf734639a21e4e5ce3e ""
-  "version2rapport.toc" 1785612509 0 d41d8cd98f00b204e9800998ecf8427e "pdflatex"
+  "version2rapport.aux" 0 -1 0 "pdflatex"
+  "version2rapport.tex" 1785612949 83715 5f9b824983d06c88b26626148ce071aa ""
+  "version2rapport.toc" 0 -1 0 ""
   (generated)
   "version2rapport.aux"
   "version2rapport.log"
-  "version2rapport.out"
   "version2rapport.pdf"
-  "version2rapport.toc"
   (rewritten before read)
