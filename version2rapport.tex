@@ -2052,24 +2052,99 @@ Ultralytics (2025).
 
 \end{thebibliography}
 
-% ===================== ANNEXES =====================
+% =====================================================================
+% ANNEXES
+% =====================================================================
+
 \appendix
-\chapter{Annexes}
 
-\section{Extraits de code}
-% Rappel des consignes : lignes principales uniquement, jamais le programme complet
-\begin{lstlisting}
-def evaluate_pair_in_frame(a, b, dist_thresh_norm, size_ratio_thresh):
-    dist_norm = distance(a, b) / max(a["corrected_h"], b["corrected_h"])
-    size_ratio = max(a["aire"], b["aire"]) / min(a["aire"], b["aire"])
-    close = (dist_norm <= dist_thresh_norm) and (size_ratio <= size_ratio_thresh)
-    return close
-\end{lstlisting}
+\chapter*{Annexes}
+\addcontentsline{toc}{chapter}{Annexes}
 
-\section{Figures complémentaires}
-% TODO : heatmap de la matrice, visualisation du réseau social
+%---------------------------------------------------------------------
+\section*{Annexe A -- Exemple de structure d'un fichier JSON}
+\addcontentsline{toc}{section}{Annexe A -- Exemple de structure d'un fichier JSON}
 
-\section{Tableaux complémentaires}
-% TODO : matrice de confusion complète (chapitre 3)
+Les annotations générées par l'interface sont enregistrées dans un fichier
+JSON suivant une structure proche du format COCO. Chaque annotation contient
+les informations nécessaires à l'identification d'un individu et au calcul
+des proximités.
 
-\end{document}
+\begin{verbatim}
+{
+  "image_id": 152,
+  "bbox": [421.6, 183.2, 128.5, 159.7],
+  "track_id": 27,
+  "category_name": "Zanbo",
+  "confidence": 0.91,
+  "extended_classification": {
+      "top1": "Zanbo",
+      "top2": "Kobu",
+      "top3": "Tabu"
+  }
+}
+\end{verbatim}
+
+Les principaux champs utilisés au cours de ce stage sont :
+
+\begin{itemize}
+    \item \texttt{bbox} : coordonnées de la boîte englobante ;
+    \item \texttt{track\_id} : identifiant du suivi temporel de l'individu ;
+    \item \texttt{category\_name} : identité retenue après correction ;
+    \item \texttt{confidence} : score de confiance associé à la prédiction ;
+    \item \texttt{extended\_classification} : classement des identités les plus probables.
+\end{itemize}
+
+%---------------------------------------------------------------------
+\section*{Annexe B -- Interface d'annotation}
+\addcontentsline{toc}{section}{Annexe B -- Interface d'annotation}
+
+Cette annexe présente une capture d'écran de l'interface utilisée pendant le
+stage pour corriger manuellement les prédictions du modèle.
+
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=\textwidth]{interface_annotation.png}
+    \caption{Interface d'annotation utilisée pour la correction des détections.}
+\end{figure}
+
+Cette interface permettait notamment :
+
+\begin{itemize}
+    \item d'importer les images au format ZIP ;
+    \item de charger les modèles \texttt{detector.pt} et
+    \texttt{identifier.pt} ;
+    \item d'ajouter une boîte englobante lorsqu'un individu n'était pas
+    détecté ;
+    \item de supprimer une fausse détection ;
+    \item de corriger l'identité proposée par le modèle.
+\end{itemize}
+
+%---------------------------------------------------------------------
+\section*{Annexe C -- Exemple de correction manuelle}
+\addcontentsline{toc}{section}{Annexe C -- Exemple de correction manuelle}
+
+La figure suivante illustre un exemple de correction effectuée au cours de
+l'annotation.
+
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=.85\textwidth]{correction_annotation.png}
+    \caption{Exemple de correction manuelle de l'identité d'un individu.}
+\end{figure}
+
+Après validation, les corrections sont enregistrées dans un nouveau fichier
+JSON utilisé pour les étapes suivantes du traitement.
+
+%---------------------------------------------------------------------
+\section*{Annexe D -- Exemple d'une matrice de proximité}
+\addcontentsline{toc}{section}{Annexe D -- Exemple d'une matrice de proximité}
+
+La figure suivante présente un extrait de la matrice de proximité obtenue à
+partir des détections automatiques.
+
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=.85\textwidth]{proximity_heatmap.png}
+    \caption{Exemple de matrice de proximité calculée automatiquement.}
+\end{figure}
