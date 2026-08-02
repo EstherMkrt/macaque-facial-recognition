@@ -531,10 +531,10 @@ confondus par le modèle.
 Pour un individu $k$, la précision est définie par
 
 \begin{equation}
-    \operatorname{Précision}_k
+    \text{Précision}_k
     =
     \frac{C_{kk}}
-    {\displaystyle\sum_{l=1}^{K}C_{lk}}.
+    {\displaystyle\sum_{l=1}^{K} C_{lk}}.
     \label{eq:precision}
 \end{equation}
 
@@ -542,13 +542,12 @@ Elle mesure la proportion de prédictions associées à l'identité $k$ qui sont
 effectivement correctes.
 
 Le rappel est défini par
-
 \begin{equation}
-    \operatorname{Rappel}_k
+    \text{Rappel}_k
     =
     \frac{C_{kk}}
-    {\displaystyle\sum_{l=1}^{K}C_{kl}}.
-    \label{eq:recall}
+    {\displaystyle\sum_{l=1}^{K} C_{kl}}.
+    \label{eq:rappel}
 \end{equation}
 
 Il mesure la proportion d'observations réellement associées à l'individu $k$
@@ -561,14 +560,13 @@ Le F1-score est la moyenne harmonique de la précision et du rappel :
 \begin{equation}
     F1_k
     =
-    2
+    2\,
     \frac{
-        \operatorname{Précision}_k
-        \operatorname{Rappel}_k
+        \text{Précision}_k \times \text{Rappel}_k
     }{
-        \operatorname{Précision}_k
+        \text{Précision}_k
         +
-        \operatorname{Rappel}_k
+        \text{Rappel}_k
     }.
     \label{eq:f1}
 \end{equation}
@@ -582,7 +580,7 @@ certains individus sont beaucoup plus représentés que d'autres.
 Le taux d'exactitude global, ou \emph{accuracy}, est défini par
 
 \begin{equation}
-    \operatorname{Exactitude}
+    \text{Exactitude}
     =
     \frac{
         \displaystyle\sum_{k=1}^{K}C_{kk}
@@ -601,11 +599,11 @@ préférable de compléter l'exactitude globale par des métriques calculées
 individu par individu, puis éventuellement par leurs moyennes macro :
 
 \begin{equation}
-    \operatorname{Rappel}_{\mathrm{macro}}
+    \text{Rappel}_{\mathrm{macro}}
     =
     \frac{1}{K}
     \sum_{k=1}^{K}
-    \operatorname{Rappel}_k.
+    \text{Rappel}_k.
 \end{equation}
 
 Cette moyenne accorde le même poids à chaque individu, indépendamment de son
@@ -622,13 +620,13 @@ performances risquent d'être surestimées. La constitution de l'échantillon de
 vérité terrain et sa relation avec les données d'entraînement devront donc être
 décrites précisément dans le chapitre~\ref{chap:donnees}.
 
-L'application de ces métriques aux résultats obtenus pendant le stage sera
-présentée au chapitre~\ref{chap:proximite}, dans la
-section~\ref{sec:eval-application}.
+L'application du modèle dans le cadre du projet est présentée dans
+ la section~\ref{sec:eval-application}.
 
 % ---------------------------------------------------------------------
 \section{Application du modèle YOLO au projet}
 % ---------------------------------------------------------------------
+\label{sec:eval-application}
 
 Le choix d'un modèle de détection de la famille YOLO a été effectué par
 l'encadrant du stage avant le début de celui-ci. Ce choix s'appuyait notamment
@@ -2004,48 +2002,48 @@ animal.
 
 \begin{thebibliography}{99}
 
-\bibitem{Aharon2022}
+\bibitem{aharon2022}
 Aharon, N., Orfaig, R., \& Bobrovsky, B. Z. (2022).
 \newblock \textit{BoT-SORT: Robust Associations Multi-Pedestrian Tracking}.
 \newblock arXiv preprint arXiv:2206.14651.
 
-\bibitem{Bradski2000}
+\bibitem{bradski2000}
 Bradski, G. (2000).
 \newblock \textit{The OpenCV Library}.
 \newblock Dr. Dobb's Journal of Software Tools.
 
-\bibitem{Krizhevsky2012}
+\bibitem{krizhevsky2012}
 Krizhevsky, A., Sutskever, I., \& Hinton, G. E. (2012).
 \newblock \textit{ImageNet Classification with Deep Convolutional Neural Networks}.
 \newblock Advances in Neural Information Processing Systems, 25.
 
-\bibitem{LeCun1998}
+\bibitem{lecun1998}
 LeCun, Y., Bottou, L., Bengio, Y., \& Haffner, P. (1998).
 \newblock \textit{Gradient-Based Learning Applied to Document Recognition}.
 \newblock Proceedings of the IEEE, 86(11), 2278--2324.
 
-\bibitem{Lin2014}
+\bibitem{lin2014}
 Lin, T. Y., Maire, M., Belongie, S., Hays, J., Perona, P.,
 Ramanan, D., Dollár, P., \& Zitnick, C. L. (2014).
 \newblock \textit{Microsoft COCO: Common Objects in Context}.
 \newblock European Conference on Computer Vision (ECCV).
 
-\bibitem{Mantel1967}
+\bibitem{mantel1967}
 Mantel, N. (1967).
 \newblock \textit{The Detection of Disease Clustering and a Generalized Regression Approach}.
 \newblock Cancer Research, 27(2), 209--220.
 
-\bibitem{Redmon2016}
+\bibitem{redmon2016}
 Redmon, J., Divvala, S., Girshick, R., \& Farhadi, A. (2016).
 \newblock \textit{You Only Look Once: Unified, Real-Time Object Detection}.
 \newblock Proceedings of the IEEE Conference on Computer Vision and Pattern Recognition (CVPR).
 
-\bibitem{Redmon2018}
+\bibitem{redmon2018}
 Redmon, J., \& Farhadi, A. (2018).
 \newblock \textit{YOLOv3: An Incremental Improvement}.
 \newblock arXiv preprint arXiv:1804.02767.
 
-\bibitem{Ultralytics}
+\bibitem{ultralytics}
 Ultralytics (2025).
 \newblock \textit{Ultralytics YOLO Documentation}.
 \newblock https://docs.ultralytics.com
