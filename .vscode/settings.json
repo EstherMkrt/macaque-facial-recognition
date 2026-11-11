@@ -1,0 +1,13 @@
+{
+    "files.exclude": {
+        "**/.git": true,
+        "**/.svn": true,
+        "**/.hg": true,
+        "**/.DS_Store": true,
+        "**/Thumbs.db": true,
+        "**/c:\\Users\\Eleve\\rapport_stage\\Rapport_Yester_MKRTCHYAN.aux": true,
+        "**/c:\\Users\\Eleve\\rapport_stage\\Rapport_Yester_MKRTCHYAN.log": true,
+        "**/c:\\Users\\Eleve\\rapport_stage\\Rapport_Yester_MKRTCHYAN.gz": true,
+        "**/c:\\Users\\Eleve\\rapport_stage\\Rapport_Yester_MKRTCHYAN.out": true
+    }
+}
